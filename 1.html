@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8>
+        <title>first three.js app</title>
+        <style>
+            body { margin: 0; }
+            canvas { width: 100%; height: 100% }
+        </style>
+    </head>
+    <body>
+        <script src="js/three.js"></script>
+        
+        <script>
+        
+        /*We need to RENDER the SCENE with a CAMERA*/
+        
+        //Create a new scene
+        var scene = new THREE.Scene();
+        
+        //Create a new camera
+        //( FOV, aspect ratio, near clipping plane, far clipping plane )
+        var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 500 );
+        camera.position.set( 0, 0, 100 );
+        camera.lookAt( 0, 0, 0 );
+        
+        //Create the renderer
+        var renderer = new THREE.WebGLRenderer();
+        
+        //Set the render size
+        renderer.setSize( window.innerWidth, window.innerHeight );
+        
+        //Add the renderer to the html document
+        document.body.appendChild( renderer.domElement );
+        
+        
+        /*Adding a line to the scene*/
+        var lineMaterial = new THREE.LineBasicMaterial( { color:  0x0000ff } );
+        
+        var lineGeometry = new THREE.Geometry();
+        lineGeometry.vertices.push(new THREE.Vector3( -10, 0, 0) );
+        lineGeometry.vertices.push(new THREE.Vector3( 0, 10, 0) );
+        lineGeometry.vertices.push(new THREE.Vector3( 10, 0, 0) );
+        
+        var line = new THREE.Line( lineGeometry, lineMaterial );
+        
+        scene.add( line );
+        
+        
+        
+        
+        /*Adding a cube to the scene*/
+        
+        //Create "box"
+        var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+        
+        //Add color to the "box"
+        var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+        
+        //Create a cube by applying the color material to the box
+        var cube = new THREE.Mesh( geometry, material );
+        
+        //Add the cube to the scene. Default coor (0,0,0)
+        scene.add( cube );
+        
+        //Move the camera to render the object
+        camera.position.z = 55;
+        
+        
+        /*Rendering the scene*/
+        
+        //animate the loop!
+        function animate() {
+            //This will pause the animation is a user goes to another tab
+            requestAnimationFrame( animate );
+            
+            //Animating the cube
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+            
+            renderer.render( scene, camera );
+        };
+        
+        animate();
+        
+        </script>
+        
+    </body>
+</html>
