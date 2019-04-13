@@ -22,8 +22,8 @@
         
         //Create a new camera
         //( FOV, aspect ratio, near clipping plane, far clipping plane )
-        var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 500 );
-        camera.position.set( 0, 0, 100 );
+        var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 500 );
+        camera.position.set( 0, 10, -10 );
         camera.lookAt( 0, 0, 0 );
         
         //Create the renderer
@@ -40,57 +40,110 @@
 
         
         
-        
-        /*Adding a line to the scene*/
-        var lineMaterial = new THREE.LineBasicMaterial( { color:  0x0000ff } );
-        
-        var lineGeometry = new THREE.Geometry();
-        lineGeometry.vertices.push(new THREE.Vector3( -10, 0, 0) );
-        lineGeometry.vertices.push(new THREE.Vector3( 0, 10, 0) );
-        lineGeometry.vertices.push(new THREE.Vector3( 10, 0, 0) );
-        
-        var line = new THREE.Line( lineGeometry, lineMaterial );
-        
-        scene.add( line );
+    
         
         
         
-        
-        /*Adding a cube to the scene*/
-        
-        //Create "box"
-        var geometry = new THREE.BoxGeometry( 1, 1, 1 );
-        
-        //Add color to the "box"
-        var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-        
-        //Create a cube by applying the color material to the box
-        var cube = new THREE.Mesh( geometry, material );
-        
+   
         
         
         
         
         
         /*Adding a grid to the scene*/
-        var gridHelper = new THREE.GridHelper( 10, 10, 0x00ff00, 0x0000ff );
+        var gridHelper = new THREE.GridHelper( 4, 4, 0x00ff00, 0xff0000 );
         scene.add( gridHelper );
         
         /*Adding a plane to the scene*/
-        var planeGeo = new THREE.PlaneBufferGeometry( 10, 10 );
+        var planeGeo = new THREE.PlaneBufferGeometry( 4, 4 );
         planeGeo.rotateX( - Math.PI / 2 );
         
-        var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
-        scene.add( plane );
         
         
         
+        //Added a map as an array
+        var map0 = ['a', 'b', 'a', 'b'];
+		var map1 = ['b', 'a', 'b', 'a'];
+		var map2 = ['a', 'b', 'a', 'b'];
+		var map3 = ['b', 'a', 'b', 'a'];
+		var m = [map0, map1, map2, map3];
+		
+		
+		/*
+		    
+		    function will take the map array and add it to the scene
+		    
+		    Iterate through the arrays
+		    i, j will be used in order to offset the positions
+		    
+		    
+		    
+	    */
+		function addTiles(m){
+		    console.log("adding tiles", m);
+		    //gets the length of a single array (map0 a,b,a,b)
+		    var arrZ = m[0].length;
+		    //get the number of arrays (map0, map1, map2, map3)
+		    var arrX = m.length;
+		    console.log("arr", arrX, arrZ);
+		    
+		    //
+		    for( var i = 0, x = -(arrX/2); x < (arrX/2); x++, i++ ){
+		    
+		        for( var j = 0, z= -(arrZ/2); z < (arrZ)/2; z++, j++ ){
+		            console.log("\n",x,z, m[i][j], i, j);
+		            
+		            
+		            //Creating new variable plane every instance and adding to
+		            //the scene. Position offset by 4 because it seems to be the
+		            //internal size of that object
+		            if(m[i][j] == 'a'){
+		                var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xff0000 } ) );
+		                plane.position.x = 4*i;
+		                plane.position.z = 4*j;
+                        scene.add( plane );
+		            } else if (m[i][j] == 'b'){
+		                var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x0000ff } ) );
+		                plane.position.x = 4*i;
+		                plane.position.z = 4*j;
+                        scene.add( plane );
+		            
+		            }
+		            
+		            
+	            }
+		    
+		    }
+		}
+		
+		addTiles(m);
         
-        //Add the cube to the scene. Default coor (0,0,0)
-        scene.add( cube );
+        //var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
+        //scene.add( plane );
+        /*
+        var p1 = new THREE.Mesh ( planeGeo, new THREE.MeshBasicMaterial( { color: 0x0000ff } ) );
+        p1.position.x = 4;
+        scene.add ( p1 );
+        
+        var p2 = new THREE.Mesh ( planeGeo, new THREE.MeshBasicMaterial( { color: 0x00ff00 } ) );
+        p2.position.x = 8;
+        scene.add ( p2 );
+        
+        var p3 = new THREE.Mesh ( planeGeo, new THREE.MeshBasicMaterial( { color: 0xff0000 } ) );
+        p3.position.x = 12;
+        scene.add ( p3 );
+        p3.position.z = 4;
+        scene.add ( p3 );
+        /*
+        
+        //scene.add(new THREE.Mesh ( planeGeo, new THREE.MeshBasicMaterial( { color: 0xff0000 } ) ) );
+        
+        
+        
+      
         
         //Move the camera to render the object
-        camera.position.z = 55;
+        //camera.position.z = 20;
         
 
 
@@ -103,7 +156,7 @@
         
         /*Adding orbit controls. Allows camera to move*/
         var controls = new THREE.OrbitControls( camera, renderer.domElement );
-        controls.target = new THREE.Vector3( 0, 15, 0 );
+        controls.target = new THREE.Vector3( 0, 5, 0 );
         
         //This sets the angle to which we can't look "under" the map
         controls.maxPolarAngle = Math.PI / 2;
@@ -113,8 +166,7 @@
         function render() {
             controls.update();
             
-            cube.rotation.x += 0.01;
-            cube.rotation.y += 0.01;
+        
             
             renderer.render( scene, camera );
             requestAnimationFrame( render );
