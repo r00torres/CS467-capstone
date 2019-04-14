@@ -12,6 +12,8 @@
         <script src="threejs/three.js"></script>
         
         <script src="threejs/OrbitControls.js"></script>
+
+		<script src="maps0.js"></script>
         
         <script>
         
@@ -59,6 +61,12 @@
         planeGeo.rotateX( - Math.PI / 2 );
         
         
+
+
+		//Testing maps0.json parsing
+		var jsMap = maps;
+
+		console.log("JSON MAP: ",jsMap.mapArray[0].name, jsMap.mapArray[0].map);
         
         
         //Added a map as an array
