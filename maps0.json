@@ -1,0 +1,33 @@
+{
+	"mapStory": "CampaignBoards0",
+	"mapArray": [
+		{
+			"name": "Coast",
+			"map": [
+				{ "gridRow": [ "a", "b", "a", "b" ] },
+				{ "gridRow": [ "a", "b", "a", "b" ] },
+				{ "gridRow": [ "a", "b", "a", "b" ] },
+				{ "gridRow": [ "a", "b", "a", "b" ] }
+			]
+		}
+		{
+			"name": "Jungle",
+			"map": [
+				{ "gridRow": [ "a", "b", "c", "a" ] },
+				{ "gridRow": [ "b", "c", "a", "b" ] },
+				{ "gridRow": [ "c", "a", "b", "c" ] },
+				{ "gridRow": [ "a", "b", "c", "a" ] }
+			]
+		}
+		{
+			"name": "Volcano",
+			"map": [
+				{ "gridRow": [ "a", "b", "c", "d" ] },
+				{ "gridRow": [ "b", "c", "d", "a" ] },
+				{ "gridRow": [ "c", "d", "a", "b" ] },
+				{ "gridRow": [ "d", "a", "b", "c" ] }
+			]
+		}
+		
+	]
+}
