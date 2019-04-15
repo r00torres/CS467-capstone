@@ -1,0 +1,32 @@
+{
+  "name": "tresaur-island",
+  "version": "0.0.1",
+  "description": "nodejs, threejs, express, handlebars tower defense",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node main.js 3000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cfrenchi/capstone.git"
+  },
+  "keywords": [
+    "threejs",
+    "nodejs",
+    "tower",
+    "defense"
+  ],
+  "author": "nunki",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "body-parser": "^1.13.3",
+    "express": "^4.13.2",
+    "express-handlebars": "^3.0.2",
+    "three": "^0.103.0"
+  },
+  "bugs": {
+    "url": "https://github.com/cfrenchi/capstone/issues"
+  },
+  "homepage": "https://github.com/cfrenchi/capstone#readme"
+}
