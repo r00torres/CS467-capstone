@@ -134,6 +134,26 @@
 
 		//Testing removing one tile from gridTiles
 		scene.remove( gridTiles[0][0] );
+
+
+		//Add tower function
+		function addTower(){
+			console.log("adding tower");
+			var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x000000 } ) );
+
+			//needs to be updated with ray cast to get mouse position and apply to correct tile
+			//needs to be check maparray to see if the tower can be added
+			plane.position.y = 1;
+
+			scene.add( plane );
+		}
+
+		//To add towers, use double click
+		window.addEventListener('dblclick', function(e) {
+			console.log("double click!");
+			addTower();
+			
+		});
 		
         
         //var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
