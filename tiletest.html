@@ -53,8 +53,9 @@
         
         
         /*Adding a grid to the scene*/
-        var gridHelper = new THREE.GridHelper( 16, 4, 0x00ff00, 0xffffff );
-        scene.add( gridHelper );
+        //GridHelper( size of the scene, #divisions, mid color, outline)
+        //var gridHelper = new THREE.GridHelper( 16, 4, 0x00ff00, 0xffffff );
+        //scene.add( gridHelper );
         
         /*Adding a plane to the scene*/
         var planeGeo = new THREE.PlaneBufferGeometry( 4, 4 );
@@ -74,7 +75,8 @@
 		var map1 = ['b', 'a', 'b', 'a'];
 		var map2 = ['a', 'b', 'a', 'b'];
 		var map3 = ['b', 'a', 'b', 'a'];
-		var m = [map0, map1, map2, map3];
+		var map4 = ['a', 'b', 'a', 'b'];
+		var m = [map0, map1, map2, map3, map4];
 		
 		
 		/*
@@ -139,6 +141,7 @@
 		    }
 		}
 		
+		//addTiles(m);
 		addTiles(jsMap.mapArray[0].map);
 		console.log("gridtiles", gridTiles);
 
