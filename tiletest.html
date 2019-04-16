@@ -87,7 +87,7 @@
 		    
 		    
 	    */
-
+		var gridT = [];
 		var gridTiles = [];
 		function addTiles(m){
 		    console.log("adding tiles", m);
@@ -111,13 +111,23 @@
 		                var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xff0000 } ) );
 		                plane.position.x = 4*x+2;
 		                plane.position.z = 4*z+2;
+
+						//name need for raycaster build logic
+						plane.name = "buildable";
+
 						gridRow.push( plane );
+
+						//for testing raycaster
+						gridT.push( plane );
                         scene.add( plane );
 		            } else if (m[i][j] == 'b'){
 		                var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x0000ff } ) );
 		                plane.position.x = 4*x+2;
 		                plane.position.z = 4*z+2;
 						gridRow.push( plane );
+
+						//for testing raycaster
+						gridT.push( plane );
                         scene.add( plane );
 		            
 		            }
@@ -133,29 +143,71 @@
 		console.log("gridtiles", gridTiles);
 
 		//Testing removing one tile from gridTiles
-		scene.remove( gridTiles[0][0] );
+		//scene.remove( gridTiles[0][0] );
+
+
+
+
+		//Raycaster
+		var raycaster = new THREE.Raycaster();
+		var mouse = new THREE.Vector2();
+
+		var towers = [];
+
+		function tileHover( event ) {
+
+		}
 
 
 		//Add tower function
-		function addTower(){
-			console.log("adding tower");
-			var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x000000 } ) );
+		function addTower( object ){
+			console.log("adding tower", object);
+			var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
+
+			
 
 			//needs to be updated with ray cast to get mouse position and apply to correct tile
 			//needs to be check maparray to see if the tower can be added
-			plane.position.y = 1;
+			plane.position.x = object.x;
+			plane.position.y = object.y + 1;
+			plane.position.z = object.z;
 
 			scene.add( plane );
 		}
 
 		//To add towers, use double click
+
+		document.addEventListener( 'dblclick', onDocumentMouseDown, false );
+
+		function onDocumentMouseDown( event ) {
+			event.preventDefault();
+			mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+
+			raycaster.setFromCamera( mouse, camera );
+			var intersects = raycaster.intersectObjects( gridT );
+
+			console.log(intersects);
+			if(intersects[0].object.name == "buildable") {
+				scene.remove(intersects[0].object);
+				addTower( intersects[0].object.position );
+			}
+		}
+		
+/*
 		window.addEventListener('dblclick', function(e) {
 			console.log("double click!");
-			addTower();
+			addTower(e);
 			
 		});
-		
-        
+*/
+  
+
+
+
+
+
+
+      
         //var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
         //scene.add( plane );
         /*
