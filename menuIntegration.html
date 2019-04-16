@@ -116,7 +116,10 @@
 				//disables users ability to move around menu
 				controls.enabled = false;
 				
+				
+				
 				/*Adding a play button*/
+				
 					//Creating a plane
 				var buttonGeoPlay = new THREE.PlaneBufferGeometry( 5, 3 );
 				console.log( "buttonGeoPlay", buttonGeoPlay );
@@ -139,7 +142,9 @@
 				gridT.push( playButton );
 				
 				
+				
 				/*Adding a Credits button*/
+				
 					//Creating a plane
 				var buttonGeoCredits = new THREE.PlaneBufferGeometry( 3, 1 );
 				console.log( "buttonGeoCredits", buttonGeoCredits );
@@ -162,9 +167,13 @@
 				gridT.push( creditsButton );
 
 
+
+				//Add buttons to the scene
 				scene.add( playButton );
 				scene.add( creditsButton );
 				
+				
+				//Remove right click menu and add object clicking
 				document.addEventListener( 'contextmenu', function( event ) { event.preventDefault() }, false );
 				document.addEventListener( 'click', menuSelect, false );
 				
@@ -213,7 +222,15 @@
 								}, 500 );
 
 								//Play the game
-								setTimeout( function() { play(); }, 600 ); }
+								setTimeout( function() { play(); }, 600 ); 
+								
+							} else if ( intersects[0].object.name == "credits" ) {
+							
+								//Show credit screen
+								
+								
+							
+							}
 							
 						}
 					
