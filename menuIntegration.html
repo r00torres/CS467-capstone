@@ -452,8 +452,15 @@
 					
 						//scene.remove(intersects[0].object);
 						
+						intersects[0].object.name = "tower";
+						
 						addTower( intersects[0].object.position );
 						
+					}
+					else {
+					
+						console.log("Can not build", intersects[0].object.name);
+					
 					}
 				}
 
