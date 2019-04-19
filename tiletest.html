@@ -26,7 +26,7 @@
         //( FOV, aspect ratio, near clipping plane, far clipping plane )
         var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 500 );
         camera.position.set( 0, 10, -10 );
-        camera.lookAt( 0, 0, 0 );
+        //camera.lookAt( menu );
         
         //Create the renderer
         var renderer = new THREE.WebGLRenderer();
@@ -39,7 +39,7 @@
         
         
         
-
+        
         
         
     
@@ -60,6 +60,23 @@
         /*Adding a plane to the scene*/
         var planeGeo = new THREE.PlaneBufferGeometry( 4, 4 );
         planeGeo.rotateX( - Math.PI / 2 );
+        
+        
+        
+        //Adding a menu
+        var menu = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
+        //menu.lookAt(camera.position);
+        menu.position.y = 1;
+        //menu.rotation.x = -1;
+        menu.rotation.y = -1;
+        //menu.rotation.z = 1;
+        //menu.position.
+        scene.add(menu);
+        //
+        //menu.rotation.setFromRotationMatrix( camera.matrix );
+        //menu.setRotationFromQuaternion( camera.quaternion );
+        //camera.lookAt( menu );
+        console.log("menu",menu);
         
         
 
@@ -251,16 +268,26 @@
         var controls = new THREE.OrbitControls( camera, renderer.domElement );
         controls.target = new THREE.Vector3( 0, 5, 0 );
         
+        //controls.target = menu.position;
+        controls.enabled = true;
         //This sets the angle to which we can't look "under" the map
         controls.maxPolarAngle = Math.PI / 2;
+        
+        console.log("controls",controls);
+        console.log("camera",camera);
+        
+        //controls.enableKeys = false;
         
         requestAnimationFrame(render);
         
         function render() {
             controls.update();
             
-        
+            //menu.lookAt(camera.position);
+            //menu.rotation = -camera.rotation;
+            menu.rotation.setFromRotationMatrix( camera.matrix );
             
+            //menu.quaternion.copy( camera.quaternion );
             renderer.render( scene, camera );
             requestAnimationFrame( render );
         }

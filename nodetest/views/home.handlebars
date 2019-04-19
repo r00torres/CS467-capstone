@@ -1,4 +1,4 @@
-<script src="/static/three.min.js"></script>
+<script src="/static/three.js"></script>
 
 <script src="/static/OrbitControls.js"></script>
 
@@ -7,53 +7,290 @@
 <script type='text/javascript' src='/static/Tween.js'></script>
 
 <script>
+	
+	//Global variables
+	var scene, camera, renderer, controls, raycaster, mouse;
+	
+	//Game variables
+	var gridT = [];
 
-    /*We need to RENDER the SCENE with a CAMERA*/
 	
-	//Create a new scene
-	var scene = new THREE.Scene();
-	
-	//Create a new camera
-	//( FOV, aspect ratio, near clipping plane, far clipping plane )
-	var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 500 );
-	camera.position.set( 0, 10, -10 );
-	camera.lookAt( 0, 0, 0 );
-	
-	//Create the renderer
-	var renderer = new THREE.WebGLRenderer();
-	
-	//Set the render size
-	renderer.setSize( window.innerWidth, window.innerHeight );
-	
-	//Add the renderer to the html document
-	document.body.appendChild( renderer.domElement );
 
-	/*Adding a plane to the scene*/
-	var planeGeo = new THREE.PlaneBufferGeometry( 4, 4 );
-	planeGeo.rotateX( - Math.PI / 2 );	
-        
 
-	//Raycaster
-	var raycaster = new THREE.Raycaster();
-	var mouse = new THREE.Vector2();
 
-	/*Adding orbit controls. Allows camera to move*/
-	var controls = new THREE.OrbitControls( camera, renderer.domElement );
-	controls.target = new THREE.Vector3( 0, 5, 0 );
-	controls.enabled = true;
-	//This sets the angle to which we can't look "under" the map
-	controls.maxPolarAngle = Math.PI / 2;	
+	/*We need to RENDER the SCENE with a CAMERA*/
+	function init() {
 
-/*
+		//Create a new scene
+		scene = new THREE.Scene();
+
+		//Create a new camera
+		//( FOV, aspect ratio, near clipping plane, far clipping plane )
+		camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 500 );
+		camera.position.set( 0, 10, -10 );
+		//camera.lookAt( menu );
+
+		//Create the renderer
+		renderer = new THREE.WebGLRenderer();
+
+		//Set the render size
+		renderer.setSize( window.innerWidth, window.innerHeight );
+
+		//Add the renderer to the html document
+		document.body.appendChild( renderer.domElement );
+
+			//three.js https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
+		window.addEventListener( 'resize', onWindowResize, false );
+
+		renderer.render(scene, camera);
+
+
+		/*Adding orbit controls. Allows camera to move*/
+		controls = new THREE.OrbitControls( camera, renderer.domElement );
+		controls.target = new THREE.Vector3( 0, 5, 0 );
+
+		//controls.target = menu.position;
+		controls.enabled = true;
+		//This sets the angle to which we can't look "under" the map
+		controls.maxPolarAngle = Math.PI / 2;
+
+		console.log("controls",controls);
+		console.log("camera",camera);
+
+		//controls.enableKeys = false;
+		
+		//Raycaster
+		raycaster = new THREE.Raycaster();
+		mouse = new THREE.Vector2();
+		
+		
+		//Load the menu
+		menu();
+		//play();
+
+		requestAnimationFrame(render);
+
+
+
+	}
+
+
+		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
+	function onWindowResize() {
 	
+		camera.aspect = window.innerWidth / window.innerHeight;
+		camera.updateProjectionMatrix();
+		
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		
+	}
+
+
+
+
+	function render() {
+
+		controls.update();
+
+		renderer.render( scene, camera );
+
+		requestAnimationFrame( render );
+
+	}
+
+
+
+
+
+	function menu() {
+
+		//disables users ability to move around menu
+		controls.enabled = false;
+		
+		
+		
+		/*Adding a play button*/
+		
+			//Creating a plane
+		var buttonGeoPlay = new THREE.PlaneBufferGeometry( 5, 3 );
+		console.log( "buttonGeoPlay", buttonGeoPlay );
+		buttonGeoPlay.rotateX( 2.677945044588987 );
+		buttonGeoPlay.rotateY( -1 );
+		buttonGeoPlay.rotateZ( Math.PI );
+
+			//Creating material
+		var buttonMatPlay = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+		
+			//Creating a mesh
+		var playButton = new THREE.Mesh( buttonGeoPlay, buttonMatPlay );
+		
+			//Setting variables
+		playButton.position.y = 6;
+		playButton.rotation.y = -1;
+		playButton.name = "play";
+			
+			//Pushing to the tile array
+		gridT.push( playButton );
+		
+		
+		
+		/*Adding a Credits button*/
+		
+			//Creating a plane
+		var buttonGeoCredits = new THREE.PlaneBufferGeometry( 3, 1 );
+		console.log( "buttonGeoCredits", buttonGeoCredits );
+		buttonGeoCredits.rotateX( 2.677945044588987 );
+		buttonGeoCredits.rotateY( -1 );
+		buttonGeoCredits.rotateZ( Math.PI );
+
+			//Creating material
+		var buttonMatCredits = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
+		
+			//Creating a mesh
+		var creditsButton = new THREE.Mesh( buttonGeoCredits, buttonMatCredits );
+		
+			//Setting variables
+		creditsButton.position.y = 2;
+		creditsButton.rotation.y = -1;
+		creditsButton.name = "credits";
+			
+			//Pushing to the tile array
+		gridT.push( creditsButton );
+
+
+
+		//Add buttons to the scene
+		scene.add( playButton );
+		scene.add( creditsButton );
+		
+		
+		//Remove right click menu and add object clicking
+		document.addEventListener( 'contextmenu', function( event ) { event.preventDefault() }, false );
+		document.addEventListener( 'click', menuSelect, false );
+		
+		var menuScope = this;
+		
+
+		function menuSelect( event ) {
+			
+			console.log( "mouse: ", event );
+		
+			if( event.button == 0 ) {
+		
+				event.preventDefault();
+				event.stopPropagation();
+				
+				mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+
+				raycaster.setFromCamera( mouse, camera );
+				
+				var intersects = raycaster.intersectObjects( gridT );
+
+				console.log( "intersects", intersects);
+				
+				if( intersects.length != 0 ) {
+				
+					if(intersects[0].object.name == "play") {
+					
+						document.removeEventListener( 'click', menuSelect, false );
+					
+						scene.remove(intersects[0].object);
+						
+						setTimeout( function() { 
+						
+							gridT.pop();
+							gridT.pop();
+							
+							scene.remove( playButton ); 
+							scene.remove( creditsButton );
+							
+							buttonGeoPlay.dispose();
+							buttonGeoCredits.dispose();
+							
+							buttonMatPlay.dispose();
+							buttonMatCredits.dispose();									
+							
+						}, 500 );
+
+						//Play the game
+						setTimeout( function() { play(); }, 600 ); 
+						
+					} else if ( intersects[0].object.name == "credits" ) {
+					
+						//Show credit screen
+						
+						
+					
+					}
+					
+				}
+			
+			}
+			
+		}
+
+		console.log("menu");
+
+	}
+
+
+
+
+
+
+	//!!!!!!!!may want to add parameters to pass in map and rules to play?
+	
+	/*
+
 	function will take the map array and add it to the scene
-	
+
 	Iterate through the arrays
 	i, j will be used in order to offset the positions
-	
-*/
-var gridT = [];
-var gridTiles = [];
+
+	*/
+	function play() {
+
+		/*
+		
+		Game variables to be set by rule file:
+		
+		Total Waves = totWaves
+		Current Wave = curWave
+		Time between Waves = timeXwave
+		Player lives = lives
+		
+		*/
+		var totWaves, curWave, timeXwave, lives;
+
+
+		//allows user to move the map
+		controls.enabled = true;
+
+		/*Adding a plane to the scene*/
+		var planeGeo = new THREE.PlaneBufferGeometry( 4, 4 );
+		planeGeo.rotateX( - Math.PI / 2 );
+
+		//Testing maps0.js
+		var jsMap = maps;
+
+		console.log(".js MAP: ",jsMap.mapArray[0].name, jsMap.mapArray[0].map);
+
+
+		//Added a map as an array
+		var map0 = ['a', 'b', 'a', 'b'];
+		var map1 = ['b', 'a', 'b', 'a'];
+		var map2 = ['a', 'b', 'a', 'b'];
+		var map3 = ['b', 'a', 'b', 'a'];
+		var map4 = ['a', 'b', 'a', 'b'];
+		var m = [map0, map1, map2, map3, map4];
+
+
+		
+		
+		
+		var gridTiles = [];
+		
+		var gridTiles = [];
 var path = [];
 function addTiles(m){
 	console.log("adding tiles", m);
@@ -131,7 +368,7 @@ function addTiles(m){
 	}
 }
 
-//addTiles(m);
+		//addTiles(m);
 addTiles(map.level1);
 console.log("path ", path);
 
@@ -139,6 +376,7 @@ console.log("path ", path);
 var material = new THREE.LineBasicMaterial({
 	color: 0x0000ff
 });
+
 
 var geometry = new THREE.Geometry();
 /*geometry.vertices.push(
@@ -163,6 +401,7 @@ for(var i=0; i<map.path1.length; i++)
 var line = new THREE.Line( geometry, material );
 scene.add( line );
 
+
 //create a test cube ojbect that will follow the enemy path
 var geometry2 = new THREE.BoxGeometry(1,1,1);
 var material2 = new THREE.MeshBasicMaterial({color: 0x00ff00});
@@ -170,6 +409,7 @@ var cube = new THREE.Mesh(geometry2, material2);
 cube.position.x = map.path1[0][0];
 cube.position.z = map.path1[0][1];
 scene.add(cube);
+
 
 var position = {x: map.path1[0][0], y: 0, z: map.path1[0][1]};
 //var target = {x: [map.path1[1][0], map.path1[2][0]], y: 0, z: [map.path1[1][1], map.path1[2][1]]};
@@ -197,14 +437,25 @@ tween.repeat(100);
 
 
 
+		//Add tower function
+		function addTower( object ){
+			
+			console.log("adding tower", object);
+			
+			var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
 
-console.log("gridtiles", gridTiles);
 
-//Testing removing one tile from gridTiles
-//scene.remove( gridTiles[0][0] );
+      console.log("gridtiles", gridTiles);
+
+
+			scene.add( plane );
+			
+		}
+
 
 
 var towers = [];
+
 
 function tileHover( event ) {
 
@@ -255,6 +506,34 @@ addTower(e);
 
 
 
+		function onDocumentMouseDown( event ) {
+		
+			event.preventDefault();
+			
+			mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+
+			raycaster.setFromCamera( mouse, camera );
+			
+			var intersects = raycaster.intersectObjects( gridT );
+
+			console.log(intersects);
+			
+			if(intersects[0].object.name == "buildable") {
+			
+				scene.remove(intersects[0].object);
+				
+				addTower( intersects[0].object.position );
+				
+			}
+		}
+
+	}
+
+
+	init();
+
+
+
 
 
 
@@ -300,6 +579,7 @@ addTower(e);
 		renderer.render( scene, camera );
 		controls.update();
 	}
+  
 	/*renderer.render(scene, camera);
 	
 	requestAnimationFrame(render);
@@ -314,37 +594,17 @@ addTower(e);
 	}*/
 
 
-
-
-	/* In this example we used a different way to render the scene
+	/*
 	
-	"This [as in animate()] will create a loop that causes the renderer to 
-	draw the scene every time the screen is refreshed (on a typical screen 
-	this means 60 times per second). If you're new to writing games in the 
-	browser, you might say "why don't we just create a setInterval ?" The 
-	thing is - we could, but requestAnimationFrame has a number of 
-	advantages. Perhaps the most important one is that it pauses when the 
-	user navigates to another browser tab, hence not wasting their precious 
-	processing power and battery life."
+	Resources:
 	
+	Rendering the scene: 
+	https://www.august.com.au/blog/animating-scenes-with-webgl-three-js/
 	https://threejs.org/docs/#manual/en/introduction/Creating-a-scene
+	
+	
+	
 	*/
-	
-	
-	/*Rendering the scene
-	
-	//animate the loop!
-	function animate() {
-			//This will pause the animation is a user goes to another tab
-			requestAnimationFrame( animate );
-			
-			//Animating the cube
-			cube.rotation.x += 0.01;
-			cube.rotation.y += 0.01;
-			
-			renderer.render( scene, camera );
-	};
-	
-	animate(); */
+
 
 </script>
