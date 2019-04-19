@@ -12,6 +12,9 @@
         <script src="threejs/three.js"></script>
         
         <script src="threejs/OrbitControls.js"></script>
+        
+        <script src="threejs/OBJLoader.js"></script>
+        <script src="threejs/WebGL.js"></script>
 
 		<script src="maps0.js"></script>
         
@@ -75,8 +78,9 @@
 				
 				
 				//Load the menu
-				menu();
-
+				//menu();
+				play()
+				
 				requestAnimationFrame(render);
 
 
@@ -380,9 +384,43 @@
 				//Add tower function
 				function addTower( object ){
 					
+					var land = object;
 					console.log("adding tower", object);
 					
-					var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
+					var loader = new THREE.OBJLoader();
+					towerMat = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+					loader.load( 'models/muskettexture.obj', 
+						//For getting materials on the object...
+						//https://stackoverflow.com/questions/35927111/three-js-change-material-for-obj-file-using-a-button
+						function ( tower ) {
+							tower.traverse(function(child) {
+								if (child instanceof THREE.Mesh){
+									child.material = towerMat;
+								}
+							});	
+							
+							console.log( 'obj', tower );
+							
+							//tower.position.copy( land.point ).add( land.face.normal );
+							//tower.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar( 25 );
+							tower.position.x = object.x;
+							tower.position.y = object.y + 1.85;
+							tower.position.z = object.z;
+							
+							
+							//https://stackoverflow.com/questions/24723471/three-js-scale-model-with-scale-set-or-increase-model-size
+							tower.scale.set( 0.1, 0.1, 0.1 );
+							
+							
+							//tower.material( { color: 0xffffff } );
+							scene.add( tower );
+							gridT.push( tower );
+						},
+						function( error ) {
+							console.log( 'error' );
+					});
+					
+					/*var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
 
 					//needs to be updated with ray cast to get mouse position and apply to correct tile
 					//needs to be check maparray to see if the tower can be added
@@ -390,7 +428,7 @@
 					plane.position.y = object.y + 1;
 					plane.position.z = object.z;
 
-					scene.add( plane );
+					scene.add( plane );*/
 					
 				}
 
@@ -412,10 +450,17 @@
 					
 					if(intersects[0].object.name == "buildable") {
 					
-						scene.remove(intersects[0].object);
+						//scene.remove(intersects[0].object);
+						
+						intersects[0].object.name = "tower";
 						
 						addTower( intersects[0].object.position );
 						
+					}
+					else {
+					
+						console.log("Can not build", intersects[0].object.name);
+					
 					}
 				}
 
