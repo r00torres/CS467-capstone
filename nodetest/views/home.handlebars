@@ -236,6 +236,128 @@
 	}
 
 
+	function buildMenu( object ) {
+	
+		var location = object;
+		
+		//disables users ability to move around menu
+		controls.enabled = false;
+		
+		
+		
+		/*Adding a play button*/
+		
+			//Creating a plane
+		var buttonGeoMusket = new THREE.PlaneBufferGeometry( 1, 1 );
+		console.log( "buttonGeoMusket", buttonGeoMusket);
+		buttonGeoMusket.rotateX( 2.677945044588987 );
+		buttonGeoMusket.rotateY( -1 );
+		buttonGeoMusket.rotateZ( Math.PI );
+			
+			//Creating material
+		var buttonMatMusket = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+		
+			//Creating a mesh
+		var musketButton = new THREE.Mesh( buttonGeoMusket, buttonMatMusket );
+		
+			//Setting variables
+		musketButton.position.y = 6;
+		musketButton.rotation.y = -1;
+		musketButton.name = "musketBuild";
+			
+			//Pushing to the tile array
+		gridT.push( musketButton );
+		
+		
+		
+		/*Adding a Credits button*/
+		
+			//Creating a plane
+		var buttonGeoReturn = new THREE.PlaneBufferGeometry( 3, 1 );
+		console.log( "buttonGeoReturn", buttonGeoReturn );
+		buttonGeoReturn.rotateX( 2.677945044588987 );
+		buttonGeoReturn.rotateY( -1 );
+		buttonGeoReturn.rotateZ( Math.PI );
+			
+			//Creating material
+		var buttonMatReturn = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
+		
+			//Creating a mesh
+		var creditsReturn = new THREE.Mesh( buttonGeoReturn, buttonMatReturn );
+		
+			//Setting variables
+		returnButton.position.y = 2;
+		returnButton.rotation.y = -1;
+		returnButton.name = "return";
+			
+			//Pushing to the tile array
+		gridT.push( returnButton );
+		
+		//Add buttons to the scene
+		scene.add( musketButton );
+		scene.add( returnButton );
+		
+		
+		//Remove right click menu and add object clicking
+		document.addEventListener( 'contextmenu', function( event ) { event.preventDefault() }, false );
+		document.addEventListener( 'click', menuSelect, false );
+		
+		var menuScope = this;
+		
+		function buildSelect( event ) {
+			
+			console.log( "mouse: ", event );
+		
+			if( event.button == 0 ) {
+		
+				event.preventDefault();
+				event.stopPropagation();
+				
+				mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+				raycaster.setFromCamera( mouse, camera );
+				
+				var intersects = raycaster.intersectObjects( gridT );
+				console.log( "intersects", intersects);
+				
+				if( intersects.length != 0 ) {
+				
+					if(intersects[0].object.name == "musketBuild") {
+					
+						document.removeEventListener( 'click', menuSelect, false );
+					
+						scene.remove(intersects[0].object);
+						
+						gridT.pop();
+						gridT.pop();
+						
+						addTower( location );
+						
+						scene.remove( musketButton );
+						scene.remove( creditsButton );
+						//scene.remove( cannonButton );
+						//scene.remove ( netButton );
+						
+						//dispose of geometry and material, is this costly? is this needed?
+						buttonGeoMusket.dispose();
+						buttonGeoReturn.dispose();
+							
+						buttonMatMusket.dispose();
+						buttonMatReturn.dispose();
+						
+					} else if ( intersects[0].object.name == "return" ) {
+					
+						//return to board
+						
+						console.log("Would Return to Game Play");
+					}
+					
+				}
+			
+			}
+			
+		}
+		console.log("buildMenu");
+	}
 
 
 
