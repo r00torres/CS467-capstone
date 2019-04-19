@@ -67,8 +67,8 @@
 		
 		
 		//Load the menu
-		//menu();
-		play()
+		menu();
+		//play()
 		
 		requestAnimationFrame(render);
 
@@ -636,7 +636,9 @@ function onDocumentMouseDown( event ) {
 	console.log(intersects);
 	if(intersects[0].object.name == "buildable") {
 		scene.remove(intersects[0].object);
-		addTower( intersects[0].object.position );
+		//addTower( intersects[0].object.position );
+
+		buildMenu( intersects[0].object.position );
 	}
 }
 
