@@ -302,6 +302,12 @@ function addTiles(m){
 	var arrX = m.length;
 	console.log("arr", arrX, arrZ);
 	
+	//Testing: Loading assets
+	var index = 0;
+	var files = ['/static/enviro/palmtrees0.obj']
+	var loader = new THREE.OBJLoader();
+	//var groundMat;
+	
 	//
 	for( var i = 0, x = -(arrX/2); x < (arrX/2); x++, i++ ){
 		var gridRow = [];
@@ -312,6 +318,7 @@ function addTiles(m){
 			//the scene. Position offset by 4 because it seems to be the
 			//internal size of that object
 			if(m[i][j] == '.'){ 
+				
 				var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x416600 } ) );
 				plane.position.x = 4*x+2;
 				plane.position.z = 4*z+2;
@@ -319,11 +326,100 @@ function addTiles(m){
 				//name need for raycaster build logic
 				plane.name = "buildable";
 
-				gridRow.push( plane );
+				
 
 				//for testing raycaster
 				gridT.push( plane );
 				scene.add( plane );
+				
+				
+				
+				//TESTING loADER
+				
+				function loadBuildable( x, z ) {
+				
+					console.log( "building x z ", x, z );
+					
+					var groundMat = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+					
+					loader.load('/static/enviro/palmtrees0.obj', 
+					
+						function ( object ) {
+						
+							object.traverse(function(child) {
+							
+								if (child instanceof THREE.Mesh){
+								
+									child.material = groundMat;
+									
+								}
+							}); 
+							
+							function loadLand(object, x, z ) {
+					
+								object.name = "buildable";
+								
+								object.position.x = 4*x+2;
+								object.position.z = 4*z+2;
+								object.position.y = 0.1;
+								
+								object.scale.set( 0.2, 0.2, 0.2 );
+								
+								scene.add( object );
+				
+							}
+							loadLand( object, x, z);
+						}
+						
+					);
+					
+				}
+				
+				loadBuildable( x, z );
+				
+				
+				
+				/*
+				var groundMat = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+				console.log("loading...");
+				loader.load( '/static/enviro/palmtrees0.obj', 
+				//For getting materials on the object...
+				//https://stackoverflow.com/questions/35927111/three-js-change-material-for-obj-file-using-a-button
+				function ( land ) {
+					land.traverse(function(child) {
+						if (child instanceof THREE.Mesh){
+							child.material = groundMat;
+						}
+					}),
+					console.log( 'land', land, i, j );
+					
+					//tower.position.copy( land.point ).add( land.face.normal );
+					//tower.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar( 25 );
+					land.position.x = plane.position.x;
+					land.position.y = 0;
+					land.position.z = plane.position.z;
+					
+					
+					//https://stackoverflow.com/questions/24723471/three-js-scale-model-with-scale-set-or-increase-model-size
+					land.scale.set( 0.1, 0.1, 0.1 );
+					
+					
+					//tower.material( { color: 0xffffff } );
+					land.name = "buildable";
+					gridRow.push( land );
+					gridT.push( land );
+					scene.add( land );
+						
+				});*/
+					
+					
+				//}
+				//function( error ) {
+				//	console.log( 'error', error );
+			//};	
+				
+				
+				
 			} 
 
 			else if (m[i][j] == '*'){
@@ -564,40 +660,6 @@ addTower(e);
 
 
 
-
-
-
-
-	//var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
-	//scene.add( plane );
-	/*
-	var p1 = new THREE.Mesh ( planeGeo, new THREE.MeshBasicMaterial( { color: 0x0000ff } ) );
-	p1.position.x = 4;
-	scene.add ( p1 );
-	
-	var p2 = new THREE.Mesh ( planeGeo, new THREE.MeshBasicMaterial( { color: 0x00ff00 } ) );
-	p2.position.x = 8;
-	scene.add ( p2 );
-	
-	var p3 = new THREE.Mesh ( planeGeo, new THREE.MeshBasicMaterial( { color: 0xff0000 } ) );
-	p3.position.x = 12;
-	scene.add ( p3 );
-	p3.position.z = 4;
-	scene.add ( p3 );
-	/*
-	
-	//scene.add(new THREE.Mesh ( planeGeo, new THREE.MeshBasicMaterial( { color: 0xff0000 } ) ) );
-	
-	
-	
-
-	
-	//Move the camera to render the object
-	//camera.position.z = 20;
-	
-
-
-
 	/*Rendering the scene https://www.august.com.au/blog/animating-scenes-with-webgl-three-js/*/
 
 	animate();
@@ -608,19 +670,7 @@ addTower(e);
 		renderer.render( scene, camera );
 		controls.update();
 	}
-  
-	/*renderer.render(scene, camera);
-	
-	requestAnimationFrame(render);
-	
-	function render() {
-			controls.update();
-			
-	
-			
-			renderer.render( scene, camera );
-			requestAnimationFrame( render );
-	}*/
+
 
 
 	/*
