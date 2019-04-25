@@ -265,8 +265,19 @@
 		var gameUI = document.createElement("div");
 		gameUI.setAttribute("id", "game-ui-bar");
 		document.body.insertBefore(gameUI, document.body.firstChild);
-		var text = document.createTextNode("COINS");
-		document.getElementById("game-ui-bar").append(text);
+		
+		var coinDiv = document.createElement("div");
+		coinDiv.setAttribute("id", "coins");
+		
+		var livesDiv = document.createElement("div");
+		livesDiv.setAttribute("id", "lives");
+		
+		var wavesDiv = document.createElement("div");
+		wavesDiv.setAttribute("id", "wave");
+		
+		document.getElementById("game-ui-bar").appendChild(coinDiv);
+		document.getElementById("game-ui-bar").appendChild(livesDiv);
+		document.getElementById("game-ui-bar").appendChild(waves);
 
 		/*
 		
