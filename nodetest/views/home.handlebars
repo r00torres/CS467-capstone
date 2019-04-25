@@ -262,6 +262,12 @@
 	*/
 	function play() {
 
+		var gameUI = document.createElement("div");
+		gameUI.setAttribute("id", "game-ui-bar");
+		document.body.insertBefore(gameUI, document.body.firstChild);
+		var text = document.createTextNode("COINS");
+		document.getElementById("game-ui-bar").append(text);
+
 		/*
 		
 		Game variables to be set by rule file:
