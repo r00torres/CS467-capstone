@@ -1,0 +1,17 @@
+.game-ui {
+  background-color: #333;
+  position: fixed;
+  top: 0;
+  width: auto;
+  margin: 0, auto;
+  display: table;
+}
+
+.game-ui > span {
+  float: left;
+  display: table-cell;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
