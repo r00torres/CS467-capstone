@@ -2,9 +2,15 @@
 
 <script src="/static/OrbitControls.js"></script>
 <script src="/static/OBJLoader.js"></script>
+<script src="/static/MTLLoader.js"></script>
 <script src="/static/WebGL.js"></script>
 
 <script src="/static/map1.js"></script>
+<script src="/static/pirateT.js"></script>
+<script src="/static/cannonT.js"></script>
+<script src="/static/ovi.js"></script>
+<script src="/static/rap.js"></script>
+<script src="/static/trex.js"></script>
 
 <script type='text/javascript' src='/static/Tween.js'></script>
 
@@ -65,10 +71,14 @@
 		raycaster = new THREE.Raycaster();
 		mouse = new THREE.Vector2();
 		
+		//need to add a light so that colors and textures of loaded objects
+		//will show up
+		var ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
+		scene.add(ambientLight);
 		
 		//Load the menu
-		menu();
-		//play()
+		//menu();
+		play()
 		
 		requestAnimationFrame(render);
 
@@ -236,7 +246,6 @@
 	}
 
 
-	
 
 
 
@@ -404,18 +413,16 @@ for(var i=0; i<map.path1.length; i++)
 var line = new THREE.Line( geometry, material );
 scene.add( line );
 
+//array to hold the current dinos in play
+var dinos = [];
 
-//create a test cube ojbect that will follow the enemy path
-var geometry2 = new THREE.BoxGeometry(1,1,1);
-var material2 = new THREE.MeshBasicMaterial({color: 0x00ff00});
-var cube = new THREE.Mesh(geometry2, material2);
-cube.position.x = map.path1[0][0];
-cube.position.z = map.path1[0][1];
-scene.add(cube);
-
+//add an oviraptor
+addOvi(scene, dinos);
+addRaptor(scene, dinos);
+addTrex(scene, dinos);
+console.log("dinos", dinos);
 
 var position = {x: map.path1[0][0], y: 0, z: map.path1[0][1]};
-//var target = {x: [map.path1[1][0], map.path1[2][0]], y: 0, z: [map.path1[1][1], map.path1[2][1]]};
 
 //create a target object with the x and z coordinates from the enemy path
 var target = {};
@@ -429,77 +436,26 @@ for(var i=0; i<map.path1.length; i++)
 	target.z.push(map.path1[i][1]);
 }
 
-//create a new tween
-//this will move the cube from its starting position along the path 
-//created from the path array
-//will repeat 100 times
-var tween = new TWEEN.Tween(cube.position)
-								.to(target, 10000)
-								.start();
-tween.repeat(100);
+//create a new tween to move the dinos
+console.log("speed", dinos[0][1].speed);
+for(var i=0; i<dinos.length; i++)
+{
+	var moveOvi = new TWEEN.Tween(dinos[i][0].position)
+		.to(target, dinos[i][1].speed)
+		.start();
+	moveOvi.repeat(1000);
+}
 
-
-
-		//Add tower function
-		function addTower( object ){
-			
-			var land = object;
-			console.log("adding tower", object);
-			
-			var loader = new THREE.OBJLoader();
-			towerMat = new THREE.MeshBasicMaterial( { color: 0xffffff } );
-			loader.load( '/static/muskettexture.obj', 
-				//For getting materials on the object...
-				//https://stackoverflow.com/questions/35927111/three-js-change-material-for-obj-file-using-a-button
-				function ( tower ) {
-					tower.traverse(function(child) {
-						if (child instanceof THREE.Mesh){
-							child.material = towerMat;
-						}
-					});	
-					
-					console.log( 'obj', tower );
-					
-					//tower.position.copy( land.point ).add( land.face.normal );
-					//tower.position.divideScalar( 50 ).floor().multiplyScalar( 50 ).addScalar( 25 );
-					tower.position.x = object.x;
-					tower.position.y = object.y + 1.85;
-					tower.position.z = object.z;
-					
-					
-					//https://stackoverflow.com/questions/24723471/three-js-scale-model-with-scale-set-or-increase-model-size
-					tower.scale.set( 0.1, 0.1, 0.1 );
-					
-					
-					//tower.material( { color: 0xffffff } );
-					scene.add( tower );
-					gridT.push( tower );
-				},
-				function( error ) {
-					console.log( 'error' );
-			});
-			
-			/*var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
-
-
-      console.log("gridtiles", gridTiles);
-
-
-			scene.add( plane );*/
-			
-		}
-
-
-
+//array to hold created towers
 var towers = [];
-
-
+		
 function tileHover( event ) {
 
 }
 
-
-
+/***********************************
+addTower function now in pirateT.js
+************************************/
 
 //To add towers, use double click
 
@@ -508,32 +464,17 @@ document.addEventListener( 'dblclick', onDocumentMouseDown, false );
 function onDocumentMouseDown( event ) {
 	event.preventDefault();
 	mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
-	console.log('dblclick');
+
 	raycaster.setFromCamera( mouse, camera );
 	var intersects = raycaster.intersectObjects( gridT );
 
-	console.log(intersects);
 	if(intersects[0].object.name == "buildable") {
-		//scene.remove(intersects[0].object);
-		//addTower( intersects[0].object.position );
-		
-		buildMenu( intersects[0].object.position );
+		scene.remove(intersects[0].object);
+		//addpirateT( intersects[0].object.position, scene, gridT, towers );
 	}
 }
 
-/*
-window.addEventListener('dblclick', function(e) {
-console.log("double click!");
-addTower(e);
-
-});
-*/
-
-
-		/*
 		function onDocumentMouseDown( event ) {
-		
-			console.log('click even');
 		
 			event.preventDefault();
 			
@@ -551,196 +492,22 @@ addTower(e);
 				
 				intersects[0].object.name = "tower";
 				
-				addTower( intersects[0].object.position );
-				
+				/*******************************************************
+				change tower add function to see other types of towers
+				*******************************************************/
+				addcannonT( intersects[0].object.position, scene, gridT, towers );
 			}
 			else {
 			
 				console.log("Can not build", intersects[0].object.name);
 			
 			}
-		} */
-
-function buildMenu( object ) {
-	
-		var location = object;
-		
-		//disables users ability to move around menu
-		controls.enabled = true;
-		
-		
-		
-		/*Adding a play button*/
-		
-			//Creating a plane
-		var buttonGeoMusket = new THREE.PlaneBufferGeometry( 1, 1 );
-		console.log( "buttonGeoMusket", buttonGeoMusket);
-		buttonGeoMusket.rotateX( 2.677945044588987 );
-		buttonGeoMusket.rotateY( -1 );
-		buttonGeoMusket.rotateZ( Math.PI );
-			
-			//Creating material
-		var buttonMatMusket = new THREE.MeshBasicMaterial( { color: 0xffffff } );
-		
-			//Creating a mesh
-		var musketButton = new THREE.Mesh( buttonGeoMusket, buttonMatMusket );
-		
-			//Setting variables
-		musketButton.position.y = 6;
-		musketButton.rotation.y = -1;
-		musketButton.name = "musketBuild";
-			
-			//Pushing to the tile array
-		gridT.push( musketButton );
-		
-		
-		
-		///*Adding a Credits button*/
-		
-			//Creating a plane
-		var buttonGeoReturn = new THREE.PlaneBufferGeometry( 3, 1 );
-		console.log( "buttonGeoReturn", buttonGeoReturn );
-		buttonGeoReturn.rotateX( 2.677945044588987 );
-		buttonGeoReturn.rotateY( -1 );
-		buttonGeoReturn.rotateZ( Math.PI );
-			
-			//Creating material
-		var buttonMatReturn = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
-		
-			//Creating a mesh
-		var returnButton = new THREE.Mesh( buttonGeoReturn, buttonMatReturn );
-		
-			//Setting variables
-		returnButton.position.y = 2;
-		returnButton.rotation.y = -1;
-		returnButton.name = "return";
-			
-			//Pushing to the tile array
-		gridT.push( returnButton );
-		
-		//Add buttons to the scene
-		scene.add( musketButton );
-		scene.add( returnButton );
-		
-		
-		//Remove right click menu and add object clicking
-		document.addEventListener( 'contextmenu', function( event ) { event.preventDefault() }, false );
-		document.addEventListener( 'click', buildSelect, false );
-		
-		var menuScope = this;
-		
-		function buildSelect( event ) {
-			
-			console.log( "mouse: ", event );
-		
-			if( event.button == 0 ) {
-		
-				event.preventDefault();
-				event.stopPropagation();
-				
-				mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
-				raycaster.setFromCamera( mouse, camera );
-				
-				var intersects = raycaster.intersectObjects( gridT );
-				console.log( "intersects", intersects);
-				
-				if( intersects.length != 0 ) {
-				
-					console.log( "click object name = ", intersects[0].object.name );
-				
-					if(intersects[0].object.name == "musketBuild") {
-					
-						document.removeEventListener( 'click', buildSelect, false );
-					
-						//scene.remove(intersects[0].object);
-						
-						gridT.pop();
-						gridT.pop();
-						
-						addTower( location );
-						
-						scene.remove( musketButton );
-						scene.remove( returnButton );
-						//scene.remove( cannonButton );
-						//scene.remove ( netButton );
-						
-						//dispose of geometry and material, is this costly? is this needed?
-						buttonGeoMusket.dispose();
-						buttonGeoReturn.dispose();
-							
-						buttonMatMusket.dispose();
-						buttonMatReturn.dispose();
-						
-					} else if ( intersects[0].object.name == "return" ) {
-					
-						//return to board
-						console.log("return");
-						
-						scene.remove( musketButton );
-						scene.remove( returnButton );
-						//scene.remove( cannonButton );
-						//scene.remove ( netButton );
-						
-						//dispose of geometry and material, is this costly? is this needed?
-						buttonGeoMusket.dispose();
-						buttonGeoReturn.dispose();
-							
-						buttonMatMusket.dispose();
-						buttonMatReturn.dispose();
-						
-						console.log("Would Return to Game Play");
-					}
-					
-				}
-			
-			}
-			
 		}
-		console.log("buildMenu");
-	}
-
 
 	}
 
 
 	init();
-
-
-
-
-
-
-
-
-	//var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xffffff } ) );
-	//scene.add( plane );
-	/*
-	var p1 = new THREE.Mesh ( planeGeo, new THREE.MeshBasicMaterial( { color: 0x0000ff } ) );
-	p1.position.x = 4;
-	scene.add ( p1 );
-	
-	var p2 = new THREE.Mesh ( planeGeo, new THREE.MeshBasicMaterial( { color: 0x00ff00 } ) );
-	p2.position.x = 8;
-	scene.add ( p2 );
-	
-	var p3 = new THREE.Mesh ( planeGeo, new THREE.MeshBasicMaterial( { color: 0xff0000 } ) );
-	p3.position.x = 12;
-	scene.add ( p3 );
-	p3.position.z = 4;
-	scene.add ( p3 );
-	/*
-	
-	//scene.add(new THREE.Mesh ( planeGeo, new THREE.MeshBasicMaterial( { color: 0xff0000 } ) ) );
-	
-	
-	
-
-	
-	//Move the camera to render the object
-	//camera.position.z = 20;
-	
-
-
 
 	/*Rendering the scene https://www.august.com.au/blog/animating-scenes-with-webgl-three-js/*/
 
@@ -753,20 +520,6 @@ function buildMenu( object ) {
 		controls.update();
 	}
   
-	/*renderer.render(scene, camera);
-	
-	requestAnimationFrame(render);
-	
-	function render() {
-			controls.update();
-			
-	
-			
-			renderer.render( scene, camera );
-			requestAnimationFrame( render );
-	}*/
-
-
 	/*
 	
 	Resources:
