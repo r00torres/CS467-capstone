@@ -264,25 +264,41 @@
 
 
 		//testing ui elements
-		var gameUI = document.createElement("div");
+				var gameUI = document.createElement("div");
 		gameUI.setAttribute("id", "game-ui-bar");
+		gameUI.setAttribute("class", "game-ui");
 		document.body.insertBefore(gameUI, document.body.firstChild);
-		
-		var coinDiv = document.createElement("div");
+
+		var coinDiv = document.createElement("span");
 		coinDiv.setAttribute("id", "coins");
-		var text = document.createTextNode("COINS");
+		var text = document.createTextNode("COINS ");
 		coinDiv.appendChild(text);
-		
-		var livesDiv = document.createElement("div");
+    		var coinVal = document.createElement("span");
+    		coinVal.setAttribute("id", "coinVal");
+    		text = document.createTextNode("0");
+    		coinVal.appendChild(text);
+    		coinDiv.appendChild(coinVal);
+
+		var livesDiv = document.createElement("span");
 		livesDiv.setAttribute("id", "lives");
-		text = document.createTextNode("LIVES");
+		text = document.createTextNode("LIVES ");
 		livesDiv.appendChild(text);
-		
-		var wavesDiv = document.createElement("div");
+    		var livesVal = document.createElement("span");
+   		livesVal.setAttribute("id", "livesVal");
+    		text = document.createTextNode("0");
+    		livesVal.appendChild(text);
+    		livesDiv.appendChild(livesVal);
+
+		var wavesDiv = document.createElement("span");
 		wavesDiv.setAttribute("id", "wave");
-		text = document.createTextNode("WAVE");
+		text = document.createTextNode("WAVE ");
 		wavesDiv.appendChild(text);
-		
+    		var wavesVal = document.createElement("span");
+   		wavesVal.setAttribute("id", "wavesVal");
+    		text = document.createTextNode("0");
+    		wavesVal.appendChild(text);
+    		wavesDiv.appendChild(wavesVal);
+
 		document.getElementById("game-ui-bar").append(coinDiv);
 		document.getElementById("game-ui-bar").append(livesDiv);
 		document.getElementById("game-ui-bar").append(wavesDiv);
