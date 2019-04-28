@@ -262,6 +262,8 @@
 	*/
 	function play() {
 
+		initGameUI();
+		
 		/*
 		
 		Game variables to be set by rule file:
@@ -503,6 +505,7 @@ function onDocumentMouseDown( event ) {
 				//params - current coins, cost of musket, cost of cannon, cost of net
 				//dummy values for now to test disabled buttons
 				viewBuildMenu(10, 5, 5, 12);
+				decrementGameUIBar("coins", 1);
 				
 				//addcannonT( intersects[0].object.position, scene, gridT, towers );
 			}
