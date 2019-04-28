@@ -44,7 +44,7 @@ function initGameUI(){
         if(field == "coins"){
             var location = document.getElementById("coinVal");
             var current = parseInt(location.child[0]);
-            var new = current - byValue;
-            location.replaceChild(new, location.child[0]);
+            var newVal = current - byValue;
+            location.replaceChild(newVal, location.child[0]);
         }
     };
