@@ -61,6 +61,8 @@ function viewBuildMenu() {
   }
 };
 
+initBuildUI();
+
 document.getElementById("build-musket-button").addEventListener("click", function () {
   console.log("Clicked Tower")
   viewBuildMenu();
@@ -130,7 +132,6 @@ document.getElementById("build-net-button").addEventListener("click", function (
 		
 		//Load the menu
 		//menu();
-		initBuildUI();
 		play()
 		
 		
