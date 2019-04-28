@@ -45,14 +45,37 @@
   document.getElementById("build-ui-container").append(musketButton);
 };
   
-function viewBuildMenu() {
+function viewBuildMenu(coins, musketPrice, cannonPrice, netPrice) {
   
   var buildCont = document.getElementById("build-ui-container");
     if (buildCont.style.display === "none") {
     buildCont.style.display = "block";
     buildCont.children[0].style.display = "block";
+    buildCont.children[0].disabled = false;
     buildCont.children[1].style.display = "block";
+    buildCont.children[1].disabled = false;
     buildCont.children[2].style.display = "block";
+    buildCont.children[2].disabled = false;
+
+    //include an exit button?
+
+    //if coins < musket price
+    //make musket no click
+    if(coins < musketPrice){
+      buildCont.children[0].disabled = true;
+    }
+
+    //if coins < cannon price
+    //make no click
+    if(coins < cannonPrice){
+      buildCont.children[1].disabled = true;
+    }
+
+    //if coins < net price
+    //make no click
+    if(coins < netPrice){
+      buildCont.children[2].disabled = true;
+    }
   } else {
   	buildCont.style.display = "none";
     buildCont.children[0].style.display = "none";
@@ -62,6 +85,7 @@ function viewBuildMenu() {
 };
 
 initBuildUI();
+viewBuildMenu();
 
 document.getElementById("build-musket-button").addEventListener("click", function () {
   console.log("Clicked Tower")
@@ -584,7 +608,10 @@ function onDocumentMouseDown( event ) {
 			
 			if(intersects[0].object.name == "buildable") {
 			
-				//scene.remove(intersects[0].object);
+				//call viewBuildUI
+				
+				//build UI shows options for coin 
+					//if coin >= tower price, show option
 				
 				intersects[0].object.name = "tower";
 				
@@ -592,7 +619,7 @@ function onDocumentMouseDown( event ) {
 				change tower add function to see other types of towers
 				*******************************************************/
 				
-				viewBuildMenu();
+				viewBuildMenu(10, 5, 5, 5);
 				//addcannonT( intersects[0].object.position, scene, gridT, towers );
 			}
 			else {
