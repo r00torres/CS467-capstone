@@ -22,7 +22,59 @@
 	//Game variables
 	var gridT = [];
 
-	
+	function initBuildUI(){
+  var buildUI = document.createElement("div");
+	buildUI.setAttribute("id", "build-ui-container");
+  buildUI.setAttribute("class", "build-ui-button-group");
+	document.body.append(buildUI);
+    
+  var towerButton = document.createElement("button");
+  towerButton.setAttribute("id", "build-musket-button");
+  towerButton.setAttribute("class", "build-ui-button-group");
+    
+  var cannonButton = document.createElement("button");
+	cannonButton.setAttribute("id", "build-cannon-button");
+	cannonButton.setAttribute("class", "build-ui-button-group");
+
+  var musketButton = document.createElement("button");
+	musketButton.setAttribute("id", "build-net-button");
+	musketButton.setAttribute("class", "build-ui-button-group");
+  
+  document.getElementById("build-ui-container").append(towerButton);
+  document.getElementById("build-ui-container").append(cannonButton);
+  document.getElementById("build-ui-container").append(musketButton);
+};
+  
+function viewBuildMenu() {
+  
+  var buildCont = document.getElementById("build-ui-container");
+    if (buildCont.style.display === "none") {
+    buildCont.style.display = "block";
+    buildCont.children[0].style.display = "block";
+    buildCont.children[1].style.display = "block";
+    buildCont.children[2].style.display = "block";
+  } else {
+  	buildCont.style.display = "none";
+    buildCont.children[0].style.display = "none";
+    buildCont.children[1].style.display = "none";
+    buildCont.children[2].style.display = "none";
+  }
+};
+
+document.getElementById("build-musket-button").addEventListener("click", function () {
+  console.log("Clicked Tower")
+  viewBuildMenu();
+});
+
+document.getElementById("build-cannon-button").addEventListener("click", function () {
+  console.log("Clicked Cannon")
+  viewBuildMenu();
+});
+
+document.getElementById("build-net-button").addEventListener("click", function () {
+  console.log("Clicked Musket")
+  viewBuildMenu();
+});
 
 
 
@@ -79,6 +131,7 @@
 		//Load the menu
 		//menu();
 		play()
+		initBuildUI();
 		
 		requestAnimationFrame(render);
 
@@ -536,7 +589,9 @@ function onDocumentMouseDown( event ) {
 				/*******************************************************
 				change tower add function to see other types of towers
 				*******************************************************/
-				addcannonT( intersects[0].object.position, scene, gridT, towers );
+				
+				viewBuildMenu();
+				//addcannonT( intersects[0].object.position, scene, gridT, towers );
 			}
 			else {
 			
