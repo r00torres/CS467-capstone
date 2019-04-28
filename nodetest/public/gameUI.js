@@ -1,4 +1,5 @@
 //testing ui elements
+function initGameUI(){    
     var gameUI = document.createElement("div");
     gameUI.setAttribute("id", "game-ui-bar");
     gameUI.setAttribute("class", "game-ui");
@@ -37,6 +38,7 @@
     document.getElementById("game-ui-bar").append(coinDiv);
     document.getElementById("game-ui-bar").append(livesDiv);
     document.getElementById("game-ui-bar").append(wavesDiv);
+}
 
     function decrementGameUIbar(field, byValue){
         if(field == "coins"){
