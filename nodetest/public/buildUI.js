@@ -23,7 +23,7 @@ function initBuildUI(){
   var netButton = document.createElement("button");
 	netButton.setAttribute("id", "build-net-button");
 	netButton.setAttribute("class", "build-ui-button-group");
-  netButton.innerHTML = 'Build Cannon Tower';
+  netButton.innerHTML = 'Build Net Tower';
   
   document.getElementById("build-ui-container").append(musketButton);
   document.getElementById("build-ui-container").append(cannonButton);
