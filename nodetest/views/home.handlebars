@@ -492,24 +492,47 @@ function onDocumentMouseDown( event ) {
 			
 			if(intersects[0].object.name == "buildable") {
 			
-				//call viewBuildUI
+				//change to player's current coins, price of musket, cannon, net
+				viewBuildMenu(10, 5, 5, 12);
 				
-				//build UI shows options for coin 
-					//if coin >= tower price, show option
+				while(towerEvent == "none"){
 				
-				intersects[0].object.name = "tower";
+				}
 				
 				/*******************************************************
 				change tower add function to see other types of towers
 				*******************************************************/
 				
-				//calling viewBuildMenu()
-				//params - current coins, cost of musket, cost of cannon, cost of net
-				//dummy values for now to test disabled buttons
-				viewBuildMenu(10, 5, 5, 12);
-				updateGameUIbar("coins", 1);
+				if ( towerEvent == "buildMusket" ){
+					intersects[0].object.name = "tower";
+					updateGameUIbar("coins", -1);
+					//change correct add function
+					addcannonT( intersects[0].object.position, scene, gridT, towers );
+					towerEvent = "none";
+				}
 				
-				//addcannonT( intersects[0].object.position, scene, gridT, towers );
+				else if ( towerEvent == "buildCannon" ){
+					intersects[0].object.name = "tower";
+					updateGameUIbar("coins", -2);
+					//change correct add fucntion
+					addcannonT( intersects[0].object.position, scene, gridT, towers );
+					towerEvent = "none";
+				}
+				
+				else if ( towerEvent == "buildNet" ){
+					intersects[0].object.name = "tower";
+					updateGameUIbar("coins", -3);
+					//change correct add function
+					addcannonT( intersects[0].object.position, scene, gridT, towers );
+					towerEvent = "none";
+				}
+				
+				//need to manage if someone clicks elsewhere, for now requiring that they click on exit from build
+				else if (towerEvent == "buildNothing" ){
+					towerEvent = "none";
+					console.log("Chose not to build");
+				}
+		
 			}
 			else {
 			
