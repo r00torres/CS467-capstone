@@ -13,7 +13,7 @@ function initGameUI(){
     coinVal.setAttribute("id", "coinVal");
     text = document.createTextNode("0");
     coinVal.appendChild(text);
-    coinDiv.appendChild(coinVal);
+    //coinDiv.appendChild(coinVal);
         
     var livesDiv = document.createElement("span");
     livesDiv.setAttribute("id", "lives");
@@ -23,7 +23,7 @@ function initGameUI(){
     livesVal.setAttribute("id", "livesVal");
     text = document.createTextNode("0");
     livesVal.appendChild(text);
-    livesDiv.appendChild(livesVal);
+    //livesDiv.appendChild(livesVal);
         
     var wavesDiv = document.createElement("span");
     wavesDiv.setAttribute("id", "wave");
@@ -33,11 +33,14 @@ function initGameUI(){
     wavesVal.setAttribute("id", "wavesVal");
     text = document.createTextNode("0");
     wavesVal.appendChild(text);
-    wavesDiv.appendChild(wavesVal);
+    //wavesDiv.appendChild(wavesVal);
         
     document.getElementById("game-ui-bar").append(coinDiv);
+    document.getElementById("game-ui-bar").append(coinVal);
     document.getElementById("game-ui-bar").append(livesDiv);
+    document.getElementById("game-ui-bar").append(livesVal);
     document.getElementById("game-ui-bar").append(wavesDiv);
+    document.getElementById("game-ui-bar").append(wavesVal);
 };
 
     function decrementGameUIbar(field, byValue){
