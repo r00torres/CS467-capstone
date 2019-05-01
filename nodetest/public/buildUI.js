@@ -26,10 +26,17 @@ function initBuildUI(){
 	netButton.setAttribute("id", "build-net-button");
 	netButton.setAttribute("class", "build-ui-button-group");
   netButton.innerHTML = 'Build Net Tower';
+	
+	var cancelButton = document.createElement("button");
+	cancelButton.setAttribute("id", "build-cancel-button");
+	cancelButton.setAttribute("class", "build-ui-button-group");
+  	cancelButton.innerHTML = 'Cancel Build Here';
+	
   
   document.getElementById("build-ui-container").append(musketButton);
   document.getElementById("build-ui-container").append(cannonButton);
   document.getElementById("build-ui-container").append(netButton);
+	document.getElementById("build-ui-container").append(cancelButton);
 };
   
 initBuildUI();
@@ -45,6 +52,8 @@ function viewBuildMenu(coins, musketPrice, cannonPrice, netPrice) {
     buildCont.children[1].disabled = false;
     buildCont.children[2].style.display = "block";
     buildCont.children[2].disabled = false;
+	buildCont.children[3].style.display = "block";
+    buildCont.children[3].disabled = false;
 
     //include an exit button?
 
@@ -65,15 +74,26 @@ function viewBuildMenu(coins, musketPrice, cannonPrice, netPrice) {
     if(coins < netPrice){
       buildCont.children[2].disabled = true;
     }
+	 
+  	if(coins < musketPrice && coins < cannonPrice && coins < netPrice){
+	  	//change cancel button to "cannot build, exit build mode"
+	}
+	  
+	  while(towerEvent == "none"){
+				
+	}
+	  
 
-  } else {
+  } else {	//hide build menu
   	buildCont.style.display = "none";
     buildCont.children[0].style.display = "none";
     buildCont.children[1].style.display = "none";
     buildCont.children[2].style.display = "none";
+	  buildCont.children[3].style.display = "none";
     //possible exit button
   }
   console.log("Within viewBuildMenu")
+	
 };
 
 viewBuildMenu();
@@ -94,4 +114,12 @@ document.getElementById("build-net-button").addEventListener("click", function (
   console.log("Clicked Net Tower")
   viewBuildMenu();
 	towerEvent = "buildNet";
+	
+});
+
+document.getElementById("build-cancel-button").addEventListener("click", function () {
+  console.log("Clicked Cancel Build")
+  viewBuildMenu();
+	towerEvent = "buildNothing";
+	
 });
