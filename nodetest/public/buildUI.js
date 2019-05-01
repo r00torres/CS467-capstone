@@ -79,10 +79,6 @@ function viewBuildMenu(coins, musketPrice, cannonPrice, netPrice) {
 	  	//change cancel button to "cannot build, exit build mode"
 	}
 	  
-	  while(towerEvent == "none"){
-				
-	}
-	  
 
   } else {	//hide build menu
   	buildCont.style.display = "none";
