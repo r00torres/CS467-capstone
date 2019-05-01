@@ -4,6 +4,8 @@ var musketPrice = 5;
 var cannonPrice = 5;
 var netPrice = 5;
 
+var towerEvent = "none";
+
 function initBuildUI(){
   var buildUI = document.createElement("div");
 	buildUI.setAttribute("id", "build-ui-container");
@@ -79,14 +81,17 @@ viewBuildMenu();
 document.getElementById("build-musket-button").addEventListener("click", function () {
   console.log("Clicked Musket Tower")
   viewBuildMenu();
+	towerEvent = "buildMusket";
 });
 
 document.getElementById("build-cannon-button").addEventListener("click", function () {
   console.log("Clicked Cannon Tower")
   viewBuildMenu();
+	towerEvent = "buildCannon";
 });
 
 document.getElementById("build-net-button").addEventListener("click", function () {
   console.log("Clicked Net Tower")
   viewBuildMenu();
+	towerEvent = "buildNet";
 });
