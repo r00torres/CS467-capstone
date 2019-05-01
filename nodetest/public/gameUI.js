@@ -43,11 +43,9 @@ function initGameUI(){
     document.getElementById("game-ui-bar").append(wavesVal);
 };
 
-    function decrementGameUIbar(field, byValue){
+    function updateGameUIbar(field, newValue){
         if(field == "coins"){
             var location = document.getElementById("coinVal");
-            var current = parseInt(location.child[0]);
-            var newVal = current - byValue;
-            location.replaceChild(newVal, location.child[0]);
+            location.replaceChild(newValue, location.child[0]);
         }
     };
