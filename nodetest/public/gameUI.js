@@ -47,6 +47,6 @@ function initGameUI(){
         if(field == "coins"){
             var location = document.getElementById("coinVal");
             console.log("Coin value is: ", location.innerHTML);
-            location.innerHTML = toString(newValue);
+            location.innerHTML = newValue;
         }
     };
