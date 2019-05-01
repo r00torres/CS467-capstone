@@ -46,6 +46,6 @@ function initGameUI(){
     function updateGameUIbar(field, newValue){
         if(field == "coins"){
             var location = document.getElementById("coinVal");
-            location.nodeValue = toString(newValue);
+            location.innerHTML = toString(newValue);
         }
     };
