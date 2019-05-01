@@ -7,7 +7,7 @@
   display: table;
 }
 
-.game-ui > span {
+.game-ui span {
   float: left;
   display: table-cell;
   color: #f2f2f2;
