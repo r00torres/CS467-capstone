@@ -144,6 +144,22 @@
 	const clock = new THREE.Clock();
 	function dinoLoader( object, position, dinos ) {
 
+		console.log("dinos", dinos);
+
+		var position = {x: map.path1[0][0], y: 0, z: map.path1[0][1]};
+
+		//create a target object with the x and z coordinates from the enemy path
+		var target = {};
+		target.x = [];
+		target.z = [];
+		target.y = 0;
+		for(var i=0; i<map.path1.length; i++)
+		{
+			//add the coordinates from the path
+			target.x.push(map.path1[i][0]);
+			target.z.push(map.path1[i][1]);
+		}
+
 		const loader = new THREE.GLTFLoader();
 
 		const onLoad = ( gltf, position ) => {
@@ -180,6 +196,7 @@
 			//model.add(dino);
 			scene.add( model );
 			dinos.push([model,oviraptor]);
+			dinoPath( dinos, target );
 
 		};
 
@@ -604,40 +621,32 @@
 		//add an oviraptor
 		addOviGLTF( scene, dinos );
 		//addOvi(scene, dinos);
-		addRaptor(scene, dinos);
+		//addRaptor(scene, dinos);
 		//addTrex(scene, dinos);
-		console.log("dinos", dinos);
-
-		var position = {x: map.path1[0][0], y: 0, z: map.path1[0][1]};
-
-		//create a target object with the x and z coordinates from the enemy path
-		var target = {};
-		target.x = [];
-		target.z = [];
-		target.y = 0;
-		for(var i=0; i<map.path1.length; i++)
-		{
-			//add the coordinates from the path
-			target.x.push(map.path1[i][0]);
-			target.z.push(map.path1[i][1]);
-		}
+		// console.log("dinos", dinos);
+		//
+		// var position = {x: map.path1[0][0], y: 0, z: map.path1[0][1]};
+		//
+		// //create a target object with the x and z coordinates from the enemy path
+		// var target = {};
+		// target.x = [];
+		// target.z = [];
+		// target.y = 0;
+		// for(var i=0; i<map.path1.length; i++)
+		// {
+		// 	//add the coordinates from the path
+		// 	target.x.push(map.path1[i][0]);
+		// 	target.z.push(map.path1[i][1]);
+		// }
 
 		//create a new tween to move the dinos
-		console.log("speed", dinos[0][1].speed);
+		//console.log("speed", dinos[0][1].speed);
 		//setTimeout Work around... we need to be able to run this function once
 		//all dinos are loaded...
 		//Wave setup?
-		setTimeout(function() {
-			for(var i=0; i<dinos.length; i++)
-			{
-				console.log("dino length = ", dinos.length, i);
-				var moveOvi = new TWEEN.Tween(dinos[i][0].position)
-					.to(target, dinos[i][1].speed)
-					.start();
-				moveOvi.repeat(1000);
-				console.log( "moveOvi", moveOvi );
-			}
-		}, 1500);
+		//setTimeout(function() {
+
+		//}, 1500);
 
 		console.log("dinos array", dinos );
 
@@ -700,6 +709,18 @@
 		}
 
 	}
+
+	function dinoPath( dinos, target ){
+	for(var i=0; i<dinos.length; i++)
+	{
+		console.log("dino length = ", dinos.length, i);
+		var moveOvi = new TWEEN.Tween(dinos[i][0].position)
+			.to(target, dinos[i][1].speed)
+			.start();
+		moveOvi.repeat(1000);
+		console.log( "moveOvi", moveOvi );
+	}
+}
 	// function addOviGLTF( scene, dinos ){
 	//   console.log( "dinos gltf", dinos );
 	//   const oviPosition = new THREE.Vector3( 0, 0, 0 );
