@@ -2,6 +2,7 @@
 
 <script src="/static/OrbitControls.js"></script>
 <script src="/static/OBJLoader.js"></script>
+<script src="/static/GLTFLoader.js"></script>
 <script src="/static/MTLLoader.js"></script>
 <script src="/static/WebGL.js"></script>
 
@@ -15,14 +16,14 @@
 <script type='text/javascript' src='/static/Tween.js'></script>
 
 <script>
-	
+
 	//Global variables
 	var scene, camera, renderer, controls, raycaster, mouse;
-	
+
 	//Game variables
 	var gridT = [];
 
-	
+
 
 
 
@@ -44,13 +45,27 @@
 		//Set the render size
 		renderer.setSize( window.innerWidth, window.innerHeight );
 
+		renderer.setPixelRatio( window.devicePixelRatio );
+
+		renderer.gammaFactor = 2.2;
+		renderer.gammaOutput = true;
+
+		renderer.physicallyCorrectLights = true;
+
+
+
 		//Add the renderer to the html document
 		document.body.appendChild( renderer.domElement );
 
 			//three.js https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
 		window.addEventListener( 'resize', onWindowResize, false );
 
-		renderer.render(scene, camera);
+		renderer.setAnimationLoop( () => {
+			//update();
+			render();
+		});
+
+		//renderer.render(scene, camera);
 
 
 		/*Adding orbit controls. Allows camera to move*/
@@ -66,21 +81,25 @@
 		console.log("camera",camera);
 
 		//controls.enableKeys = false;
-		
+
 		//Raycaster
 		raycaster = new THREE.Raycaster();
 		mouse = new THREE.Vector2();
-		
+
 		//need to add a light so that colors and textures of loaded objects
 		//will show up
 		var ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
 		scene.add(ambientLight);
-		
+
 		//Load the menu
-		//menu();
-		play()
-		
-		requestAnimationFrame(render);
+		menu();
+		//var dinos = [];
+		//var ovi1 = addOviGLTF( scene, dinos );
+		//dinos.push([ovi1,oviraptor]);
+
+		//play()
+
+		//requestAnimationFrame(render);
 
 
 
@@ -89,12 +108,12 @@
 
 		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
 	function onWindowResize() {
-	
+
 		camera.aspect = window.innerWidth / window.innerHeight;
 		camera.updateProjectionMatrix();
-		
+
 		renderer.setSize( window.innerWidth, window.innerHeight );
-		
+
 	}
 
 
@@ -102,15 +121,79 @@
 
 	function render() {
 
+		//controls.update();
+
+		//requestAnimationFrame(animate);
+		TWEEN.update();
+		// 	renderer.render( scene, camera );
 		controls.update();
+
+		const delta = clock.getDelta();
+
+		mixers.forEach( ( mixer ) => { mixer.update( delta ); } );
 
 		renderer.render( scene, camera );
 
-		requestAnimationFrame( render );
+		//requestAnimationFrame( render );
 
 	}
 
+	//Adding a gltf loader for passing creating an object at a location
+	//Derived from
+	const mixers = [];
+	const clock = new THREE.Clock();
+	function dinoLoader( object, position, dinos ) {
 
+		const loader = new THREE.GLTFLoader();
+
+		const onLoad = ( gltf, position ) => {
+
+			const model = gltf.scene;
+
+			model.position.copy( position );
+
+			const animation = gltf.animations[ 0 ];
+
+			const mixer = new THREE.AnimationMixer( model );
+			mixers.push( mixer );
+
+			const action = mixer.clipAction( animation );
+			action.play();
+
+			//model.add( dino );
+			//model.name = "oviraptor";
+
+			model.scale.set( 0.3, 0.3, 0.3 );
+			//dinos.push(dino);
+			//scene.add(dino);
+			model.name = "oviraptor";
+			model.position.x = map.path1[0][0];
+			model.position.z = map.path1[0][1];
+			model.userData.health = oviraptor.health;
+			model.userData.speed = oviraptor.speed;
+			model.userData.reward = oviraptor.reward;
+			model.type = "Object3D";
+
+
+
+			console.log("loadDino model:", model);
+			//model.add(dino);
+			scene.add( model );
+			dinos.push([model,oviraptor]);
+
+		};
+
+		const onProgress = () => {};
+
+		const onError = (errorMessage ) => {
+
+			console.log( errorMessage );
+
+		};
+
+		loader.load( object, gltf => onLoad( gltf, position ), onProgress, onError );
+
+	}
 
 
 
@@ -118,11 +201,11 @@
 
 		//disables users ability to move around menu
 		controls.enabled = false;
-		
-		
-		
+
+
+
 		/*Adding a play button*/
-		
+
 			//Creating a plane
 		var buttonGeoPlay = new THREE.PlaneBufferGeometry( 5, 3 );
 		console.log( "buttonGeoPlay", buttonGeoPlay );
@@ -132,22 +215,22 @@
 
 			//Creating material
 		var buttonMatPlay = new THREE.MeshBasicMaterial( { color: 0xffffff } );
-		
+
 			//Creating a mesh
 		var playButton = new THREE.Mesh( buttonGeoPlay, buttonMatPlay );
-		
+
 			//Setting variables
 		playButton.position.y = 6;
 		playButton.rotation.y = -1;
 		playButton.name = "play";
-			
+
 			//Pushing to the tile array
 		gridT.push( playButton );
-		
-		
-		
+
+
+
 		/*Adding a Credits button*/
-		
+
 			//Creating a plane
 		var buttonGeoCredits = new THREE.PlaneBufferGeometry( 3, 1 );
 		console.log( "buttonGeoCredits", buttonGeoCredits );
@@ -157,15 +240,15 @@
 
 			//Creating material
 		var buttonMatCredits = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
-		
+
 			//Creating a mesh
 		var creditsButton = new THREE.Mesh( buttonGeoCredits, buttonMatCredits );
-		
+
 			//Setting variables
 		creditsButton.position.y = 2;
 		creditsButton.rotation.y = -1;
 		creditsButton.name = "credits";
-			
+
 			//Pushing to the tile array
 		gridT.push( creditsButton );
 
@@ -174,71 +257,71 @@
 		//Add buttons to the scene
 		scene.add( playButton );
 		scene.add( creditsButton );
-		
-		
+
+
 		//Remove right click menu and add object clicking
 		document.addEventListener( 'contextmenu', function( event ) { event.preventDefault() }, false );
 		document.addEventListener( 'click', menuSelect, false );
-		
+
 		var menuScope = this;
-		
+
 
 		function menuSelect( event ) {
-			
+
 			console.log( "mouse: ", event );
-		
+
 			if( event.button == 0 ) {
-		
+
 				event.preventDefault();
 				event.stopPropagation();
-				
+
 				mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
 
 				raycaster.setFromCamera( mouse, camera );
-				
+
 				var intersects = raycaster.intersectObjects( gridT );
 
 				console.log( "intersects", intersects);
-				
+
 				if( intersects.length != 0 ) {
-				
+
 					if(intersects[0].object.name == "play") {
-					
+
 						document.removeEventListener( 'click', menuSelect, false );
-					
+
 						scene.remove(intersects[0].object);
-						
-						setTimeout( function() { 
-						
+
+						setTimeout( function() {
+
 							gridT.pop();
 							gridT.pop();
-							
-							scene.remove( playButton ); 
+
+							scene.remove( playButton );
 							scene.remove( creditsButton );
-							
+
 							buttonGeoPlay.dispose();
 							buttonGeoCredits.dispose();
-							
+
 							buttonMatPlay.dispose();
-							buttonMatCredits.dispose();									
-							
+							buttonMatCredits.dispose();
+
 						}, 500 );
 
 						//Play the game
-						setTimeout( function() { play(); }, 600 ); 
-						
+						setTimeout( function() { play(); }, 600 );
+
 					} else if ( intersects[0].object.name == "credits" ) {
-					
+
 						//Show credit screen
-						
-						
-					
+
+
+
 					}
-					
+
 				}
-			
+
 			}
-			
+
 		}
 
 		console.log("menu");
@@ -251,7 +334,7 @@
 
 
 	//!!!!!!!!may want to add parameters to pass in map and rules to play?
-	
+
 	/*
 
 	function will take the map array and add it to the scene
@@ -263,14 +346,14 @@
 	function play() {
 
 		/*
-		
+
 		Game variables to be set by rule file:
-		
+
 		Total Waves = totWaves
 		Current Wave = curWave
 		Time between Waves = timeXwave
 		Player lives = lives
-		
+
 		*/
 		var totWaves, curWave, timeXwave, lives;
 
@@ -297,353 +380,357 @@
 		var m = [map0, map1, map2, map3, map4];
 
 
-		
-		
-		
+
+
+
 		var gridTiles = [];
-		
+
 		var gridTiles = [];
-var path = [];
-function addTiles(m){
-	console.log("adding tiles", m);
-	//gets the length of a single array (map0 a,b,a,b)
-	var arrZ = m[0].length;
-	//get the number of arrays (map0, map1, map2, map3)
-	var arrX = m.length;
-	console.log("arr", arrX, arrZ);
-	
-	//Testing: Loading assets
-	var index = 0;
-	var files = ['/static/enviro/palmtrees0.obj']
-	var loader = new THREE.OBJLoader();
-	//var groundMat;
-	
-	//
-	for( var i = 0, x = -(arrX/2); x < (arrX/2); x++, i++ ){
-		var gridRow = [];
-		for( var j = 0, z= -(arrZ/2); z < (arrZ)/2; z++, j++ ){
-			console.log("\n",x,z, m[i][j], i, j);
-					
-			//Creating new variable plane every instance and adding to
-			//the scene. Position offset by 4 because it seems to be the
-			//internal size of that object
-			if(m[i][j] == '.'){ 
-				
-				var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x416600 } ) );
-				plane.position.x = 4*x+2;
-				plane.position.z = 4*z+2;
+		var path = [];
+		function addTiles(m){
+			console.log("adding tiles", m);
+			//gets the length of a single array (map0 a,b,a,b)
+			var arrZ = m[0].length;
+			//get the number of arrays (map0, map1, map2, map3)
+			var arrX = m.length;
+			console.log("arr", arrX, arrZ);
 
-				//name need for raycaster build logic
-				plane.name = "buildable";
+			//Testing: Loading assets
+			var index = 0;
+			var files = ['/static/enviro/palmtrees0.obj']
+			var loader = new THREE.OBJLoader();
+			//var groundMat;
 
-				
+			//
+			for( var i = 0, x = -(arrX/2); x < (arrX/2); x++, i++ ){
+				var gridRow = [];
+				for( var j = 0, z= -(arrZ/2); z < (arrZ)/2; z++, j++ ){
+					console.log("\n",x,z, m[i][j], i, j);
 
-				//for testing raycaster
-				gridT.push( plane );
-				scene.add( plane );
-				
-				console.log("top of builder...");
-				
-				//TESTING loADER
-				
-				function loadBuildable( x, z ) {
-				
-					console.log( "building x z ", x, z );
-					
-					var groundMat = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-					
-					loader.load('/static/enviro/palmtrees0.obj', 
-					
-						function ( object ) {
-						
-							object.traverse(function(child) {
-							
-								if (child instanceof THREE.Mesh){
-								
-									child.material = groundMat;
-									
+					//Creating new variable plane every instance and adding to
+					//the scene. Position offset by 4 because it seems to be the
+					//internal size of that object
+					if(m[i][j] == '.'){
+
+						var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x416600 } ) );
+						plane.position.x = 4*x+2;
+						plane.position.z = 4*z+2;
+
+						//name need for raycaster build logic
+						plane.name = "buildable";
+
+
+
+						//for testing raycaster
+						gridT.push( plane );
+						scene.add( plane );
+
+						console.log("top of builder...");
+
+						//TESTING loADER
+
+						function loadBuildable( x, z ) {
+
+							console.log( "building x z ", x, z );
+
+							var groundMat = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+
+							loader.load('/static/enviro/palmtrees0.obj',
+
+								function ( object ) {
+
+									object.traverse(function(child) {
+
+										if (child instanceof THREE.Mesh){
+
+											child.material = groundMat;
+
+										}
+									});
+
+									function loadLand(object, x, z ) {
+
+										object.name = "buildable";
+
+										object.position.x = 4*x+2;
+										object.position.z = 4*z+2;
+										object.position.y = 0.1;
+
+										object.scale.set( 0.2, 0.2, 0.2 );
+
+										scene.add( object );
+
+									}
+									loadLand( object, x, z);
 								}
-							}); 
-							
-							function loadLand(object, x, z ) {
-					
-								object.name = "buildable";
-								
-								object.position.x = 4*x+2;
-								object.position.z = 4*z+2;
-								object.position.y = 0.1;
-								
-								object.scale.set( 0.2, 0.2, 0.2 );
-								
-								scene.add( object );
-				
-							}
-							loadLand( object, x, z);
+
+							);
+
 						}
-						
-					);
-					
+
+						loadBuildable( x, z );
+
+						console.log("bottom of builder...");
+
+
+					}
+
+					else if (m[i][j] == '*'){
+						var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xf2d527 } ) );
+						plane.position.x = 4*x+2;
+						plane.position.z = 4*z+2;
+						plane.name = "pather";
+						//gridRow.push( plane );
+
+						path.push(plane);
+
+						//for testing raycaster
+						gridT.push( plane );
+						scene.add( plane );
+
+						//TESTING loADER
+						console.log("******");
+
+						function loadP( x, z ) {
+
+							console.log( "path x z ", x, z );
+
+							var groundMat = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+
+							loader.load('/static/enviro/pathjoined.obj',
+
+								function ( feets ) {
+
+									feets.traverse(function(child) {
+
+										if (child instanceof THREE.Mesh){
+
+											child.material = groundMat;
+
+										}
+									});
+
+									function addPath(object, x, z ) {
+
+										feets.name = "pather";
+
+										feets.position.x = 4 * x + 2;
+										feets.position.z = 4 * z + 2;
+										feets.position.y = 0.1;
+
+										feets.scale.set( 0.2, 0.2, 0.2 );
+
+										scene.add( feets );
+
+									}
+									addPath( feets, x, z);
+								}
+
+							);
+
+						};
+
+						loadP( x, z );
+					}
+
+					else if (m[i][j] == 's'){
+						console.log("sssssssssssssssssss");
+						var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x4568c2 } ) );
+						plane.position.x = 4*x+2;
+						plane.position.z = 4*z+2;
+						plane.name = "start";
+						//gridRow.push( plane );
+						console.log("start ", plane);
+
+						//for testing raycaster
+						gridT.push( plane );
+						scene.add( plane );
+					}
+
+					else if (m[i][j] == 'e'){
+						var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xa12b0d } ) );
+						plane.position.x = 4*x+2;
+						plane.position.z = 4*z+2;
+						plane.name = "end";
+						//gridRow.push( plane );
+						console.log("end", plane);
+
+						//for testing raycaster
+						gridT.push( plane );
+						scene.add( plane );
+					}
 				}
-				
-				loadBuildable( x, z );
-				
-				console.log("bottom of builder...");
-				
-				
-			} 
-
-			else if (m[i][j] == '*'){
-				var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xf2d527 } ) );
-				plane.position.x = 4*x+2;
-				plane.position.z = 4*z+2;
-				plane.name = "pather";
-				//gridRow.push( plane );
-
-				path.push(plane);
-
-				//for testing raycaster
-				gridT.push( plane );
-				scene.add( plane );
-				
-				//TESTING loADER
-				console.log("******");
-				
-				function loadP( x, z ) {
-				
-					console.log( "path x z ", x, z );
-					
-					var groundMat = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-					
-					loader.load('/static/enviro/pathjoined.obj', 
-					
-						function ( feets ) {
-						
-							feets.traverse(function(child) {
-							
-								if (child instanceof THREE.Mesh){
-								
-									child.material = groundMat;
-									
-								}
-							}); 
-							
-							function addPath(object, x, z ) {
-					
-								feets.name = "pather";
-								
-								feets.position.x = 4 * x + 2;
-								feets.position.z = 4 * z + 2;
-								feets.position.y = 0.1;
-								
-								feets.scale.set( 0.2, 0.2, 0.2 );
-								
-								scene.add( feets );
-				
-							}
-							addPath( feets, x, z);
-						}
-						
-					);
-					
-				};
-				
-				loadP( x, z );
+				gridTiles.push( gridRow );
+				console.log("gridRow", gridRow );
 			}
-
-			else if (m[i][j] == 's'){
-				console.log("sssssssssssssssssss");
-				var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x4568c2 } ) );
-				plane.position.x = 4*x+2;
-				plane.position.z = 4*z+2;
-				plane.name = "start";
-				//gridRow.push( plane );
-				console.log("start ", plane);
-
-				//for testing raycaster
-				gridT.push( plane );
-				scene.add( plane );
-			}	
-
-			else if (m[i][j] == 'e'){
-				var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xa12b0d } ) );
-				plane.position.x = 4*x+2;
-				plane.position.z = 4*z+2;
-				plane.name = "end";
-				//gridRow.push( plane );
-				console.log("end", plane);
-
-				//for testing raycaster
-				gridT.push( plane );
-				scene.add( plane );
-			}					
 		}
-		gridTiles.push( gridRow );
-		console.log("gridRow", gridRow );
-	}
-}
 
-		//addTiles(m);
-addTiles(map.level1);
-console.log("path ", path);
+				//addTiles(m);
+		addTiles(map.level1);
+		console.log("path ", path);
 
-//create a line to show the path
-var material = new THREE.LineBasicMaterial({
-	color: 0x0000ff
-});
+		//create a line to show the path
+		var material = new THREE.LineBasicMaterial({
+			color: 0x0000ff
+		});
 
 
-var geometry = new THREE.Geometry();
-/*geometry.vertices.push(
-	new THREE.Vector3( path[0].position.x, 0, path[0].position.z ),
-	new THREE.Vector3( path[1].position.x, 0, path[1].position.z ),
-);*/
+		var geometry = new THREE.Geometry();
+		/*geometry.vertices.push(
+			new THREE.Vector3( path[0].position.x, 0, path[0].position.z ),
+			new THREE.Vector3( path[1].position.x, 0, path[1].position.z ),
+		);*/
 
-//convert the path to usable coordinates
-makePath(map.path1, map.level1x, map.level1z);
+		//convert the path to usable coordinates
+		makePath(map.path1, map.level1x, map.level1z);
 
-//add the vertices to the path
-for(var i=0; i<map.path1.length; i++)
-{
-	geometry.vertices.push(
-	new THREE.Vector3( map.path1[i][0], 0, map.path1[i][1] )
-	)
-}
+		//add the vertices to the path
+		for(var i=0; i<map.path1.length; i++)
+		{
+			geometry.vertices.push(
+			new THREE.Vector3( map.path1[i][0], 0, map.path1[i][1] )
+			)
+		}
 
-//add the line of the path to the scene
-//the line is not nescessary for the movement of the cube, but makes the
-//path easier to see
-var line = new THREE.Line( geometry, material );
-scene.add( line );
+		//add the line of the path to the scene
+		//the line is not nescessary for the movement of the cube, but makes the
+		//path easier to see
+		var line = new THREE.Line( geometry, material );
+		scene.add( line );
 
-//array to hold the current dinos in play
-var dinos = [];
+		//array to hold the current dinos in play
+		var dinos = [];
 
-//add an oviraptor
-addOvi(scene, dinos);
-addRaptor(scene, dinos);
-addTrex(scene, dinos);
-console.log("dinos", dinos);
+		//add an oviraptor
+		addOviGLTF( scene, dinos );
+		//addOvi(scene, dinos);
+		addRaptor(scene, dinos);
+		//addTrex(scene, dinos);
+		console.log("dinos", dinos);
 
-var position = {x: map.path1[0][0], y: 0, z: map.path1[0][1]};
+		var position = {x: map.path1[0][0], y: 0, z: map.path1[0][1]};
 
-//create a target object with the x and z coordinates from the enemy path
-var target = {};
-target.x = [];
-target.z = [];
-target.y = 0;
-for(var i=0; i<map.path1.length; i++)
-{
-	//add the coordinates from the path
-	target.x.push(map.path1[i][0]);
-	target.z.push(map.path1[i][1]);
-}
+		//create a target object with the x and z coordinates from the enemy path
+		var target = {};
+		target.x = [];
+		target.z = [];
+		target.y = 0;
+		for(var i=0; i<map.path1.length; i++)
+		{
+			//add the coordinates from the path
+			target.x.push(map.path1[i][0]);
+			target.z.push(map.path1[i][1]);
+		}
 
-//create a new tween to move the dinos
-console.log("speed", dinos[0][1].speed);
-for(var i=0; i<dinos.length; i++)
-{
-	var moveOvi = new TWEEN.Tween(dinos[i][0].position)
-		.to(target, dinos[i][1].speed)
-		.start();
-	moveOvi.repeat(1000);
-}
+		//create a new tween to move the dinos
+		console.log("speed", dinos[0][1].speed);
+		//setTimeout Work around... we need to be able to run this function once
+		//all dinos are loaded...
+		//Wave setup?
+		setTimeout(function() {
+			for(var i=0; i<dinos.length; i++)
+			{
+				console.log("dino length = ", dinos.length, i);
+				var moveOvi = new TWEEN.Tween(dinos[i][0].position)
+					.to(target, dinos[i][1].speed)
+					.start();
+				moveOvi.repeat(1000);
+				console.log( "moveOvi", moveOvi );
+			}
+		}, 1500);
 
-//array to hold created towers
-var towers = [];
-		
-function tileHover( event ) {
+		console.log("dinos array", dinos );
 
-}
+		//array to hold created towers
+		var towers = [];
 
-/***********************************
-addTower function now in pirateT.js
-************************************/
+		function tileHover( event ) {
 
-//To add towers, use double click
+		}
 
-document.addEventListener( 'dblclick', onDocumentMouseDown, false );
+		/***********************************
+		addTower function now in pirateT.js
+		************************************/
 
-function onDocumentMouseDown( event ) {
-	event.preventDefault();
-	mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+		//To add towers, use double click
 
-	raycaster.setFromCamera( mouse, camera );
-	var intersects = raycaster.intersectObjects( gridT );
-
-	if(intersects[0].object.name == "buildable") {
-		scene.remove(intersects[0].object);
-		//addpirateT( intersects[0].object.position, scene, gridT, towers );
-	}
-}
+		document.addEventListener( 'dblclick', onDocumentMouseDown, false );
 
 		function onDocumentMouseDown( event ) {
-		
 			event.preventDefault();
-			
 			mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
 
 			raycaster.setFromCamera( mouse, camera );
-			
+			var intersects = raycaster.intersectObjects( gridT );
+
+			if(intersects[0].object.name == "buildable") {
+				scene.remove(intersects[0].object);
+				//addpirateT( intersects[0].object.position, scene, gridT, towers );
+			}
+		}
+
+		function onDocumentMouseDown( event ) {
+
+			event.preventDefault();
+
+			mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+
+			raycaster.setFromCamera( mouse, camera );
+
 			var intersects = raycaster.intersectObjects( gridT );
 
 			console.log(intersects);
-			
+
 			if(intersects[0].object.name == "buildable") {
-			
+
 				//scene.remove(intersects[0].object);
-				
+
 				intersects[0].object.name = "tower";
-				
+
 				/*******************************************************
 				change tower add function to see other types of towers
 				*******************************************************/
 				addcannonT( intersects[0].object.position, scene, gridT, towers );
 			}
 			else {
-			
+
 				console.log("Can not build", intersects[0].object.name);
-			
+
 			}
 		}
 
 	}
-
+	// function addOviGLTF( scene, dinos ){
+	//   console.log( "dinos gltf", dinos );
+	//   const oviPosition = new THREE.Vector3( 0, 0, 0 );
+	// 	modelLoader( '/static/dinos/raptor1.glb', oviPosition );
+	//   //scene.add(newOvi);
+	//   //dinos.push([newOvi,oviraptor]);
+	// }
 
 	init();
 
-<<<<<<< HEAD
-=======
 
-
-
->>>>>>> c8230417beae4e17f92f8a6004debab32d05d89e
 	/*Rendering the scene https://www.august.com.au/blog/animating-scenes-with-webgl-three-js/*/
 
-	animate();
-
-	function animate(){
-		requestAnimationFrame(animate);
-		TWEEN.update();
-		renderer.render( scene, camera );
-		controls.update();
-	}
-<<<<<<< HEAD
-  
-=======
-
-
-
->>>>>>> c8230417beae4e17f92f8a6004debab32d05d89e
+	// animate();
+	//
+	// function animate(){
+	// 	requestAnimationFrame(animate);
+	// 	TWEEN.update();
+	// 	renderer.render( scene, camera );
+	// 	controls.update();
+	// }
 	/*
-	
+
 	Resources:
-	
-	Rendering the scene: 
+
+	Rendering the scene:
 	https://www.august.com.au/blog/animating-scenes-with-webgl-three-js/
 	https://threejs.org/docs/#manual/en/introduction/Creating-a-scene
-	
-	
-	
+
+
+
 	*/
 
 

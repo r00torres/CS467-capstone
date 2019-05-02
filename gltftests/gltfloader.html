@@ -4,7 +4,7 @@
 		<title> GLTF loader</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<meta charset="UTF-8" />
-		
+
 		<style>
 		body {
 		  margin: 0px;
@@ -23,7 +23,7 @@
 		a {
 		  color: white;
 		}
-		
+
 		a:hover{
 		  color: purple;
 		}
@@ -34,20 +34,20 @@
 		  height: 100%;
 		}
 		</style>
-		
+
 		<script src="three/three.js"></script>
 		<script src="three/OrbitControls.js"></script>
 		<script src="three/GLTFLoader.js"></script>
-		
+
 	</head>
 	<body>
-	
+
 		<h1 class="title">Dino</h1>
 
 		<div id="scene-container">
 			<!-- This div will hold our scene-->
 		</div>
-			
+
 
 		<script>
 
@@ -70,7 +70,20 @@ function init() {
   createCamera();
   createControls();
   createLights();
-  loadModels();
+
+	const oviPosition = new THREE.Vector3( 0, 0, 0 );
+	loadModels( 'models/raptor1.glb', oviPosition );
+	const oviPosition1 = new THREE.Vector3( 10, 0, 0 );
+	loadModels( 'models/raptor1.glb', oviPosition1 );
+	const oviPosition2 = new THREE.Vector3( 20, 0, 0 );
+	loadModels( 'models/raptor1.glb', oviPosition2 );
+	const oviPosition3 = new THREE.Vector3( 0, 10, 0 );
+	loadModels( 'models/raptor1.glb', oviPosition3 );
+	const oviPosition4 = new THREE.Vector3( 0, 20, 0 );
+	loadModels( 'models/raptor1.glb', oviPosition4 );
+	const oviPosition5 = new THREE.Vector3( 20, 30, 0 );
+	loadModels( 'models/raptor1.glb', oviPosition5 );
+  //loadModels();
   createRenderer();
 
   renderer.setAnimationLoop( () => {
@@ -107,8 +120,11 @@ function createLights() {
 
 }
 
-function loadModels() {
-	
+function loadModels( object, position ) {
+
+
+
+
   const loader = new THREE.GLTFLoader();
 
   // A reusable function to set up the models. We're passing in a position parameter
@@ -130,7 +146,7 @@ function loadModels() {
     const action = mixer.clipAction( animation );
     console.log("action", action);
     action.play();
-	
+
     scene.add( model );
 
   };
@@ -144,20 +160,20 @@ function loadModels() {
 
   // load the first model. Each model is loaded asynchronously,
   // so don't make any assumption about which one will finish loading first
-  
+
   //const parrotPosition = new THREE.Vector3( -10, 10, 20.5 );
   //loader.load( 'models/Parrot.glb', gltf => onLoad( gltf, parrotPosition ), onProgress, onError );
 
   //const flamingoPosition = new THREE.Vector3( 70.5, 100, -10 );
   //loader.load( 'models/Flamingo.glb', gltf => onLoad( gltf, flamingoPosition ), onProgress, onError );
-	
+
   //const storkPosition = new THREE.Vector3( 0, 0, 0 );
   //loader.load( 'models/Stork.glb', gltf => onLoad( gltf, storkPosition ), onProgress, onError );
-  
-  
-  const oviPosition = new THREE.Vector3( 0, 0, 0 );
-  loader.load( 'models/raptor1.glb', gltf => onLoad( gltf, oviPosition ), onProgress, onError );
-  
+
+
+  //const oviPosition = new THREE.Vector3( 0, 0, 0 );
+  loader.load( object, gltf => onLoad( gltf, position ), onProgress, onError );
+
   /*
   var loader = new THREE.GLTFLoader();
         loader.load( 'models/whatisthis.glb', function ( gltf ) {
@@ -173,6 +189,9 @@ function loadModels() {
      */
 
 }
+
+
+
 
 function createRenderer() {
 
@@ -217,6 +236,8 @@ function onWindowResize() {
 }
 
 window.addEventListener( 'resize', onWindowResize );
+
+
 
 init();
 
