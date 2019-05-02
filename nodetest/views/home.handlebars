@@ -312,6 +312,12 @@ function addTiles(m){
 	var arrX = m.length;
 	console.log("arr", arrX, arrZ);
 	
+	//Testing: Loading assets
+	var index = 0;
+	var files = ['/static/enviro/palmtrees0.obj']
+	var loader = new THREE.OBJLoader();
+	//var groundMat;
+	
 	//
 	for( var i = 0, x = -(arrX/2); x < (arrX/2); x++, i++ ){
 		var gridRow = [];
@@ -322,6 +328,7 @@ function addTiles(m){
 			//the scene. Position offset by 4 because it seems to be the
 			//internal size of that object
 			if(m[i][j] == '.'){ 
+				
 				var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x416600 } ) );
 				plane.position.x = 4*x+2;
 				plane.position.z = 4*z+2;
@@ -329,32 +336,127 @@ function addTiles(m){
 				//name need for raycaster build logic
 				plane.name = "buildable";
 
-				gridRow.push( plane );
+				
 
 				//for testing raycaster
 				gridT.push( plane );
 				scene.add( plane );
+				
+				console.log("top of builder...");
+				
+				//TESTING loADER
+				
+				function loadBuildable( x, z ) {
+				
+					console.log( "building x z ", x, z );
+					
+					var groundMat = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+					
+					loader.load('/static/enviro/palmtrees0.obj', 
+					
+						function ( object ) {
+						
+							object.traverse(function(child) {
+							
+								if (child instanceof THREE.Mesh){
+								
+									child.material = groundMat;
+									
+								}
+							}); 
+							
+							function loadLand(object, x, z ) {
+					
+								object.name = "buildable";
+								
+								object.position.x = 4*x+2;
+								object.position.z = 4*z+2;
+								object.position.y = 0.1;
+								
+								object.scale.set( 0.2, 0.2, 0.2 );
+								
+								scene.add( object );
+				
+							}
+							loadLand( object, x, z);
+						}
+						
+					);
+					
+				}
+				
+				loadBuildable( x, z );
+				
+				console.log("bottom of builder...");
+				
+				
 			} 
 
 			else if (m[i][j] == '*'){
 				var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xf2d527 } ) );
 				plane.position.x = 4*x+2;
 				plane.position.z = 4*z+2;
-				gridRow.push( plane );
+				plane.name = "pather";
+				//gridRow.push( plane );
 
 				path.push(plane);
 
 				//for testing raycaster
 				gridT.push( plane );
 				scene.add( plane );
+				
+				//TESTING loADER
+				console.log("******");
+				
+				function loadP( x, z ) {
+				
+					console.log( "path x z ", x, z );
+					
+					var groundMat = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
+					
+					loader.load('/static/enviro/pathjoined.obj', 
+					
+						function ( feets ) {
+						
+							feets.traverse(function(child) {
+							
+								if (child instanceof THREE.Mesh){
+								
+									child.material = groundMat;
+									
+								}
+							}); 
+							
+							function addPath(object, x, z ) {
+					
+								feets.name = "pather";
+								
+								feets.position.x = 4 * x + 2;
+								feets.position.z = 4 * z + 2;
+								feets.position.y = 0.1;
+								
+								feets.scale.set( 0.2, 0.2, 0.2 );
+								
+								scene.add( feets );
+				
+							}
+							addPath( feets, x, z);
+						}
+						
+					);
+					
+				};
+				
+				loadP( x, z );
 			}
 
 			else if (m[i][j] == 's'){
+				console.log("sssssssssssssssssss");
 				var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x4568c2 } ) );
 				plane.position.x = 4*x+2;
 				plane.position.z = 4*z+2;
 				plane.name = "start";
-				gridRow.push( plane );
+				//gridRow.push( plane );
 				console.log("start ", plane);
 
 				//for testing raycaster
@@ -367,7 +469,7 @@ function addTiles(m){
 				plane.position.x = 4*x+2;
 				plane.position.z = 4*z+2;
 				plane.name = "end";
-				gridRow.push( plane );
+				//gridRow.push( plane );
 				console.log("end", plane);
 
 				//for testing raycaster
@@ -509,6 +611,12 @@ function onDocumentMouseDown( event ) {
 
 	init();
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> c8230417beae4e17f92f8a6004debab32d05d89e
 	/*Rendering the scene https://www.august.com.au/blog/animating-scenes-with-webgl-three-js/*/
 
 	animate();
@@ -519,7 +627,13 @@ function onDocumentMouseDown( event ) {
 		renderer.render( scene, camera );
 		controls.update();
 	}
+<<<<<<< HEAD
   
+=======
+
+
+
+>>>>>>> c8230417beae4e17f92f8a6004debab32d05d89e
 	/*
 	
 	Resources:
