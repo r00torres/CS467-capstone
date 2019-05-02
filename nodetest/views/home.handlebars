@@ -495,47 +495,46 @@ function onDocumentMouseDown( event ) {
 				//change to player's current coins, price of musket, cannon, net
 				viewBuildMenu(10, 5, 5, 12);
 				
-				
-				//I want to call view build and then wait for the player's input
-				
-				/*while(towerEvent == "none"){
-				
-				}*/
-				
 				/*******************************************************
 				change tower add function to see other types of towers
 				*******************************************************/
 				
-				if ( towerEvent == "buildMusket" ){
-					intersects[0].object.name = "tower";
-					updateGameUIbar("coins", -1);
-					//change correct add function
-					addcannonT( intersects[0].object.position, scene, gridT, towers );
-					towerEvent = "none";
-				}
+				document.getElementById("build-musket-button").addEventListener("click", function () {
+  				console.log("Clicked Musket Tower")
+  				viewBuildMenu();
+				updateGameUIbar("coins", -1);
+				intersects[0].object.name = "tower";
+				addcannonT( intersects[0].object.position, scene, gridT, towers );
+				});
 				
-				else if ( towerEvent == "buildCannon" ){
-					intersects[0].object.name = "tower";
-					updateGameUIbar("coins", -2);
-					//change correct add fucntion
-					addcannonT( intersects[0].object.position, scene, gridT, towers );
-					towerEvent = "none";
-				}
+				document.getElementById("build-cannon-button").addEventListener("click", function () {
+  				console.log("Clicked Cannon Tower")
+  				viewBuildMenu();
+				updateGameUIbar("coins", -2);
+				intersects[0].object.name = "tower";
+				addcannonT( intersects[0].object.position, scene, gridT, towers );
+				});
 				
-				else if ( towerEvent == "buildNet" ){
-					intersects[0].object.name = "tower";
-					updateGameUIbar("coins", -3);
-					//change correct add function
-					addcannonT( intersects[0].object.position, scene, gridT, towers );
-					towerEvent = "none";
-				}
+				document.getElementById("build-cannon-button").addEventListener("click", function () {
+  				console.log("Clicked Net Tower")
+  				viewBuildMenu();
+				updateGameUIbar("coins", -3);
+				intersects[0].object.name = "tower";
+				addcannonT( intersects[0].object.position, scene, gridT, towers );
+				});
 				
-				//need to manage if someone clicks elsewhere, for now requiring that they click on exit from build
-				else if (towerEvent == "buildNothing" ){
-					towerEvent = "none";
-					console.log("Chose not to build");
-				}
-		
+				document.getElementById("build-cannon-button").addEventListener("click", function () {
+  				console.log("Clicked Net Tower")
+  				viewBuildMenu();
+				updateGameUIbar("coins", -3);
+				intersects[0].object.name = "tower";
+				addcannonT( intersects[0].object.position, scene, gridT, towers );
+				});
+				
+				document.getElementById("build-cancel-button").addEventListener("click", function () {
+  				console.log("Clicked Cancel Build")
+  				viewBuildMenu();
+				});
 			}
 			else {
 			
