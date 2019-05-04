@@ -24,6 +24,9 @@
 	//Global variables
 	var scene, camera, renderer, controls, raycaster, mouse;
 	
+	//test variable - move to game rules?
+	coins = 100;
+	
 	//Game variables
 	var gridT = [];
 
@@ -496,7 +499,7 @@ function onDocumentMouseDown( event ) {
 				//shows build options for player's current coin at this location (need to change first param to coin
 				//last param to cost of last tower
 				
-				viewBuildMenu(100, pirateT.cost, cannonT.cost, cannonT.cost);
+				viewBuildMenu(coins, pirateT.cost, cannonT.cost, cannonT.cost);
 				
 				//remove the previous click event (which was to build for last location)
 				document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
@@ -507,7 +510,8 @@ function onDocumentMouseDown( event ) {
 				clickMusket = function () {
 						console.log("Clicked Musket Tower")
   						clearBuildMenu();
-						updateGameUIbar("coins", -1);
+						coins = coins - pirateT.cost;
+						updateGameUIbar("coins", coins);
 						intersects[0].object.name = "tower";
 						addpirateT( intersects[0].object.position, scene, gridT, towers );
 						};
@@ -515,7 +519,8 @@ function onDocumentMouseDown( event ) {
 				clickCannon = function() {
 						console.log("Clicked Cannon Tower")
   						clearBuildMenu();
-						updateGameUIbar("coins", -2);
+						coins = coins - cannonT.cost;
+						updateGameUIbar("coins", coins);
 						intersects[0].object.name = "tower";
 						addcannonT( intersects[0].object.position, scene, gridT, towers );
 						};
@@ -523,7 +528,8 @@ function onDocumentMouseDown( event ) {
 				clickNet = function() {
 						console.log("Clicked Net Tower")
   						clearBuildMenu();
-						updateGameUIbar("coins", -3);
+						coins = coins - pirateT.cost;
+						updateGameUIbar("coins", coins);
 						intersects[0].object.name = "tower";
 						addcannonT( intersects[0].object.position, scene, gridT, towers );
 						};
