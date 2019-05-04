@@ -11,7 +11,7 @@ function initGameUI(){
     coinDiv.appendChild(text);
     var coinVal = document.createElement("span");
     coinVal.setAttribute("id", "coinVal");
-    text = document.createTextNode("100");
+    text = document.createTextNode(coins);
     coinVal.appendChild(text);
     //coinDiv.appendChild(coinVal);
         
