@@ -499,42 +499,48 @@ function onDocumentMouseDown( event ) {
 				change tower add function to see other types of towers
 				*******************************************************/
 				
-				document.getElementById("build-musket-button").addEventListener("click", function () {
-  				console.log("Clicked Musket Tower")
-  				viewBuildMenu();
-				updateGameUIbar("coins", -1);
-				intersects[0].object.name = "tower";
-				addcannonT( intersects[0].object.position, scene, gridT, towers );
-				});
+				document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
+				document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
+				document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
+				document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
 				
-				document.getElementById("build-cannon-button").addEventListener("click", function () {
-  				console.log("Clicked Cannon Tower")
-  				viewBuildMenu();
-				updateGameUIbar("coins", -2);
-				intersects[0].object.name = "tower";
-				addcannonT( intersects[0].object.position, scene, gridT, towers );
-				});
+				clickMusket = function () {
+						console.log("Clicked Musket Tower")
+  						viewBuildMenu();
+						updateGameUIbar("coins", -1);
+						intersects[0].object.name = "tower";
+						addcannonT( intersects[0].object.position, scene, gridT, towers );
+						};
+
+				clickCannon = function() {
+						console.log("Clicked Cannon Tower")
+  						viewBuildMenu();
+						updateGameUIbar("coins", -2);
+						intersects[0].object.name = "tower";
+						addcannonT( intersects[0].object.position, scene, gridT, towers );
+						};
 				
-				document.getElementById("build-cannon-button").addEventListener("click", function () {
-  				console.log("Clicked Net Tower")
-  				viewBuildMenu();
-				updateGameUIbar("coins", -3);
-				intersects[0].object.name = "tower";
-				addcannonT( intersects[0].object.position, scene, gridT, towers );
-				});
+				clickNet = function() {
+						console.log("Clicked Net Tower")
+  						viewBuildMenu();
+						updateGameUIbar("coins", -3);
+						intersects[0].object.name = "tower";
+						addcannonT( intersects[0].object.position, scene, gridT, towers );
+						};
+						
+				clickCancel = function {
+						console.log("Clicked Cancel Build")
+  						viewBuildMenu();
+						};
 				
-				document.getElementById("build-cannon-button").addEventListener("click", function () {
-  				console.log("Clicked Net Tower")
-  				viewBuildMenu();
-				updateGameUIbar("coins", -3);
-				intersects[0].object.name = "tower";
-				addcannonT( intersects[0].object.position, scene, gridT, towers );
-				});
+				document.getElementById("build-musket-button").addEventListener("click", clickMusket);
 				
-				document.getElementById("build-cancel-button").addEventListener("click", function () {
-  				console.log("Clicked Cancel Build")
-  				viewBuildMenu();
-				});
+				document.getElementById("build-cannon-button").addEventListener("click", clickCannon);
+				
+				document.getElementById("build-net-button").addEventListener("click", clickNet);
+				
+				
+				
 			}
 			else {
 			
