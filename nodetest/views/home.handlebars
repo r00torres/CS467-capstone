@@ -275,11 +275,11 @@
 		Player coins = coins
 		
 		*/
-		var totWaves, curWave, timeXwave, lives;
+		var totWaves, timeXwave;
 		var coins = 100;
-		
-		initGameUI();
-
+		var curWave = 1;
+		var lives = 3;
+		initGameUI(coins, lives, waves);
 
 		//allows user to move the map
 		controls.enabled = true;
