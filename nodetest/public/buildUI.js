@@ -6,9 +6,9 @@ var netPrice = 5;
 
 var towerEvent = "none";
 
-var clickMusket = function ();
-var clickCannon = function ();
-var clickNet = function ();
+var clickMusket = function (){ };
+var clickCannon = function () { };
+var clickNet = function () { };
 var clickCancel = function() {
 			console.log("Clicked Cancel Build")
   			viewBuildMenu();
