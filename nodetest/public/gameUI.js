@@ -1,5 +1,5 @@
 //testing ui elements
-function initGameUI(){    
+function initGameUI(coins, lives, waves){    
     var gameUI = document.createElement("div");
     gameUI.setAttribute("id", "game-ui-bar");
     gameUI.setAttribute("class", "game-ui");
@@ -13,7 +13,6 @@ function initGameUI(){
     coinVal.setAttribute("id", "coinVal");
     text = document.createTextNode(coins);
     coinVal.appendChild(text);
-    //coinDiv.appendChild(coinVal);
         
     var livesDiv = document.createElement("span");
     livesDiv.setAttribute("id", "lives");
@@ -21,9 +20,8 @@ function initGameUI(){
     livesDiv.appendChild(text);
     var livesVal = document.createElement("span");
     livesVal.setAttribute("id", "livesVal");
-    text = document.createTextNode("0");
+    text = document.createTextNode(lives);
     livesVal.appendChild(text);
-    //livesDiv.appendChild(livesVal);
         
     var wavesDiv = document.createElement("span");
     wavesDiv.setAttribute("id", "wave");
@@ -31,9 +29,8 @@ function initGameUI(){
     wavesDiv.appendChild(text);
     var wavesVal = document.createElement("span");
     wavesVal.setAttribute("id", "wavesVal");
-    text = document.createTextNode("0");
+    text = document.createTextNode(waves);
     wavesVal.appendChild(text);
-    //wavesDiv.appendChild(wavesVal);
         
     document.getElementById("game-ui-bar").append(coinDiv);
     document.getElementById("game-ui-bar").append(coinVal);
