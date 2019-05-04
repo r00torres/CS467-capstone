@@ -6,6 +6,14 @@ var netPrice = 5;
 
 var towerEvent = "none";
 
+var clickMusket = function ();
+var clickCannon = function ();
+var clickNet = function ();
+var clickCancel = function() {
+			console.log("Clicked Cancel Build")
+  			viewBuildMenu();
+		};
+
 function initBuildUI(){
   var buildUI = document.createElement("div");
 	buildUI.setAttribute("id", "build-ui-container");
@@ -37,6 +45,8 @@ function initBuildUI(){
   document.getElementById("build-ui-container").append(cannonButton);
   document.getElementById("build-ui-container").append(netButton);
 	document.getElementById("build-ui-container").append(cancelButton);
+	
+	document.getElementById("build-cancel-button").addEventListener("click", clickCancel
 };
   
 initBuildUI();
