@@ -48,7 +48,7 @@
   display: table;
 }
 
-/* Add a background color on hover */
+/* Add a background color on disabled */
 .build-ui-button-group button:disabled {
   background-color: #3e8e41;
   cursor: not-allowed;
