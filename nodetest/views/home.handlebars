@@ -274,9 +274,10 @@
 		Current Wave = curWave
 		Time between Waves = timeXwave
 		Player lives = lives
+		Player coins = coins
 		
 		*/
-		var totWaves, curWave, timeXwave, lives;
+		var totWaves, curWave, timeXwave, lives, coins;
 
 
 		//allows user to move the map
@@ -491,25 +492,24 @@ function onDocumentMouseDown( event ) {
 			console.log(intersects);
 			
 			if(intersects[0].object.name == "buildable") {
-			
-				//change to player's current coins, price of musket, cannon, net
-				viewBuildMenu(10, 5, 5, 12);
 				
-				/*******************************************************
-				change tower add function to see other types of towers
-				*******************************************************/
+				//shows build options for player's current coin at this location (need to change first param to coin
+				//last param to cost of last tower
 				
-				document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
-				document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
-				document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
-				document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
+				viewBuildMenu(100, pirateT.cost, cannonT.cost, cannonT.cost);
 				
+				//remove the previous click event (which was to build for last location)
+				document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
+				document.getElementById("build-cannon-button").removeEventListener("click", clickCannon);
+				document.getElementById("build-net-button").removeEventListener("click", clickNet);
+				
+				//new build functions at this location
 				clickMusket = function () {
 						console.log("Clicked Musket Tower")
   						clearBuildMenu();
 						updateGameUIbar("coins", -1);
 						intersects[0].object.name = "tower";
-						addcannonT( intersects[0].object.position, scene, gridT, towers );
+						addpirateT( intersects[0].object.position, scene, gridT, towers );
 						};
 
 				clickCannon = function() {
@@ -527,16 +527,10 @@ function onDocumentMouseDown( event ) {
 						intersects[0].object.name = "tower";
 						addcannonT( intersects[0].object.position, scene, gridT, towers );
 						};
-						
-				clickCancel = function () {
-						console.log("Clicked Cancel Build")
-  						clearBuildMenu();
-						};
 				
+				//new events for on click at this location
 				document.getElementById("build-musket-button").addEventListener("click", clickMusket);
-				
 				document.getElementById("build-cannon-button").addEventListener("click", clickCannon);
-				
 				document.getElementById("build-net-button").addEventListener("click", clickNet);
 				
 			}
