@@ -114,29 +114,3 @@ function clearBuildMenu(){
 	buildCont.children[3].style.display = "none";
 
 };
-
-/*document.getElementById("build-musket-button").addEventListener("click", function () {
-  console.log("Clicked Musket Tower")
-  viewBuildMenu();
-	towerEvent = "buildMusket";
-});
-
-document.getElementById("build-cannon-button").addEventListener("click", function () {
-  console.log("Clicked Cannon Tower")
-  viewBuildMenu();
-	towerEvent = "buildCannon";
-});
-
-document.getElementById("build-net-button").addEventListener("click", function () {
-  console.log("Clicked Net Tower")
-  viewBuildMenu();
-	towerEvent = "buildNet";
-	
-});
-
-document.getElementById("build-cancel-button").addEventListener("click", function () {
-  console.log("Clicked Cancel Build")
-  viewBuildMenu();
-	towerEvent = "buildNothing";
-	
-});*/
