@@ -50,7 +50,7 @@
 
 /* Add a background color on hover */
 .build-ui-button-group button:disabled {
-  background-color: #808080;
+  background-color: #3e8e41;
   cursor: not-allowed;
 }
 
