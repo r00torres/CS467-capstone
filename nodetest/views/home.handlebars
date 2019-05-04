@@ -506,7 +506,7 @@ function onDocumentMouseDown( event ) {
 				
 				clickMusket = function () {
 						console.log("Clicked Musket Tower")
-  						viewBuildMenu();
+  						clearBuildMenu();
 						updateGameUIbar("coins", -1);
 						intersects[0].object.name = "tower";
 						addcannonT( intersects[0].object.position, scene, gridT, towers );
@@ -514,7 +514,7 @@ function onDocumentMouseDown( event ) {
 
 				clickCannon = function() {
 						console.log("Clicked Cannon Tower")
-  						viewBuildMenu();
+  						clearBuildMenu();
 						updateGameUIbar("coins", -2);
 						intersects[0].object.name = "tower";
 						addcannonT( intersects[0].object.position, scene, gridT, towers );
@@ -522,7 +522,7 @@ function onDocumentMouseDown( event ) {
 				
 				clickNet = function() {
 						console.log("Clicked Net Tower")
-  						viewBuildMenu();
+  						clearBuildMenu();
 						updateGameUIbar("coins", -3);
 						intersects[0].object.name = "tower";
 						addcannonT( intersects[0].object.position, scene, gridT, towers );
@@ -530,7 +530,7 @@ function onDocumentMouseDown( event ) {
 						
 				clickCancel = function () {
 						console.log("Clicked Cancel Build")
-  						viewBuildMenu();
+  						clearBuildMenu();
 						};
 				
 				document.getElementById("build-musket-button").addEventListener("click", clickMusket);
@@ -538,8 +538,6 @@ function onDocumentMouseDown( event ) {
 				document.getElementById("build-cannon-button").addEventListener("click", clickCannon);
 				
 				document.getElementById("build-net-button").addEventListener("click", clickNet);
-				
-				
 				
 			}
 			else {
