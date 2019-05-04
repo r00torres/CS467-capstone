@@ -104,6 +104,17 @@ function viewBuildMenu(coins, musketPrice, cannonPrice, netPrice) {
 
 viewBuildMenu();
 
+function clearBuildMenu(){
+	
+	var buildCont = document.getElementById("build-ui-container");
+	buildCont.style.display = "none";
+    	buildCont.children[0].style.display = "none";
+    	buildCont.children[1].style.display = "none";
+    	buildCont.children[2].style.display = "none";
+	buildCont.children[3].style.display = "none";
+
+};
+
 /*document.getElementById("build-musket-button").addEventListener("click", function () {
   console.log("Clicked Musket Tower")
   viewBuildMenu();
