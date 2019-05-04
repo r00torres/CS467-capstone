@@ -496,6 +496,8 @@ function onDocumentMouseDown( event ) {
 			
 			if(intersects[0].object.name == "buildable") {
 				
+				var possibleCoins;
+				
 				//shows build options for player's current coin at this location (need to change first param to coin
 				//last param to cost of last tower
 				
@@ -510,8 +512,8 @@ function onDocumentMouseDown( event ) {
 				clickMusket = function () {
 						console.log("Clicked Musket Tower")
   						clearBuildMenu();
-						coins = coins - pirateT.cost;
-						updateGameUIbar("coins", coins);
+						possibleCoins = coins - pirateT.cost;
+						updateGameUIbar("coins", possibleCoins);
 						intersects[0].object.name = "tower";
 						addpirateT( intersects[0].object.position, scene, gridT, towers );
 						};
@@ -519,8 +521,8 @@ function onDocumentMouseDown( event ) {
 				clickCannon = function() {
 						console.log("Clicked Cannon Tower")
   						clearBuildMenu();
-						coins = coins - cannonT.cost;
-						updateGameUIbar("coins", coins);
+						possibleCoins = coins - cannonT.cost;
+						updateGameUIbar("coins", possibleCoins);
 						intersects[0].object.name = "tower";
 						addcannonT( intersects[0].object.position, scene, gridT, towers );
 						};
@@ -528,8 +530,8 @@ function onDocumentMouseDown( event ) {
 				clickNet = function() {
 						console.log("Clicked Net Tower")
   						clearBuildMenu();
-						coins = coins - pirateT.cost;
-						updateGameUIbar("coins", coins);
+						possibleCoins = coins - pirateT.cost;
+						updateGameUIbar("coins", possibleCoins);
 						intersects[0].object.name = "tower";
 						addcannonT( intersects[0].object.position, scene, gridT, towers );
 						};
