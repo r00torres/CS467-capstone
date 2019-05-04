@@ -46,7 +46,7 @@ function initBuildUI(){
   document.getElementById("build-ui-container").append(netButton);
 	document.getElementById("build-ui-container").append(cancelButton);
 	
-	document.getElementById("build-cancel-button").addEventListener("click", clickCancel
+	document.getElementById("build-cancel-button").addEventListener("click", clickCancel);
 };
   
 initBuildUI();
