@@ -1,9 +1,3 @@
-//testing variables
-var coins = 10;
-var musketPrice = 5;
-var cannonPrice = 5;
-var netPrice = 5;
-
 var towerEvent = "none";
 
 var clickMusket = function (){ };
@@ -51,7 +45,7 @@ function initBuildUI(){
   
 initBuildUI();
 
-function viewBuildMenu(coins, musketPrice, cannonPrice, netPrice) {
+function viewBuildMenu(coin, musketPrice, cannonPrice, netPrice) {
   
   var buildCont = document.getElementById("build-ui-container");
   if (buildCont.style.display === "none") {
@@ -69,23 +63,23 @@ function viewBuildMenu(coins, musketPrice, cannonPrice, netPrice) {
 
     //if coins < musket price
     //make musket no click
-    if(coins < musketPrice){
+    if(coin < musketPrice){
       buildCont.children[0].disabled = true;
     }
 
     //if coins < cannon price
     //make no click
-    if(coins < cannonPrice){
+    if(coin < cannonPrice){
       buildCont.children[1].disabled = true;
     }
 
     //if coins < net price
     //make no click
-    if(coins < netPrice){
+    if(coin < netPrice){
       buildCont.children[2].disabled = true;
     }
 	 
-  	if(coins < musketPrice && coins < cannonPrice && coins < netPrice){
+  	if(coin < musketPrice && coin < cannonPrice && coin < netPrice){
 	  	//change cancel button to "cannot build, exit build mode"
 	}
 	  
