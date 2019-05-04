@@ -4,10 +4,10 @@ let oviraptor = {
   reward: 5
 }
 
-function addOviGLTF( scene, dinos ){
+function addOviGLTF( scene, dinos, delay ){
   console.log( "dinos gltf", dinos );
   const oviPosition = new THREE.Vector3( 0, 0, 0 );
-	var ovi1 = dinoLoader( '/static/dinos/raptor1.glb', oviPosition, dinos );
+	var ovi1 = dinoLoader( '/static/dinos/raptor1.glb', oviPosition, dinos, delay );
   //scene.add(newOvi);
   //dinos.push([ovi1,oviraptor]);
 }

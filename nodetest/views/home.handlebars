@@ -14,7 +14,6 @@
 <script src="/static/trex.js"></script>
 
 <script type='text/javascript' src='/static/Tween.js'></script>
-
 <script>
 
 	//Global variables
@@ -23,9 +22,16 @@
 	//Game variables
 	var gridT = [];
 
+	var dinos = [];
 
 
-
+	//used to make box follow a line
+	//////
+	/*var sbox, spline, counter = 0;
+	var tangent = new THREE.Vector3();
+	var axis = new THREE.Vector3();
+	var up = new THREE.Vector3(0,0,1);
+	//////*/
 
 	/*We need to RENDER the SCENE with a CAMERA*/
 	function init() {
@@ -92,7 +98,8 @@
 		scene.add(ambientLight);
 
 		//Load the menu
-		menu();
+		//menu();
+		play();
 		//var dinos = [];
 		//var ovi1 = addOviGLTF( scene, dinos );
 		//dinos.push([ovi1,oviraptor]);
@@ -102,8 +109,81 @@
 		//requestAnimationFrame(render);
 
 
+	//used to create a path that an object can follow
+	//and will actually turn when following
+	//works for an object created in int function, but not for dinos 
+	//rendered with the loader
+	/*var numPoints = 50;
 
+	var points = [];
+	for(var i=0; i<map.path1.length; i++)
+	{
+		points.push(new THREE.Vector3(map.path1[i][0], 0, map.path1[i][1]));
 	}
+
+	spline = new THREE.CatmullRomCurve3(points);
+
+	var smat = new THREE.LineBasicMaterial({color: 0xff00f0});
+	var sgeo = new THREE.Geometry();
+	var splinePoints = spline.getPoints(numPoints);
+	for(var i=0; i<splinePoints.Length; i++){
+		sgeo.vertices.push(splinePoints[i]);
+	} 
+
+	var sline = new THREE.Line(sgeo, smat);
+	scene.add(sline);
+
+	sgeo = new THREE.BoxGeometry(2, 1, 3);
+	smat = new THREE.MeshBasicMaterial({color: 0xff0000});
+	sbox = new THREE.Mesh(sgeo, smat);
+	sbox.position.x = -18;
+	sbox.position.z = -18;
+	sbox.position.y = 1;
+	scene.add(sbox);*/
+
+	//animate();
+	//setInterval(moveBox, 10);
+	}
+
+	/*
+	function moveDino(dino){
+			dino.position.copy(spline.getPointAt(counter));
+
+			tangent = spline.getTangentAt(counter).normalize();
+			axis.crossVectors(up, tangent).normalize;
+			var radians = Math.acos(up.dot(tangent));
+			dino.quaternion.setFromAxisAngle(axis, radians);
+			counter += 0.006;
+	}
+
+	//function that moves the box
+	//actually turns the box when following the line
+	//uses math and magic to calculate what direction to rotate
+	//the box in
+	function moveBox(){
+			console.log("counter ", counter);
+			sbox.position.copy(spline.getPointAt(counter));
+			console.log("point ", spline.getPointAt(counter));
+			console.log("position ", sbox.position);
+
+			tangent = spline.getTangentAt(counter).normalize();
+			console.log("tangent", tangent);
+			axis.crossVectors(up, tangent).normalize;
+			var radians = Math.acos(up.dot(tangent));
+			sbox.quaternion.setFromAxisAngle(axis, radians);
+			counter += 0.01;
+	}*/
+
+
+
+
+
+
+
+
+
+
+	//////////////////////////////////////////////
 
 
 		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
@@ -115,7 +195,6 @@
 		renderer.setSize( window.innerWidth, window.innerHeight );
 
 	}
-
 
 
 
@@ -140,13 +219,17 @@
 
 	//Adding a gltf loader for passing creating an object at a location
 	//Derived from
+	
+	//added a health bar and made the dino and health bar into a group
 	const mixers = [];
 	const clock = new THREE.Clock();
-	function dinoLoader( object, position, dinos ) {
+	function dinoLoader( object, position, dinos, delay ) {
 
 		console.log("dinos", dinos);
 
-		var position = {x: map.path1[0][0], y: 0, z: map.path1[0][1]};
+		//two position variables were creating conflicts
+		//dino does not get its position set individually now
+		//var position = {x: map.path1[0][0], y: 0, z: map.path1[0][1]};
 
 		//create a target object with the x and z coordinates from the enemy path
 		var target = {};
@@ -183,20 +266,48 @@
 			//dinos.push(dino);
 			//scene.add(dino);
 			model.name = "oviraptor";
-			model.position.x = map.path1[0][0];
-			model.position.z = map.path1[0][1];
+			//model.position.x = map.path1[0][0];
+			//model.position.z = map.path1[0][1];
 			model.userData.health = oviraptor.health;
 			model.userData.speed = oviraptor.speed;
 			model.userData.reward = oviraptor.reward;
 			model.type = "Object3D";
 
+			//creating the health bar
+			//it has 4 sections that could equal 1/4 of the health of the dino
+			var barGemetry = new THREE.BoxGeometry(.25, .25, 1, 1, 1, 4);
+			var barMaterial = new THREE.MeshBasicMaterial({color: 0xff0000});
+			var healthBar = new THREE.Mesh(barGemetry, barMaterial);
+			//healthBar.position.x = map.path1[0][0];
+			//healthBar.position.z = map.path1[0][1];
 
+			//make bar float above the dino
+			healthBar.position.y = 3;
+			//scene.add(healthBar);
+			//model.add(healthBar);
+
+			/*group = new THREE.Group();
+			group.add(model);
+			group.add(healthBar);*/
+
+			//create a new group out of a THREE.Object3D
+			//this allows the dino and bar to be moved together
+			//the dino and health bar position are not set individually
+			//but the group's position is set instead
+			group = new THREE.Object3D();
+			group.add(model);
+			group.add(healthBar);
+			group.position.x = map.path1[0][0];
+			group.position.z = map.path1[0][1];
 
 			console.log("loadDino model:", model);
 			//model.add(dino);
-			scene.add( model );
+			scene.add( group );
 			dinos.push([model,oviraptor]);
-			dinoPath( dinos, target );
+			console.log("group ", group);
+			console.log("group pos ", group.position);
+			dinoPath( group, oviraptor.speed, target, delay );
+			//moveDino(model);
 
 		};
 
@@ -411,177 +522,64 @@
 			//get the number of arrays (map0, map1, map2, map3)
 			var arrX = m.length;
 			console.log("arr", arrX, arrZ);
-
-			//Testing: Loading assets
-			var index = 0;
-			var files = ['/static/enviro/palmtrees0.obj']
-			var loader = new THREE.OBJLoader();
-			//var groundMat;
-
+			
 			//
 			for( var i = 0, x = -(arrX/2); x < (arrX/2); x++, i++ ){
 				var gridRow = [];
 				for( var j = 0, z= -(arrZ/2); z < (arrZ)/2; z++, j++ ){
 					console.log("\n",x,z, m[i][j], i, j);
-
+							
 					//Creating new variable plane every instance and adding to
 					//the scene. Position offset by 4 because it seems to be the
 					//internal size of that object
-					if(m[i][j] == '.'){
-
+					if(m[i][j] == '.'){ 
 						var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x416600 } ) );
 						plane.position.x = 4*x+2;
 						plane.position.z = 4*z+2;
-
 						//name need for raycaster build logic
 						plane.name = "buildable";
-
-
-
+						gridRow.push( plane );
 						//for testing raycaster
 						gridT.push( plane );
 						scene.add( plane );
-
-						console.log("top of builder...");
-
-						//TESTING loADER
-
-						function loadBuildable( x, z ) {
-
-							console.log( "building x z ", x, z );
-
-							var groundMat = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-
-							loader.load('/static/enviro/palmtrees0.obj',
-
-								function ( object ) {
-
-									object.traverse(function(child) {
-
-										if (child instanceof THREE.Mesh){
-
-											child.material = groundMat;
-
-										}
-									});
-
-									function loadLand(object, x, z ) {
-
-										object.name = "buildable";
-
-										object.position.x = 4*x+2;
-										object.position.z = 4*z+2;
-										object.position.y = 0.1;
-
-										object.scale.set( 0.2, 0.2, 0.2 );
-
-										scene.add( object );
-
-									}
-									loadLand( object, x, z);
-								}
-
-							);
-
-						}
-
-						loadBuildable( x, z );
-
-						console.log("bottom of builder...");
-
-
-					}
-
+					} 
 					else if (m[i][j] == '*'){
 						var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xf2d527 } ) );
 						plane.position.x = 4*x+2;
 						plane.position.z = 4*z+2;
-						plane.name = "pather";
-						//gridRow.push( plane );
-
+						gridRow.push( plane );
 						path.push(plane);
-
 						//for testing raycaster
 						gridT.push( plane );
 						scene.add( plane );
-
-						//TESTING loADER
-						console.log("******");
-
-						function loadP( x, z ) {
-
-							console.log( "path x z ", x, z );
-
-							var groundMat = new THREE.MeshBasicMaterial( { color: 0xffff00 } );
-
-							loader.load('/static/enviro/pathjoined.obj',
-
-								function ( feets ) {
-
-									feets.traverse(function(child) {
-
-										if (child instanceof THREE.Mesh){
-
-											child.material = groundMat;
-
-										}
-									});
-
-									function addPath(object, x, z ) {
-
-										feets.name = "pather";
-
-										feets.position.x = 4 * x + 2;
-										feets.position.z = 4 * z + 2;
-										feets.position.y = 0.1;
-
-										feets.scale.set( 0.2, 0.2, 0.2 );
-
-										scene.add( feets );
-
-									}
-									addPath( feets, x, z);
-								}
-
-							);
-
-						};
-
-						loadP( x, z );
 					}
-
 					else if (m[i][j] == 's'){
-						console.log("sssssssssssssssssss");
 						var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x4568c2 } ) );
 						plane.position.x = 4*x+2;
 						plane.position.z = 4*z+2;
 						plane.name = "start";
-						//gridRow.push( plane );
+						gridRow.push( plane );
 						console.log("start ", plane);
-
 						//for testing raycaster
 						gridT.push( plane );
 						scene.add( plane );
-					}
-
+					}	
 					else if (m[i][j] == 'e'){
 						var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xa12b0d } ) );
 						plane.position.x = 4*x+2;
 						plane.position.z = 4*z+2;
 						plane.name = "end";
-						//gridRow.push( plane );
+						gridRow.push( plane );
 						console.log("end", plane);
-
 						//for testing raycaster
 						gridT.push( plane );
 						scene.add( plane );
-					}
+					}					
 				}
 				gridTiles.push( gridRow );
 				console.log("gridRow", gridRow );
 			}
 		}
-
 				//addTiles(m);
 		addTiles(map.level1);
 		console.log("path ", path);
@@ -616,10 +614,37 @@
 		scene.add( line );
 
 		//array to hold the current dinos in play
-		var dinos = [];
+		//var dinos = [];
 
 		//add an oviraptor
-		addOviGLTF( scene, dinos );
+		//addOviGLTF( scene, dinos );
+		//addOviGLTF( scene, dinos );
+
+		/////////////////////////////////////////////////////
+		////////////////////////////////////////////////////
+		//start the waves
+		var delay = 0;
+		for(var i=0; i<3; i++)
+		{
+			addOviGLTF(scene, dinos, delay);
+			delay += 500;
+		}
+
+		delay += 10000;
+
+		for(var i=0; i<4; i++)
+		{
+			addOviGLTF(scene, dinos, delay);
+			delay += 500;
+		}
+
+		delay += 10500;
+
+		for(var i=0; i<5; i++)
+		{
+			addOviGLTF(scene, dinos, delay);
+			delay += 500;
+		}
 		//addOvi(scene, dinos);
 		//addRaptor(scene, dinos);
 		//addTrex(scene, dinos);
@@ -709,18 +734,108 @@
 		}
 
 	}
+	
+	var points = [];
+	for(var i=0; i<map.path1.length; i++)
+	{
+		points.push(new THREE.Vector3(map.path1[i][0], 0, map.path1[i][1]));
+	}
 
-	function dinoPath( dinos, target ){
+	spline = new THREE.CatmullRomCurve3(points);
+
+	//function that sends a dino down the path
+	//target is the path determined by the map 
+	//delay is determined by the wave
+	//uses onUpdate to change the rotation of the dino in relation to the y axis
+	function dinoPath(dino, speed, target, delay)
+	{
+		//var count = 0;
+		dino.rotation.y = 300;
+		//console.log("dino qurt",dino.quaternion);
+		var tan = new THREE.Vector3();
+		var ax = new THREE.Vector3();
+		var u = new THREE.Vector3(0,0,1);
+		var move = new TWEEN.Tween(dino.position)
+			.to(target, speed).delay(delay)
+			.onUpdate(function(){
+				//console.log("counter", counter);
+				/*tan = spline.getTangentAt(count).normalize();
+				ax.crossVectors(u, tan).normalize;
+				var radians = Math.acos(u.dot(tan));
+				dino.quaternion.setFromAxisAngle(ax, radians);
+				count += 1;*/
+				//console.log("tan", tan);
+				//console.log("ax", ax);
+
+				//to the left, good 
+				if(dino.position.z == -6 && dino.position.x > -18 && dino.position.x < -6){
+					dino.rotation.y = 0;
+				}
+
+				//down, good 
+				else if(dino.position.x == -6 && dino.position.z < -6 && dino.position.z > -10){
+					dino.rotation.y = 89.5;
+				}
+
+				//to the left, good
+				else if(dino.position.z == -10 && dino.position.x > -5 && dino.position.x < 2){
+					dino.rotation.y = 0;
+				}
+
+				//up, good
+				else if(dino.position.x == 2 && dino.position.z > -10 && dino.position.z < -6){
+					dino.rotation.y = 300;
+				}
+
+				//left, good
+				else if(dino.position.z == -6 && dino.position.x > 2 && dino.position.x < 6){
+					dino.rotation.y = 0;
+				}
+
+				//up, good
+				else if(dino.position.x == 6 && dino.position.z > -5 && dino.position.z < 10){
+					dino.rotation.y = 300;
+				}
+
+				//left, good
+				else if(dino.position.z == 10 && dino.position.x > 6 && dino.position.x < 10){
+					dino.rotation.y = 0;
+				}
+
+				//down, good
+				else if(dino.position.x == 10 && dino.position.z < 10 && dino.position.z > 2){
+					dino.rotation.y = 89.5;
+				}
+
+				//left, good
+				else if(dino.position.z == 2 && dino.position.x > 10 && dino.position.x < 18){
+					dino.rotation.y = 0;
+				}
+
+				//up, disappears
+				else if(dino.position.x == 18 && dino.position.z > 2 && dino.position.z < 18){
+					dino.rotation.y = 300;
+				}
+				//console.log("dino pos ", dino.position);
+			})
+			.start();
+		//removes the dino from the scene once it has reached the end
+		move.onComplete(function(){
+				scene.remove(dino);
+		});
+	}
+	/*function dinoPath( dinos, target, delay ){
 	for(var i=0; i<dinos.length; i++)
 	{
 		console.log("dino length = ", dinos.length, i);
+		console.log("delay", delay);
 		var moveOvi = new TWEEN.Tween(dinos[i][0].position)
-			.to(target, dinos[i][1].speed)
+			.to(target, dinos[i][1].speed).delay(delay)
 			.start();
 		moveOvi.repeat(1000);
 		console.log( "moveOvi", moveOvi );
 	}
-}
+}*/
 	// function addOviGLTF( scene, dinos ){
 	//   console.log( "dinos gltf", dinos );
 	//   const oviPosition = new THREE.Vector3( 0, 0, 0 );
