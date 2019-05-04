@@ -96,7 +96,6 @@ function viewBuildMenu(coins, musketPrice, cannonPrice, netPrice) {
     buildCont.children[1].style.display = "none";
     buildCont.children[2].style.display = "none";
 	  buildCont.children[3].style.display = "none";
-    //possible exit button
   }
   console.log("Within viewBuildMenu")
 	
