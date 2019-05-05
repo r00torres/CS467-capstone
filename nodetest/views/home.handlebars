@@ -20,12 +20,16 @@
 	//Global variables
 	var scene, camera, renderer, controls, raycaster, mouse;
 
-	//Game variables
+	//animation variables
+	const mixers = [];
+	const clock = new THREE.Clock();
+
+	//Game map variables
 	var gridT = [];
+	var dinos = [];
+	var towers = [];
 
-
-
-
+	var collisionSphere = []
 
 	/*We need to RENDER the SCENE with a CAMERA*/
 	function init() {
@@ -47,26 +51,15 @@
 
 		renderer.setPixelRatio( window.devicePixelRatio );
 
-		renderer.gammaFactor = 2.2;
+		//for use with gltf/glb files
 		renderer.gammaOutput = true;
-
-		renderer.physicallyCorrectLights = true;
-
-
+		renderer.gammaFactor = 2.2;
 
 		//Add the renderer to the html document
 		document.body.appendChild( renderer.domElement );
 
 			//three.js https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
 		window.addEventListener( 'resize', onWindowResize, false );
-
-		renderer.setAnimationLoop( () => {
-			//update();
-			render();
-		});
-
-		//renderer.render(scene, camera);
-
 
 		/*Adding orbit controls. Allows camera to move*/
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
@@ -80,6 +73,7 @@
 		console.log("controls",controls);
 		console.log("camera",camera);
 
+		//for a static menu
 		//controls.enableKeys = false;
 
 		//Raycaster
@@ -90,23 +84,14 @@
 		//will show up
 		var ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
 		scene.add(ambientLight);
-
+		animate();
 		//Load the menu
 		menu();
-		//var dinos = [];
-		//var ovi1 = addOviGLTF( scene, dinos );
-		//dinos.push([ovi1,oviraptor]);
-
 		//play()
-
-		//requestAnimationFrame(render);
-
-
 
 	}
 
-
-		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
+	//https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
 	function onWindowResize() {
 
 		camera.aspect = window.innerWidth / window.innerHeight;
@@ -116,32 +101,7 @@
 
 	}
 
-
-
-
-	function render() {
-
-		//controls.update();
-
-		//requestAnimationFrame(animate);
-		TWEEN.update();
-		// 	renderer.render( scene, camera );
-		controls.update();
-
-		const delta = clock.getDelta();
-
-		mixers.forEach( ( mixer ) => { mixer.update( delta ); } );
-
-		renderer.render( scene, camera );
-
-		//requestAnimationFrame( render );
-
-	}
-
 	//Adding a gltf loader for passing creating an object at a location
-	//Derived from
-	const mixers = [];
-	const clock = new THREE.Clock();
 	function dinoLoader( object, position, dinos ) {
 
 		console.log("dinos", dinos);
@@ -160,28 +120,35 @@
 			target.z.push(map.path1[i][1]);
 		}
 
+
+		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_multiple.html
+		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_keyframes.html
 		const loader = new THREE.GLTFLoader();
 
 		const onLoad = ( gltf, position ) => {
 
-			const model = gltf.scene;
+
+			//var grouping;
+			// var geometry = new THREE.SphereGeometry( 8, 32, 32 );
+			// var material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+			// var sphere = new THREE.Mesh( geometry, material );
+			// scene.add(sphere);
+			// collisionSphere.push(sphere);
+
+			var model = gltf.scene;
 
 			model.position.copy( position );
 
-			const animation = gltf.animations[ 0 ];
+			var animation = gltf.animations[ 0 ];
 
-			const mixer = new THREE.AnimationMixer( model );
+			var mixer = new THREE.AnimationMixer( model );
 			mixers.push( mixer );
 
-			const action = mixer.clipAction( animation );
+			var action = mixer.clipAction( animation );
 			action.play();
 
-			//model.add( dino );
-			//model.name = "oviraptor";
-
 			model.scale.set( 0.3, 0.3, 0.3 );
-			//dinos.push(dino);
-			//scene.add(dino);
+
 			model.name = "oviraptor";
 			model.position.x = map.path1[0][0];
 			model.position.z = map.path1[0][1];
@@ -189,14 +156,17 @@
 			model.userData.speed = oviraptor.speed;
 			model.userData.reward = oviraptor.reward;
 			model.type = "Object3D";
-
-
+			//model.computeBoundingSphere();
 
 			console.log("loadDino model:", model);
 			//model.add(dino);
+			//group.add( sphere );
+			//group.add( model );
 			scene.add( model );
 			dinos.push([model,oviraptor]);
 			dinoPath( dinos, target );
+
+
 
 		};
 
@@ -212,14 +182,11 @@
 
 	}
 
-
-
+	//Creating the opening view of the game's menu
 	function menu() {
 
 		//disables users ability to move around menu
 		controls.enabled = false;
-
-
 
 		/*Adding a play button*/
 
@@ -244,8 +211,6 @@
 			//Pushing to the tile array
 		gridT.push( playButton );
 
-
-
 		/*Adding a Credits button*/
 
 			//Creating a plane
@@ -269,19 +234,15 @@
 			//Pushing to the tile array
 		gridT.push( creditsButton );
 
-
-
 		//Add buttons to the scene
 		scene.add( playButton );
 		scene.add( creditsButton );
-
 
 		//Remove right click menu and add object clicking
 		document.addEventListener( 'contextmenu', function( event ) { event.preventDefault() }, false );
 		document.addEventListener( 'click', menuSelect, false );
 
 		var menuScope = this;
-
 
 		function menuSelect( event ) {
 
@@ -332,7 +293,6 @@
 						//Show credit screen
 
 
-
 					}
 
 				}
@@ -345,21 +305,7 @@
 
 	}
 
-
-
-
-
-
-	//!!!!!!!!may want to add parameters to pass in map and rules to play?
-
-	/*
-
-	function will take the map array and add it to the scene
-
-	Iterate through the arrays
-	i, j will be used in order to offset the positions
-
-	*/
+	//Creating the game engine and functionality
 	function play() {
 
 		/*
@@ -373,6 +319,7 @@
 
 		*/
 		var totWaves, curWave, timeXwave, lives;
+
 
 
 		//allows user to move the map
@@ -616,10 +563,25 @@
 		scene.add( line );
 
 		//array to hold the current dinos in play
-		var dinos = [];
+		//var dinos = [];
 
 		//add an oviraptor
 		addOviGLTF( scene, dinos );
+
+		// var towerRay = new THREE.Raycaster();
+		// var starting = new THREE.Vector3( );
+		// var ptc = new THREE.Vector3( 20, 1, 0 ); //default 0,0,0
+		// towerRay.set( starting, ptc );
+		// var intersected = towerRay.intersectObjects( collisionSphere )
+		// //console.log(intersected);
+		//
+		// if( intersected.length != 0 ){
+		// 	console.log("intersected");
+		// }
+		// else {
+		// 	//console.log("not intersected");
+		// }
+	//	addOviGLTF( scene, dinos );
 		//addOvi(scene, dinos);
 		//addRaptor(scene, dinos);
 		//addTrex(scene, dinos);
@@ -651,7 +613,7 @@
 		console.log("dinos array", dinos );
 
 		//array to hold created towers
-		var towers = [];
+		//var towers = [];
 
 		function tileHover( event ) {
 
@@ -700,6 +662,19 @@
 				change tower add function to see other types of towers
 				*******************************************************/
 				addcannonT( intersects[0].object.position, scene, gridT, towers );
+
+				//testing tower locations for raycasting
+				if ( towers.length == 1 ) {
+					console.log( "dinos ", dinos );
+					//attack(towers, dinos);
+				}
+				else if ( towers.length > 1 ) {
+					var tc = towers[0].children;
+		      console.log( "towers",towers[0] );
+		      console.log( "t", tc[0].position );
+
+				}
+
 			}
 			else {
 
@@ -710,49 +685,59 @@
 
 	}
 
+	//Creating the dino's path down the map
 	function dinoPath( dinos, target ){
-	for(var i=0; i<dinos.length; i++)
-	{
-		console.log("dino length = ", dinos.length, i);
-		var moveOvi = new TWEEN.Tween(dinos[i][0].position)
-			.to(target, dinos[i][1].speed)
-			.start();
-		moveOvi.repeat(1000);
-		console.log( "moveOvi", moveOvi );
+		for(var i=0; i<dinos.length; i++)
+		{
+			console.log("dino length = ", dinos.length, dinos);
+			var moveOvi = new TWEEN.Tween(dinos[i][0].position)
+				.to(target, dinos[i][1].speed)
+				.start();
+			moveOvi.repeat(1000);
+			console.log( "moveOvi", moveOvi );
+		}
 	}
-}
-	// function addOviGLTF( scene, dinos ){
-	//   console.log( "dinos gltf", dinos );
-	//   const oviPosition = new THREE.Vector3( 0, 0, 0 );
-	// 	modelLoader( '/static/dinos/raptor1.glb', oviPosition );
-	//   //scene.add(newOvi);
-	//   //dinos.push([newOvi,oviraptor]);
-	// }
 
 	init();
 
-
 	/*Rendering the scene https://www.august.com.au/blog/animating-scenes-with-webgl-three-js/*/
+	//animate();
 
-	// animate();
-	//
-	// function animate(){
-	// 	requestAnimationFrame(animate);
-	// 	TWEEN.update();
-	// 	renderer.render( scene, camera );
-	// 	controls.update();
-	// }
+	function animate(){
+
+
+		if( towers.length > 1 ){
+			for( var i = 0; i < towers.length; i++ ) {
+	    	//console.log("for i", i );
+	      var tc = towers[i].children;
+	      for( var j = 0; j < tc.length; j=j+2) {
+					attack( towers, dinos );
+	        //radiusCheck( tc[j+1].userData.attackRadius, tc[j].position)
+	        //console.log("or herer?");
+	      };
+			};
+
+			//attack( towers, dinos );
+		}
+
+		requestAnimationFrame(animate);
+		TWEEN.update();
+		const delta = clock.getDelta();
+		mixers.forEach( ( mixer ) => {
+			mixer.update( delta );
+		});
+		renderer.render( scene, camera );
+		controls.update();
+	}
+
 	/*
 
 	Resources:
-
-	Rendering the scene:
 	https://www.august.com.au/blog/animating-scenes-with-webgl-three-js/
 	https://threejs.org/docs/#manual/en/introduction/Creating-a-scene
 
 
 
 	*/
-
 
 </script>
