@@ -95,6 +95,14 @@ function addcannonT( object, scene, gridT, towers ){
 
 }
 
+function deadDino( d ){
+  console.log("DEAD DINO ID",d.uuid);
+  scene.remove( d );
+  console.log("removing", d.uuid);
+  //console.log("dinos", d);
+  console.log("after", dinos);
+}
+
 //May want to implement a "starting tower" to mitigate the transfer from
 //what appears to be an array to an object
 function attack( towers, dinos ) {
@@ -133,13 +141,15 @@ function attack( towers, dinos ) {
             //console.log("or herer?");
             //console.log("outside")
             if(dinos[d][0].userData.health <= 0){
+
               console.log(dinos[d][0].userData.health);
+              console.log(dinos[d][0].uuid);
+              console.log("dl", dinos.length);
+              dinos.splice(d, 1);
+
+              console.log("after", dinos.length);
               //dinos.pop();
-              scene.remove(dinos[d][0]);
-              console.log("removing");
-              console.log("dinos", dinos);
-              dinos.pop();
-              console.log("after", dinos);
+
             }
           }
         }
@@ -158,7 +168,7 @@ function attack( towers, dinos ) {
     // console.log( "dtc:", )
   }
 
-  function radiusCheck( towerRadius, towerLoc, dinos, attackSpeed, towerTime, tc ) {
+  function radiusCheck( towerRadius, towerLoc, dino, attackSpeed, towerTime, tc ) {
     //console.log("here?");
     //console.log( "dinos", dinos );
 
@@ -192,10 +202,10 @@ function attack( towers, dinos ) {
 		//setTimeout( function() {
 
     //if the dino is within the radius...
-    if( towerLoc.distanceTo( dinos.position ) < towerRadius ){
+    if( towerLoc.distanceTo( dino.position ) < towerRadius ){
 			//console.log("intersected", towerTime, clock.elapsedTime);
       //Create a line between the dino and tower
-      console.log( "dinos", dinos );
+      //console.log( "dinos", dinos );
       var towerToDinoLine = [];
       // var tmaterial = new THREE.LineBasicMaterial( { color: 0x0000ff } );
       // //var tgeometry = new THREE.BufferGeometry();
@@ -221,7 +231,7 @@ function attack( towers, dinos ) {
       towerv3lineAdj.copy( tc.position );
       towerv3lineAdj.y = 1;
       var dinov3lineAdj = new THREE.Vector3;
-      dinov3lineAdj.copy( dinos.position );
+      dinov3lineAdj.copy( dino.position );
       dinov3lineAdj.y = 0;
       towerToDinoLine.push( towerv3lineAdj.x, towerv3lineAdj.y, towerv3lineAdj.z);
       towerToDinoLine.push( dinov3lineAdj.x, dinov3lineAdj.y, dinov3lineAdj.z);
@@ -235,7 +245,7 @@ function attack( towers, dinos ) {
 
       if( tc.userData.towerTime+attackSpeed < clock.elapsedTime ) {
 
-        console.log("shooting");
+        console.log("shooting", dino.uuid);
         //var projGroup = new THREE Group();
         var sgeo = new THREE.SphereBufferGeometry( .2, 7, 7 );
         var smat = new THREE.MeshBasicMaterial( { color: 0x000000 } );
@@ -251,15 +261,17 @@ function attack( towers, dinos ) {
 
         scene.add( sph );
 
-        console.log("positioning dino t ", dinos.position, tc.position, tc)
+        console.log("positioning dino t ", dino.position, tc.position, tc)
         console.log("line...d t", dinov3lineAdj, towerv3lineAdj );
         console.log("line", line);
         tc.userData.towerTime = clock.elapsedTime;
-        dinos.userData.health--;
+        dino.userData.health--;
         console.log("POW!", clock.elapsedTime);
-        console.log("DINO HEALTH: ", dinos.userData.health);
-        if(dinos.userData.health <= 0){
-          console.log("Dead dino",dinos.userData.health);
+        console.log("DINO HEALTH: ", dino.userData.health);
+        if(dino.userData.health <= 0){
+          console.log("Dead dino",dino.userData.health);
+          deadDino( dino );
+          //deadDino(dinos);
         }
 
       }
