@@ -6,6 +6,8 @@
 <script src="/static/MTLLoader.js"></script>
 <script src="/static/WebGL.js"></script>
 
+<script src="/static/stats.min.js"></script>
+
 <script src="/static/map1.js"></script>
 <script src="/static/pirateT.js"></script>
 <script src="/static/cannonT.js"></script>
@@ -20,6 +22,8 @@
 	//Global variables
 	var scene, camera, renderer, controls, raycaster, mouse;
 
+	var container, stats;
+
 	//animation variables
 	const mixers = [];
 	const clock = new THREE.Clock();
@@ -28,11 +32,25 @@
 	var gridT = [];
 	var dinos = [];
 	var towers = [];
+	var projectiles = [];
 
-	var collisionSphere = []
+	//var collisionSphere = []
 
 	/*We need to RENDER the SCENE with a CAMERA*/
 	function init() {
+
+		//for stats
+		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_interactive_lines.html
+		container = document.createElement('div');
+		document.body.appendChild( container );
+
+		var info = document.createElement( 'div' );
+		info.style.position = 'absolute';
+		info.style.top = '10px';
+		info.stylewidth = '100%';
+		info.style.textAlign = 'center';
+		container.appendChild( info );
+
 
 		//Create a new scene
 		scene = new THREE.Scene();
@@ -63,6 +81,10 @@
 
 		/*Adding orbit controls. Allows camera to move*/
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+		stats = new Stats();
+		container.appendChild( stats.dom );
+
 		controls.target = new THREE.Vector3( 0, 5, 0 );
 
 		//controls.target = menu.position;
@@ -320,7 +342,9 @@
 		*/
 		var totWaves, curWave, timeXwave, lives;
 
+		var towerClock = new THREE.Clock();
 
+		clock.startTime;
 
 		//allows user to move the map
 		controls.enabled = true;
@@ -567,6 +591,7 @@
 
 		//add an oviraptor
 		addOviGLTF( scene, dinos );
+		addOviGLTF( scene, dinos );
 
 		// var towerRay = new THREE.Raycaster();
 		// var starting = new THREE.Vector3( );
@@ -728,6 +753,7 @@
 		});
 		renderer.render( scene, camera );
 		controls.update();
+		stats.update();
 	}
 
 	/*
