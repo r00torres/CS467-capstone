@@ -744,6 +744,52 @@
 
 			//attack( towers, dinos );
 		}
+		if( projectiles.length > 0 ){
+			for( var p = 0; p < projectiles.length; p++){
+				//console.log("projectile", projectiles[p].userData);
+				//projectiles[p].position.y = 2;
+				projectiles[p].position.y -= .2;
+				//projectiles[p].position.x = 1;
+				//projectiles[p].position.z = 1;
+				// var distanceV = new THREE.Vector3();
+				if ( projectiles[p].position.x > projectiles[p].userData.x ){
+					//console.log("************",projectiles[p].userData.x, projectiles[p].position.x);
+					projectiles[p].position.x -= .75;//projectiles[p].userData.x;
+					//projectiles[p].position.y -= .2;
+				}
+				if ( projectiles[p].position.z > projectiles[p].userData.z ){
+					projectiles[p].position.z -= .75;//projectiles[p].userData.z;
+					//projectiles[p].position.y -= .2;
+
+				}
+				if ( projectiles[p].position.x < projectiles[p].userData.x){
+					//console.log("here");
+					projectiles[p].position.x += .75;//projectiles[p].userData.x;
+					//projectiles[p].position.y -= .2;
+
+				}
+				if ( projectiles[p].position.z < projectiles[p].userData.z){
+					projectiles[p].position.z += .75;
+
+				}
+
+				projectiles[p].position.y -= .2;
+				// distanceV.x = projectiles[p].position.x - projectiles[p].userData.x;
+				// distanceV.y = projectiles[p].position.y - projectiles[p].userData.y;
+				// distanceV.z = projectiles[p].position.z - projectiles[p].userData.z;
+				// distanceV.normalize();
+				// projectiles[p].position.copy( distanceV );
+				if (projectiles[p].position.y <= 0){
+
+					scene.remove(projectiles[p]);
+					//console.log("removing proj", projectiles[p].uuid);
+					//console.log("remaining", projectiles);
+					projectiles.splice(p, 1);
+
+				}
+			}
+
+		}
 
 		requestAnimationFrame(animate);
 		TWEEN.update();

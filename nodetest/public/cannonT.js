@@ -100,7 +100,7 @@ function deadDino( d ){
   scene.remove( d );
   console.log("removing", d.uuid);
   //console.log("dinos", d);
-  console.log("after", dinos);
+  //console.log("after", dinos);
 }
 
 //May want to implement a "starting tower" to mitigate the transfer from
@@ -109,14 +109,14 @@ function attack( towers, dinos ) {
   //the first one gives me problems with children...
   if ( towers.length == 1 ) {
     if (towers == Array){
-      console.log("first");
-      console.log("ft", towers)
+      //console.log("first");
+      //console.log("ft", towers)
     }
     //never called
     else if (towers == Object){
-      console.log( "first tower ", towers[0] );
+      //console.log( "first tower ", towers[0] );
       var tc = towers[0].children;
-      console.log( "tc ", tc );
+      //console.log( "tc ", tc );
       console.log(tc[0].position);
 
     }
@@ -144,10 +144,10 @@ function attack( towers, dinos ) {
 
               console.log(dinos[d][0].userData.health);
               console.log(dinos[d][0].uuid);
-              console.log("dl", dinos.length);
+              //console.log("dl", dinos.length);
               dinos.splice(d, 1);
 
-              console.log("after", dinos.length);
+              //console.log("after", dinos.length);
               //dinos.pop();
 
             }
@@ -245,31 +245,34 @@ function attack( towers, dinos ) {
 
       if( tc.userData.towerTime+attackSpeed < clock.elapsedTime ) {
 
-        console.log("shooting", dino.uuid);
-        //var projGroup = new THREE Group();
-        var sgeo = new THREE.SphereBufferGeometry( .2, 7, 7 );
+        //console.log("shooting", dino.uuid);
+
+        //pShot(dino, tc);
+        //var projGroup = new THREE.Group();
+        var sgeo = new THREE.SphereBufferGeometry( 0.1, 7, 7 );
         var smat = new THREE.MeshBasicMaterial( { color: 0x000000 } );
         var sph = new THREE.Mesh( sgeo, smat );
-        console.log( "sph", sph, towerLoc);
+        //console.log( "sph", sph, towerLoc);
         sph.scale
         sph.position.copy( towerLoc );
-        sph.position.y = 2.5;
-        // projGroup.add( sph );
-        // projGroup.add( dinos );
-        // projGroup.add( tc );
-        //projectiles.push(projGroup);
+        sph.position.y = 3.5;
+        sph.userData = dinov3lineAdj;
+        //projGroup.add( sph );
+        //projGroup.add( dinos );
+        //projGroup.add( tc );
+        projectiles.push(sph);
 
         scene.add( sph );
 
-        console.log("positioning dino t ", dino.position, tc.position, tc)
-        console.log("line...d t", dinov3lineAdj, towerv3lineAdj );
-        console.log("line", line);
+        //console.log("positioning dino t ", dino.position, tc.position, tc)
+        //console.log("line...d t", dinov3lineAdj, towerv3lineAdj );
+        //console.log("line", line);
         tc.userData.towerTime = clock.elapsedTime;
         dino.userData.health--;
-        console.log("POW!", clock.elapsedTime);
-        console.log("DINO HEALTH: ", dino.userData.health);
+        //console.log("POW!", clock.elapsedTime);
+        //console.log("DINO HEALTH: ", dino.userData.health);
         if(dino.userData.health <= 0){
-          console.log("Dead dino",dino.userData.health);
+          //console.log("Dead dino",dino.userData.health);
           deadDino( dino );
           //deadDino(dinos);
         }
