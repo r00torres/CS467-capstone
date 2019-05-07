@@ -6,10 +6,14 @@
 <script src="/static/MTLLoader.js"></script>
 <script src="/static/WebGL.js"></script>
 
+
+<script src="/static/stats.min.js"></script>
+
 <link rel="stylesheet" type="text/css" href="/static/css/game-ui.css">
 
 <script src="/static/gameUI.js"></script>
 <script src="/static/buildUI.js"></script>
+
 
 <script src="/static/map1.js"></script>
 <script src="/static/pirateT.js"></script>
@@ -24,23 +28,38 @@
 	//Global variables
 	var scene, camera, renderer, controls, raycaster, mouse;
 
-	//Game variables
+
+	var container, stats;
+
+	//animation variables
+	const mixers = [];
+	const clock = new THREE.Clock();
+
+
+	//Game map variables
 	var gridT = [];
-
 	var dinos = [];
+	var towers = [];
+	var projectiles = [];
 
 
-	//used to make box follow a line
-	//////
-	/*var sbox, spline, counter = 0;
-	var tangent = new THREE.Vector3();
-	var axis = new THREE.Vector3();
-	var up = new THREE.Vector3(0,0,1);
-	//////*/
-
+	//var collisionSphere = []
 
 	/*We need to RENDER the SCENE with a CAMERA*/
 	function init() {
+
+		//for stats
+		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_interactive_lines.html
+		container = document.createElement('div');
+		document.body.appendChild( container );
+
+		var info = document.createElement( 'div' );
+		info.style.position = 'absolute';
+		info.style.top = '10px';
+		info.stylewidth = '100%';
+		info.style.textAlign = 'center';
+		container.appendChild( info );
+
 
 		//Create a new scene
 		scene = new THREE.Scene();
@@ -59,12 +78,9 @@
 
 		renderer.setPixelRatio( window.devicePixelRatio );
 
-		renderer.gammaFactor = 2.2;
+		//for use with gltf/glb files
 		renderer.gammaOutput = true;
-
-		renderer.physicallyCorrectLights = true;
-
-
+		renderer.gammaFactor = 2.2;
 
 		//Add the renderer to the html document
 		document.body.appendChild( renderer.domElement );
@@ -72,16 +88,12 @@
 			//three.js https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
 		window.addEventListener( 'resize', onWindowResize, false );
 
-		renderer.setAnimationLoop( () => {
-			//update();
-			render();
-		});
-
-		//renderer.render(scene, camera);
-
-
 		/*Adding orbit controls. Allows camera to move*/
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+		stats = new Stats();
+		container.appendChild( stats.dom );
+
 		controls.target = new THREE.Vector3( 0, 5, 0 );
 
 		//controls.target = menu.position;
@@ -92,6 +104,7 @@
 		console.log("controls",controls);
 		console.log("camera",camera);
 
+		//for a static menu
 		//controls.enableKeys = false;
 
 		//Raycaster
@@ -102,8 +115,11 @@
 		//will show up
 		var ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
 		scene.add(ambientLight);
-
+		animate();
 		//Load the menu
+
+	//https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
+
 		//menu();
 
 		play();
@@ -195,6 +211,7 @@
 
 
 		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
+
 	function onWindowResize() {
 
 		camera.aspect = window.innerWidth / window.innerHeight;
@@ -206,6 +223,7 @@
 
 
 
+//THIS COULD CAUSE PROBLEMS
 	function render() {
 
 		//controls.update();
@@ -233,6 +251,7 @@
 	const clock = new THREE.Clock();
 	function dinoLoader( object, position, dinos, delay ) {
 
+
 		console.log("dinos", dinos);
 
 		//two position variables were creating conflicts
@@ -251,28 +270,35 @@
 			target.z.push(map.path1[i][1]);
 		}
 
+
+		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_multiple.html
+		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_keyframes.html
 		const loader = new THREE.GLTFLoader();
 
 		const onLoad = ( gltf, position ) => {
 
-			const model = gltf.scene;
+
+			//var grouping;
+			// var geometry = new THREE.SphereGeometry( 8, 32, 32 );
+			// var material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+			// var sphere = new THREE.Mesh( geometry, material );
+			// scene.add(sphere);
+			// collisionSphere.push(sphere);
+
+			var model = gltf.scene;
 
 			model.position.copy( position );
 
-			const animation = gltf.animations[ 0 ];
+			var animation = gltf.animations[ 0 ];
 
-			const mixer = new THREE.AnimationMixer( model );
+			var mixer = new THREE.AnimationMixer( model );
 			mixers.push( mixer );
 
-			const action = mixer.clipAction( animation );
+			var action = mixer.clipAction( animation );
 			action.play();
 
-			//model.add( dino );
-			//model.name = "oviraptor";
-
 			model.scale.set( 0.3, 0.3, 0.3 );
-			//dinos.push(dino);
-			//scene.add(dino);
+
 			model.name = "oviraptor";
 			//model.position.x = map.path1[0][0];
 			//model.position.z = map.path1[0][1];
@@ -280,6 +306,7 @@
 			model.userData.speed = oviraptor.speed;
 			model.userData.reward = oviraptor.reward;
 			model.type = "Object3D";
+
 
 			//creating the health bar
 			//it has 4 sections that could equal 1/4 of the health of the dino
@@ -311,11 +338,14 @@
 			console.log("loadDino model:", model);
 			//model.add(dino);
 			scene.add( group );
+
 			dinos.push([model,oviraptor]);
 			console.log("group ", group);
 			console.log("group pos ", group.position);
 			dinoPath( group, oviraptor.speed, target, delay );
 			//moveDino(model);
+
+
 
 		};
 
@@ -331,14 +361,11 @@
 
 	}
 
-
-
+	//Creating the opening view of the game's menu
 	function menu() {
 
 		//disables users ability to move around menu
 		controls.enabled = false;
-
-
 
 		/*Adding a play button*/
 
@@ -363,8 +390,6 @@
 			//Pushing to the tile array
 		gridT.push( playButton );
 
-
-
 		/*Adding a Credits button*/
 
 			//Creating a plane
@@ -388,19 +413,15 @@
 			//Pushing to the tile array
 		gridT.push( creditsButton );
 
-
-
 		//Add buttons to the scene
 		scene.add( playButton );
 		scene.add( creditsButton );
-
 
 		//Remove right click menu and add object clicking
 		document.addEventListener( 'contextmenu', function( event ) { event.preventDefault() }, false );
 		document.addEventListener( 'click', menuSelect, false );
 
 		var menuScope = this;
-
 
 		function menuSelect( event ) {
 
@@ -451,7 +472,6 @@
 						//Show credit screen
 
 
-
 					}
 
 				}
@@ -464,21 +484,7 @@
 
 	}
 
-
-
-
-
-
-	//!!!!!!!!may want to add parameters to pass in map and rules to play?
-
-	/*
-
-	function will take the map array and add it to the scene
-
-	Iterate through the arrays
-	i, j will be used in order to offset the positions
-
-	*/
+	//Creating the game engine and functionality
 	function play() {
 		
 		/*
@@ -493,12 +499,18 @@
 		Player coins = coins
 		
 
+
+		var towerClock = new THREE.Clock();
+
+		clock.startTime;
+
 		*/
 		var totWaves, timeXwave;
 		var coins = 100;
 		var curWave = 1;
 		var lives = 3;
 		initGameUI(coins, lives, curWave);
+
 
 		//allows user to move the map
 		controls.enabled = true;
@@ -631,6 +643,7 @@
 		//var dinos = [];
 
 		//add an oviraptor
+
 		//addOviGLTF( scene, dinos );
 		//addOviGLTF( scene, dinos );
 
@@ -659,6 +672,7 @@
 			addOviGLTF(scene, dinos, delay);
 			delay += 500;
 		}
+
 		//addOvi(scene, dinos);
 		//addRaptor(scene, dinos);
 		//addTrex(scene, dinos);
@@ -690,7 +704,7 @@
 		console.log("dinos array", dinos );
 
 		//array to hold created towers
-		var towers = [];
+		//var towers = [];
 
 		function tileHover( event ) {
 
@@ -779,6 +793,26 @@
 				document.getElementById("build-net-button").addEventListener("click", clickNet);
 				
 
+
+/* THIS COULD CASE PROBLEMS
+
+				/*******************************************************
+				change tower add function to see other types of towers
+				*******************************************************/
+				addcannonT( intersects[0].object.position, scene, gridT, towers );
+
+				//testing tower locations for raycasting
+				if ( towers.length == 1 ) {
+					console.log( "dinos ", dinos );
+					//attack(towers, dinos);
+				}
+				else if ( towers.length > 1 ) {
+					var tc = towers[0].children;
+		      console.log( "towers",towers[0] );
+		      console.log( "t", tc[0].position );
+
+				}
+*/
 
 			}
 			else {
@@ -899,30 +933,94 @@
 	//   //dinos.push([newOvi,oviraptor]);
 	// }
 
+
 	init();
 
-
 	/*Rendering the scene https://www.august.com.au/blog/animating-scenes-with-webgl-three-js/*/
+	//animate();
 
-	// animate();
-	//
-	// function animate(){
-	// 	requestAnimationFrame(animate);
-	// 	TWEEN.update();
-	// 	renderer.render( scene, camera );
-	// 	controls.update();
-	// }
+	function animate(){
+
+
+		if( towers.length > 1 ){
+			for( var i = 0; i < towers.length; i++ ) {
+	    	//console.log("for i", i );
+	      var tc = towers[i].children;
+	      for( var j = 0; j < tc.length; j=j+2) {
+					attack( towers, dinos );
+	        //radiusCheck( tc[j+1].userData.attackRadius, tc[j].position)
+	        //console.log("or herer?");
+	      };
+			};
+
+			//attack( towers, dinos );
+		}
+		if( projectiles.length > 0 ){
+			for( var p = 0; p < projectiles.length; p++){
+				//console.log("projectile", projectiles[p].userData);
+				//projectiles[p].position.y = 2;
+				projectiles[p].position.y -= .2;
+				//projectiles[p].position.x = 1;
+				//projectiles[p].position.z = 1;
+				// var distanceV = new THREE.Vector3();
+				if ( projectiles[p].position.x > projectiles[p].userData.x ){
+					//console.log("************",projectiles[p].userData.x, projectiles[p].position.x);
+					projectiles[p].position.x -= .75;//projectiles[p].userData.x;
+					//projectiles[p].position.y -= .2;
+				}
+				if ( projectiles[p].position.z > projectiles[p].userData.z ){
+					projectiles[p].position.z -= .75;//projectiles[p].userData.z;
+					//projectiles[p].position.y -= .2;
+
+				}
+				if ( projectiles[p].position.x < projectiles[p].userData.x){
+					//console.log("here");
+					projectiles[p].position.x += .75;//projectiles[p].userData.x;
+					//projectiles[p].position.y -= .2;
+
+				}
+				if ( projectiles[p].position.z < projectiles[p].userData.z){
+					projectiles[p].position.z += .75;
+
+				}
+
+				projectiles[p].position.y -= .2;
+				// distanceV.x = projectiles[p].position.x - projectiles[p].userData.x;
+				// distanceV.y = projectiles[p].position.y - projectiles[p].userData.y;
+				// distanceV.z = projectiles[p].position.z - projectiles[p].userData.z;
+				// distanceV.normalize();
+				// projectiles[p].position.copy( distanceV );
+				if (projectiles[p].position.y <= 0){
+
+					scene.remove(projectiles[p]);
+					//console.log("removing proj", projectiles[p].uuid);
+					//console.log("remaining", projectiles);
+					projectiles.splice(p, 1);
+
+				}
+			}
+
+		}
+
+		requestAnimationFrame(animate);
+		TWEEN.update();
+		const delta = clock.getDelta();
+		mixers.forEach( ( mixer ) => {
+			mixer.update( delta );
+		});
+		renderer.render( scene, camera );
+		controls.update();
+		stats.update();
+	}
+
 	/*
 
 	Resources:
-
-	Rendering the scene:
 	https://www.august.com.au/blog/animating-scenes-with-webgl-three-js/
 	https://threejs.org/docs/#manual/en/introduction/Creating-a-scene
 
 
 
 	*/
-
 
 </script>
