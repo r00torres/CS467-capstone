@@ -98,7 +98,7 @@ function addcannonT( object, scene, gridT, towers ){
 function deadDino( d ){
   console.log("DEAD DINO ID",d.uuid);
   console.log("dino:", d)
-  scene.remove( d );
+  scene.remove( d.parent );
   console.log("removing", d.uuid);
   //console.log("dinos", d);
   //console.log("after", dinos);
