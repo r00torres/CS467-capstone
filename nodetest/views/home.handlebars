@@ -5,6 +5,11 @@
 <script src="/static/MTLLoader.js"></script>
 <script src="/static/WebGL.js"></script>
 
+<link rel="stylesheet" type="text/css" href="/static/css/game-ui.css">
+
+<script src="/static/gameUI.js"></script>
+<script src="/static/buildUI.js"></script>
+
 <script src="/static/map1.js"></script>
 <script src="/static/pirateT.js"></script>
 <script src="/static/cannonT.js"></script>
@@ -21,10 +26,6 @@
 	
 	//Game variables
 	var gridT = [];
-
-	
-
-
 
 	/*We need to RENDER the SCENE with a CAMERA*/
 	function init() {
@@ -79,6 +80,7 @@
 		//Load the menu
 		//menu();
 		play()
+		
 		
 		requestAnimationFrame(render);
 
@@ -261,7 +263,7 @@
 
 	*/
 	function play() {
-
+		
 		/*
 		
 		Game variables to be set by rule file:
@@ -270,10 +272,14 @@
 		Current Wave = curWave
 		Time between Waves = timeXwave
 		Player lives = lives
+		Player coins = coins
 		
 		*/
-		var totWaves, curWave, timeXwave, lives;
-
+		var totWaves, timeXwave;
+		var coins = 100;
+		var curWave = 1;
+		var lives = 3;
+		initGameUI(coins, lives, curWave);
 
 		//allows user to move the map
 		controls.enabled = true;
@@ -487,15 +493,54 @@ function onDocumentMouseDown( event ) {
 			console.log(intersects);
 			
 			if(intersects[0].object.name == "buildable") {
-			
-				//scene.remove(intersects[0].object);
 				
-				intersects[0].object.name = "tower";
+				var possibleCoins = 0;
 				
-				/*******************************************************
-				change tower add function to see other types of towers
-				*******************************************************/
-				addcannonT( intersects[0].object.position, scene, gridT, towers );
+				//shows build options for player's current coin at this location (need to change first param to coin
+				//last param to cost of last tower
+				
+				viewBuildMenu(coins, pirateT.cost, cannonT.cost, cannonT.cost);
+				
+				//remove the previous click event (which was to build for last location)
+				document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
+				document.getElementById("build-cannon-button").removeEventListener("click", clickCannon);
+				document.getElementById("build-net-button").removeEventListener("click", clickNet);
+				
+				//new build functions at this location
+				clickMusket = function () {
+						console.log("Clicked Musket Tower")
+  						clearBuildMenu();
+						possibleCoins = coins - pirateT.cost;
+						updateGameUIbar("coins", possibleCoins);
+						intersects[0].object.name = "tower";
+						addpirateT( intersects[0].object.position, scene, gridT, towers );
+						};
+
+				clickCannon = function() {
+						console.log("Clicked Cannon Tower")
+  						clearBuildMenu();
+						possibleCoins = coins - cannonT.cost;
+						updateGameUIbar("coins", possibleCoins);
+						intersects[0].object.name = "tower";
+						addcannonT( intersects[0].object.position, scene, gridT, towers );
+						};
+				
+				clickNet = function() {
+						console.log("Clicked Net Tower")
+  						clearBuildMenu();
+						possibleCoins = coins - pirateT.cost;
+						updateGameUIbar("coins", possibleCoins);
+						intersects[0].object.name = "tower";
+						addcannonT( intersects[0].object.position, scene, gridT, towers );
+						};
+				
+
+				//new events for on click at this location
+				document.getElementById("build-musket-button").addEventListener("click", clickMusket);
+				document.getElementById("build-cannon-button").addEventListener("click", clickCannon);
+				document.getElementById("build-net-button").addEventListener("click", clickNet);
+				
+
 			}
 			else {
 			
