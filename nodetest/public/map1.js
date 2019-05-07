@@ -55,7 +55,7 @@ map.path2 = [[0,0], [0,1], [0,2], [0,3], [1,3], [2,3], [3,3], [3,2],
   [7,6], [7,5], [8,5], [9,5], [9,6], [9,7], [9,8], [9,9]];
 
 //map 3
-map.name1 = 'volcano';
+map.name = 'volcano';
 
 //size of the board
 //this board is 10x10
