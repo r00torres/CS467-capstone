@@ -1,10 +1,20 @@
 let oviraptor = {
   health: 5,
-  speed: 10000, 
+  speed: 10000,
   reward: 5
 }
 
+function addOviGLTF( scene, dinos, delay ){
+  console.log( "dinos gltf", dinos );
+  const oviPosition = new THREE.Vector3( 0, 0, 0 );
+	var ovi1 = dinoLoader( '/static/dinos/raptor1.glb', oviPosition, dinos, delay );
+  //scene.add(newOvi);
+  //dinos.push([ovi1,oviraptor]);
+}
+
+
 function addOvi(scene, dinos){
+  console.log( "dinos obj", dinos );
   var newOvi = new THREE.Object3D();
   var mtlLoader = new THREE.MTLLoader();
   mtlLoader.setPath('/static/dinos/');
@@ -15,7 +25,7 @@ function addOvi(scene, dinos){
     loader.setMaterials(materials);
     loader.setPath('/static/dinos/');
     //dinoMat = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-    loader.load( 'oviraptor.obj', 
+    loader.load( 'oviraptor.obj',
       //For getting materials on the object...
       //https://stackoverflow.com/questions/35927111/three-js-change-material-for-obj-file-using-a-button
       function ( dino ) {
@@ -24,7 +34,7 @@ function addOvi(scene, dinos){
             child.material = dinoMat;
           }
         });	*/
-
+        console.log( "newOvi befoer ", newOvi );
         newOvi.add(dino);
         //dino.position.x = map.path1[0][0];
         //dino.position.z = map.path1[0][1];
@@ -37,6 +47,7 @@ function addOvi(scene, dinos){
         newOvi.userData.health = oviraptor.health;
         newOvi.userData.speed = oviraptor.speed;
         newOvi.userData.reward = oviraptor.reward;
+        console.log( "newOvi:", newOvi );
     });
 });
 
