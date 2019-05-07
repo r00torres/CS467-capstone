@@ -127,7 +127,7 @@ function attack( towers, dinos ) {
 
   //set this to 2 if we have a starting tower... I'm thinking the dinos starting
   //tile should be the start tower. No attack but padding the object array
-  if ( towers.length > 1 && dinos.length > 0) {
+  if ( dinos.length > 0) {
     //console.log("dl", dinos.length);
 
     //cycle through towers
