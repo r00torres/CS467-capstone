@@ -97,6 +97,7 @@ function addcannonT( object, scene, gridT, towers ){
 
 function deadDino( d ){
   console.log("DEAD DINO ID",d.uuid);
+  console.log("dino:", d)
   scene.remove( d );
   console.log("removing", d.uuid);
   //console.log("dinos", d);
@@ -269,8 +270,8 @@ function attack( towers, dinos ) {
         //console.log("line", line);
         tc.userData.towerTime = clock.elapsedTime;
         dino.userData.health--;
-        //console.log("POW!", clock.elapsedTime);
-        //console.log("DINO HEALTH: ", dino.userData.health);
+        console.log("POW!", clock.elapsedTime);
+        console.log("DINO HEALTH: ", dino.userData.health);
         if(dino.userData.health <= 0){
           //console.log("Dead dino",dino.userData.health);
           deadDino( dino );

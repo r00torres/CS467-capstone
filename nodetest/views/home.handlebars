@@ -135,7 +135,7 @@
 
 	//used to create a path that an object can follow
 	//and will actually turn when following
-	//works for an object created in int function, but not for dinos 
+	//works for an object created in int function, but not for dinos
 	//rendered with the loader
 	/*var numPoints = 50;
 
@@ -152,7 +152,7 @@
 	var splinePoints = spline.getPoints(numPoints);
 	for(var i=0; i<splinePoints.Length; i++){
 		sgeo.vertices.push(splinePoints[i]);
-	} 
+	}
 
 	var sline = new THREE.Line(sgeo, smat);
 	scene.add(sline);
@@ -245,10 +245,10 @@
 
 	//Adding a gltf loader for passing creating an object at a location
 	//Derived from
-	
+
 	//added a health bar and made the dino and health bar into a group
-	const mixers = [];
-	const clock = new THREE.Clock();
+	//const mixers = [];
+	//const clock = new THREE.Clock();
 	function dinoLoader( object, position, dinos, delay ) {
 
 
@@ -300,8 +300,8 @@
 			model.scale.set( 0.3, 0.3, 0.3 );
 
 			model.name = "oviraptor";
-			//model.position.x = map.path1[0][0];
-			//model.position.z = map.path1[0][1];
+			model.position.x = map.path1[0][0];
+			model.position.z = map.path1[0][1];
 			model.userData.health = oviraptor.health;
 			model.userData.speed = oviraptor.speed;
 			model.userData.reward = oviraptor.reward;
@@ -313,8 +313,8 @@
 			var barGemetry = new THREE.BoxGeometry(.25, .25, 1, 1, 1, 4);
 			var barMaterial = new THREE.MeshBasicMaterial({color: 0xff0000});
 			var healthBar = new THREE.Mesh(barGemetry, barMaterial);
-			//healthBar.position.x = map.path1[0][0];
-			//healthBar.position.z = map.path1[0][1];
+			healthBar.position.x = map.path1[0][0];
+			healthBar.position.z = map.path1[0][1];
 
 			//make bar float above the dino
 			healthBar.position.y = 3;
@@ -329,20 +329,20 @@
 			//this allows the dino and bar to be moved together
 			//the dino and health bar position are not set individually
 			//but the group's position is set instead
-			group = new THREE.Object3D();
-			group.add(model);
-			group.add(healthBar);
-			group.position.x = map.path1[0][0];
-			group.position.z = map.path1[0][1];
+			dinogroup = new THREE.Object3D();
+			dinogroup.add(model);
+			dinogroup.add(healthBar);
+			dinogroup.position.x = map.path1[0][0];
+			dinogroup.position.z = map.path1[0][1];
 
 			console.log("loadDino model:", model);
 			//model.add(dino);
-			scene.add( group );
+			scene.add( dinogroup );
 
 			dinos.push([model,oviraptor]);
-			console.log("group ", group);
-			console.log("group pos ", group.position);
-			dinoPath( group, oviraptor.speed, target, delay );
+			console.log("group ", dinogroup);
+			console.log("group pos ", dinogroup.position);
+			dinoPath( model, oviraptor.speed, target, delay );
 			//moveDino(model);
 
 
@@ -486,7 +486,7 @@
 
 	//Creating the game engine and functionality
 	function play() {
-		
+
 		/*
 
 		Game variables to be set by rule file:
@@ -497,7 +497,7 @@
 		Player lives = lives
 
 		Player coins = coins
-		
+
 
 
 		var towerClock = new THREE.Clock();
@@ -548,17 +548,17 @@
 			//get the number of arrays (map0, map1, map2, map3)
 			var arrX = m.length;
 			console.log("arr", arrX, arrZ);
-			
+
 			//
 			for( var i = 0, x = -(arrX/2); x < (arrX/2); x++, i++ ){
 				var gridRow = [];
 				for( var j = 0, z= -(arrZ/2); z < (arrZ)/2; z++, j++ ){
 					console.log("\n",x,z, m[i][j], i, j);
-							
+
 					//Creating new variable plane every instance and adding to
 					//the scene. Position offset by 4 because it seems to be the
 					//internal size of that object
-					if(m[i][j] == '.'){ 
+					if(m[i][j] == '.'){
 						var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x416600 } ) );
 						plane.position.x = 4*x+2;
 						plane.position.z = 4*z+2;
@@ -568,7 +568,7 @@
 						//for testing raycaster
 						gridT.push( plane );
 						scene.add( plane );
-					} 
+					}
 					else if (m[i][j] == '*'){
 						var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xf2d527 } ) );
 						plane.position.x = 4*x+2;
@@ -589,7 +589,7 @@
 						//for testing raycaster
 						gridT.push( plane );
 						scene.add( plane );
-					}	
+					}
 					else if (m[i][j] == 'e'){
 						var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xa12b0d } ) );
 						plane.position.x = 4*x+2;
@@ -600,7 +600,7 @@
 						//for testing raycaster
 						gridT.push( plane );
 						scene.add( plane );
-					}					
+					}
 				}
 				gridTiles.push( gridRow );
 				console.log("gridRow", gridRow );
@@ -745,19 +745,19 @@
 
 			if(intersects[0].object.name == "buildable") {
 
-				
+
 				var possibleCoins = 0;
-				
+
 				//shows build options for player's current coin at this location (need to change first param to coin
 				//last param to cost of last tower
-				
+
 				viewBuildMenu(coins, pirateT.cost, cannonT.cost, cannonT.cost);
-				
+
 				//remove the previous click event (which was to build for last location)
 				document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
 				document.getElementById("build-cannon-button").removeEventListener("click", clickCannon);
 				document.getElementById("build-net-button").removeEventListener("click", clickNet);
-				
+
 				//new build functions at this location
 				clickMusket = function () {
 						console.log("Clicked Musket Tower")
@@ -775,8 +775,9 @@
 						updateGameUIbar("coins", possibleCoins);
 						intersects[0].object.name = "tower";
 						addcannonT( intersects[0].object.position, scene, gridT, towers );
+						console.log("towers", towers);
 						};
-				
+
 				clickNet = function() {
 						console.log("Clicked Net Tower")
   						clearBuildMenu();
@@ -785,34 +786,34 @@
 						intersects[0].object.name = "tower";
 						addcannonT( intersects[0].object.position, scene, gridT, towers );
 						};
-				
+
 
 				//new events for on click at this location
 				document.getElementById("build-musket-button").addEventListener("click", clickMusket);
 				document.getElementById("build-cannon-button").addEventListener("click", clickCannon);
 				document.getElementById("build-net-button").addEventListener("click", clickNet);
-				
 
 
-/* THIS COULD CASE PROBLEMS
+
+// THIS COULD CASE PROBLEMS
 
 				/*******************************************************
 				change tower add function to see other types of towers
 				*******************************************************/
-				addcannonT( intersects[0].object.position, scene, gridT, towers );
+				// addcannonT( intersects[0].object.position, scene, gridT, towers );
+				//
+				// //testing tower locations for raycasting
+				// if ( towers.length == 1 ) {
+				// 	console.log( "dinos ", dinos );
+				// 	//attack(towers, dinos);
+				// }
+				// else if ( towers.length > 1 ) {
+				// 	var tc = towers[0].children;
+		    //   console.log( "towers",towers[0] );
+		    //   console.log( "t", tc[0].position );
+				//
+				// }
 
-				//testing tower locations for raycasting
-				if ( towers.length == 1 ) {
-					console.log( "dinos ", dinos );
-					//attack(towers, dinos);
-				}
-				else if ( towers.length > 1 ) {
-					var tc = towers[0].children;
-		      console.log( "towers",towers[0] );
-		      console.log( "t", tc[0].position );
-
-				}
-*/
 
 			}
 			else {
@@ -823,7 +824,7 @@
 		}
 
 	}
-	
+
 	var points = [];
 	for(var i=0; i<map.path1.length; i++)
 	{
@@ -833,7 +834,7 @@
 	spline = new THREE.CatmullRomCurve3(points);
 
 	//function that sends a dino down the path
-	//target is the path determined by the map 
+	//target is the path determined by the map
 	//delay is determined by the wave
 	//uses onUpdate to change the rotation of the dino in relation to the y axis
 	function dinoPath(dino, speed, target, delay)
@@ -841,9 +842,9 @@
 		//var count = 0;
 		dino.rotation.y = 300;
 		//console.log("dino qurt",dino.quaternion);
-		var tan = new THREE.Vector3();
-		var ax = new THREE.Vector3();
-		var u = new THREE.Vector3(0,0,1);
+		//var tan = new THREE.Vector3();
+		//var ax = new THREE.Vector3();
+		//var u = new THREE.Vector3(0,0,1);
 		var move = new TWEEN.Tween(dino.position)
 			.to(target, speed).delay(delay)
 			.onUpdate(function(){
@@ -856,12 +857,12 @@
 				//console.log("tan", tan);
 				//console.log("ax", ax);
 
-				//to the left, good 
+				//to the left, good
 				if(dino.position.z == -6 && dino.position.x > -18 && dino.position.x < -6){
 					dino.rotation.y = 0;
 				}
 
-				//down, good 
+				//down, good
 				else if(dino.position.x == -6 && dino.position.z < -6 && dino.position.z > -10){
 					dino.rotation.y = 89.5;
 				}
