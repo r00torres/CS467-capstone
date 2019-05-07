@@ -241,7 +241,7 @@ function attack( towers, dinos ) {
       var line = new THREE.Line( tgeometry, tmaterial );
       //line.position.y = 2;
 
-      scene.add( line );
+      //scene.add( line );
 
 
       if( tc.userData.towerTime+attackSpeed < clock.elapsedTime ) {
@@ -279,9 +279,9 @@ function attack( towers, dinos ) {
         }
 
       }
-      setTimeout( function() {
-        scene.remove( line );
-      }, 2 );
+      // setTimeout( function() {
+      //   scene.remove( line );
+      // }, 1 );
 
 		}
     //}, attackSpeed );

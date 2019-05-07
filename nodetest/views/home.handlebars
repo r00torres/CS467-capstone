@@ -249,14 +249,12 @@
 	//added a health bar and made the dino and health bar into a group
 	//const mixers = [];
 	//const clock = new THREE.Clock();
-	function dinoLoader( object, position, dinos, delay ) {
 
+	function dinoLoader( object, position, dinos ) {
 
 		console.log("dinos", dinos);
 
-		//two position variables were creating conflicts
-		//dino does not get its position set individually now
-		//var position = {x: map.path1[0][0], y: 0, z: map.path1[0][1]};
+		var position = {x: map.path1[0][0], y: 0, z: map.path1[0][1]};
 
 		//create a target object with the x and z coordinates from the enemy path
 		var target = {};
@@ -306,48 +304,120 @@
 			model.userData.speed = oviraptor.speed;
 			model.userData.reward = oviraptor.reward;
 			model.type = "Object3D";
-
-
-			//creating the health bar
-			//it has 4 sections that could equal 1/4 of the health of the dino
-			var barGemetry = new THREE.BoxGeometry(.25, .25, 1, 1, 1, 4);
-			var barMaterial = new THREE.MeshBasicMaterial({color: 0xff0000});
-			var healthBar = new THREE.Mesh(barGemetry, barMaterial);
-			healthBar.position.x = map.path1[0][0];
-			healthBar.position.z = map.path1[0][1];
-
-			//make bar float above the dino
-			healthBar.position.y = 3;
-			//scene.add(healthBar);
-			//model.add(healthBar);
-
-			/*group = new THREE.Group();
-			group.add(model);
-			group.add(healthBar);*/
-
-			//create a new group out of a THREE.Object3D
-			//this allows the dino and bar to be moved together
-			//the dino and health bar position are not set individually
-			//but the group's position is set instead
-			dinogroup = new THREE.Object3D();
-			dinogroup.add(model);
-			dinogroup.add(healthBar);
-			dinogroup.position.x = map.path1[0][0];
-			dinogroup.position.z = map.path1[0][1];
+			//model.computeBoundingSphere();
 
 			console.log("loadDino model:", model);
 			//model.add(dino);
-			scene.add( dinogroup );
-
+			//group.add( sphere );
+			//group.add( model );
+			scene.add( model );
 			dinos.push([model,oviraptor]);
-			console.log("group ", dinogroup);
-			console.log("group pos ", dinogroup.position);
-			dinoPath( model, oviraptor.speed, target, delay );
-			//moveDino(model);
+			dinoPath( dinos, target );
 
 
 
 		};
+
+
+	// function dinoLoader( object, position, dinos, delay ) {
+	//
+	//
+	// 	console.log("dinos", dinos);
+	//
+	// 	//two position variables were creating conflicts
+	// 	//dino does not get its position set individually now
+	// 	var position = {x: map.path1[0][0], y: 0, z: map.path1[0][1]};
+	//
+	// 	//create a target object with the x and z coordinates from the enemy path
+	// 	var target = {};
+	// 	target.x = [];
+	// 	target.z = [];
+	// 	target.y = 0;
+	// 	for(var i=0; i<map.path1.length; i++)
+	// 	{
+	// 		//add the coordinates from the path
+	// 		target.x.push(map.path1[i][0]);
+	// 		target.z.push(map.path1[i][1]);
+	// 	}
+	//
+	//
+	// 	//https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_multiple.html
+	// 	//https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_keyframes.html
+	// 	const loader = new THREE.GLTFLoader();
+	//
+	// 	const onLoad = ( gltf, position ) => {
+	//
+	//
+	// 		//var grouping;
+	// 		// var geometry = new THREE.SphereGeometry( 8, 32, 32 );
+	// 		// var material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+	// 		// var sphere = new THREE.Mesh( geometry, material );
+	// 		// scene.add(sphere);
+	// 		// collisionSphere.push(sphere);
+	//
+	// 		var model = gltf.scene;
+	//
+	// 		model.position.copy( position );
+	//
+	// 		var animation = gltf.animations[ 0 ];
+	//
+	// 		var mixer = new THREE.AnimationMixer( model );
+	// 		mixers.push( mixer );
+	//
+	// 		var action = mixer.clipAction( animation );
+	// 		action.play();
+	//
+	// 		model.scale.set( 0.3, 0.3, 0.3 );
+	//
+	// 		model.name = "oviraptor";
+	// 		model.position.x = map.path1[0][0];
+	// 		model.position.z = map.path1[0][1];
+	// 		model.userData.health = oviraptor.health;
+	// 		model.userData.speed = oviraptor.speed;
+	// 		model.userData.reward = oviraptor.reward;
+	// 		model.type = "Object3D";
+	//
+	//
+	// 		//creating the health bar
+	// 		//it has 4 sections that could equal 1/4 of the health of the dino
+	// 		var barGemetry = new THREE.BoxGeometry(.25, .25, 1, 1, 1, 4);
+	// 		var barMaterial = new THREE.MeshBasicMaterial({color: 0xff0000});
+	// 		var healthBar = new THREE.Mesh(barGemetry, barMaterial);
+	// 		healthBar.position.x = map.path1[0][0];
+	// 		healthBar.position.z = map.path1[0][1];
+	//
+	// 		//make bar float above the dino
+	// 		healthBar.position.y = 3;
+	// 		//scene.add(healthBar);
+	// 		//model.add(healthBar);
+	//
+	// 		/*group = new THREE.Group();
+	// 		group.add(model);
+	// 		group.add(healthBar);*/
+	//
+	// 		//create a new group out of a THREE.Object3D
+	// 		//this allows the dino and bar to be moved together
+	// 		//the dino and health bar position are not set individually
+	// 		//but the group's position is set instead
+	// 		dinogroup = new THREE.Object3D();
+	// 		dinogroup.add(model);
+	// 		dinogroup.add(healthBar);
+	// 		dinogroup.position.x = map.path1[0][0];
+	// 		dinogroup.position.z = map.path1[0][1];
+	//
+	// 		console.log("loadDino model:", model);
+	// 		//model.add(dino);
+	// 		scene.add( dinogroup );
+	//
+	// 		dinos.push([model,oviraptor]);
+	// 		console.log("group ", dinogroup);
+	// 		console.log("group pos ", dinogroup.position);
+	// 		dinoPath( model, oviraptor.speed, target, delay );
+	// 		//moveDino(model);
+	//
+	//
+	//
+	// 	};
 
 		const onProgress = () => {};
 
@@ -837,83 +907,83 @@
 	//target is the path determined by the map
 	//delay is determined by the wave
 	//uses onUpdate to change the rotation of the dino in relation to the y axis
-	function dinoPath(dino, speed, target, delay)
-	{
-		//var count = 0;
-		dino.rotation.y = 300;
-		//console.log("dino qurt",dino.quaternion);
-		//var tan = new THREE.Vector3();
-		//var ax = new THREE.Vector3();
-		//var u = new THREE.Vector3(0,0,1);
-		var move = new TWEEN.Tween(dino.position)
-			.to(target, speed).delay(delay)
-			.onUpdate(function(){
-				//console.log("counter", counter);
-				/*tan = spline.getTangentAt(count).normalize();
-				ax.crossVectors(u, tan).normalize;
-				var radians = Math.acos(u.dot(tan));
-				dino.quaternion.setFromAxisAngle(ax, radians);
-				count += 1;*/
-				//console.log("tan", tan);
-				//console.log("ax", ax);
-
-				//to the left, good
-				if(dino.position.z == -6 && dino.position.x > -18 && dino.position.x < -6){
-					dino.rotation.y = 0;
-				}
-
-				//down, good
-				else if(dino.position.x == -6 && dino.position.z < -6 && dino.position.z > -10){
-					dino.rotation.y = 89.5;
-				}
-
-				//to the left, good
-				else if(dino.position.z == -10 && dino.position.x > -5 && dino.position.x < 2){
-					dino.rotation.y = 0;
-				}
-
-				//up, good
-				else if(dino.position.x == 2 && dino.position.z > -10 && dino.position.z < -6){
-					dino.rotation.y = 300;
-				}
-
-				//left, good
-				else if(dino.position.z == -6 && dino.position.x > 2 && dino.position.x < 6){
-					dino.rotation.y = 0;
-				}
-
-				//up, good
-				else if(dino.position.x == 6 && dino.position.z > -5 && dino.position.z < 10){
-					dino.rotation.y = 300;
-				}
-
-				//left, good
-				else if(dino.position.z == 10 && dino.position.x > 6 && dino.position.x < 10){
-					dino.rotation.y = 0;
-				}
-
-				//down, good
-				else if(dino.position.x == 10 && dino.position.z < 10 && dino.position.z > 2){
-					dino.rotation.y = 89.5;
-				}
-
-				//left, good
-				else if(dino.position.z == 2 && dino.position.x > 10 && dino.position.x < 18){
-					dino.rotation.y = 0;
-				}
-
-				//up, disappears
-				else if(dino.position.x == 18 && dino.position.z > 2 && dino.position.z < 18){
-					dino.rotation.y = 300;
-				}
-				//console.log("dino pos ", dino.position);
-			})
-			.start();
-		//removes the dino from the scene once it has reached the end
-		move.onComplete(function(){
-				scene.remove(dino);
-		});
-	}
+	// function dinoPath(dino, speed, target, delay)
+	// {
+	// 	//var count = 0;
+	// 	dino.rotation.y = 300;
+	// 	//console.log("dino qurt",dino.quaternion);
+	// 	//var tan = new THREE.Vector3();
+	// 	//var ax = new THREE.Vector3();
+	// 	//var u = new THREE.Vector3(0,0,1);
+	// 	var move = new TWEEN.Tween(dino.position)
+	// 		.to(target, speed).delay(delay)
+	// 		.onUpdate(function(){
+	// 			//console.log("counter", counter);
+	// 			/*tan = spline.getTangentAt(count).normalize();
+	// 			ax.crossVectors(u, tan).normalize;
+	// 			var radians = Math.acos(u.dot(tan));
+	// 			dino.quaternion.setFromAxisAngle(ax, radians);
+	// 			count += 1;*/
+	// 			//console.log("tan", tan);
+	// 			//console.log("ax", ax);
+	//
+	// 			//to the left, good
+	// 			if(dino.position.z == -6 && dino.position.x > -18 && dino.position.x < -6){
+	// 				dino.rotation.y = 0;
+	// 			}
+	//
+	// 			//down, good
+	// 			else if(dino.position.x == -6 && dino.position.z < -6 && dino.position.z > -10){
+	// 				dino.rotation.y = 89.5;
+	// 			}
+	//
+	// 			//to the left, good
+	// 			else if(dino.position.z == -10 && dino.position.x > -5 && dino.position.x < 2){
+	// 				dino.rotation.y = 0;
+	// 			}
+	//
+	// 			//up, good
+	// 			else if(dino.position.x == 2 && dino.position.z > -10 && dino.position.z < -6){
+	// 				dino.rotation.y = 300;
+	// 			}
+	//
+	// 			//left, good
+	// 			else if(dino.position.z == -6 && dino.position.x > 2 && dino.position.x < 6){
+	// 				dino.rotation.y = 0;
+	// 			}
+	//
+	// 			//up, good
+	// 			else if(dino.position.x == 6 && dino.position.z > -5 && dino.position.z < 10){
+	// 				dino.rotation.y = 300;
+	// 			}
+	//
+	// 			//left, good
+	// 			else if(dino.position.z == 10 && dino.position.x > 6 && dino.position.x < 10){
+	// 				dino.rotation.y = 0;
+	// 			}
+	//
+	// 			//down, good
+	// 			else if(dino.position.x == 10 && dino.position.z < 10 && dino.position.z > 2){
+	// 				dino.rotation.y = 89.5;
+	// 			}
+	//
+	// 			//left, good
+	// 			else if(dino.position.z == 2 && dino.position.x > 10 && dino.position.x < 18){
+	// 				dino.rotation.y = 0;
+	// 			}
+	//
+	// 			//up, disappears
+	// 			else if(dino.position.x == 18 && dino.position.z > 2 && dino.position.z < 18){
+	// 				dino.rotation.y = 300;
+	// 			}
+	// 			//console.log("dino pos ", dino.position);
+	// 		})
+	// 		.start();
+	// 	//removes the dino from the scene once it has reached the end
+	// 	move.onComplete(function(){
+	// 			scene.remove(dino);
+	// 	});
+	// }
 	/*function dinoPath( dinos, target, delay ){
 	for(var i=0; i<dinos.length; i++)
 	{
@@ -933,6 +1003,18 @@
 	//   //scene.add(newOvi);
 	//   //dinos.push([newOvi,oviraptor]);
 	// }
+
+	function dinoPath( dinos, target ){
+		for(var i=0; i<dinos.length; i++)
+		{
+			console.log("dino length = ", dinos.length, dinos);
+			var moveOvi = new TWEEN.Tween(dinos[i][0].position)
+				.to(target, dinos[i][1].speed)
+				.start();
+			moveOvi.repeat(1000);
+			console.log( "moveOvi", moveOvi );
+		}
+	}
 
 
 	init();
