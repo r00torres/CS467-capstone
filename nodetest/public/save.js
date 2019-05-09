@@ -38,8 +38,9 @@ function checkCookie() {
    console.log("There's cookies here, yum!");
   } else {
     console.log("There's no cookies here yet, sad!");
-    if (username != "" && username != null) {
-      setCookie("username", username, 365);
+    var user = "testName"
+    if (user != "" && user != null) {
+      setCookie("username", user, 365);
     }
   }
 }
