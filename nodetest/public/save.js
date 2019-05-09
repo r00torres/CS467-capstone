@@ -3,7 +3,13 @@
 //click start new game should clear cookies
 
 //need to set coins, waves, lives, map base on load or new game
+
 //what else?
+
+//gotta save the currently built towers! web suggest convert to json and create cookie this way
+//https://stackoverflow.com/questions/2980143/i-want-to-store-javascript-array-as-a-cookie
+//this will require that an additional function thatcan create these towers on the board upon load
+
 //after each wave or level do we update? we would need to make this clear to user
 
 function setCookie(cname, cvalue, exdays) {
