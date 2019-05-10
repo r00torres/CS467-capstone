@@ -30,7 +30,7 @@
 	var scene, camera, renderer, controls, raycaster, mouse;
 
 
-	var container, stats;
+	var container, stats, countdown;
 
 	//animation variables
 	const mixers = [];
@@ -69,7 +69,7 @@
 		//( FOV, aspect ratio, near clipping plane, far clipping plane )
 		camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 500 );
 		camera.position.set( 0, 10, -10 );
-		//camera.lookAt( menu );
+		camera.lookAt( menu );
 
 		//Create the renderer
 		renderer = new THREE.WebGLRenderer();
@@ -106,7 +106,7 @@
 		console.log("camera",camera);
 
 		//for a static menu
-		//controls.enableKeys = false;
+		controls.enableKeys = false;
 
 		//Raycaster
 		raycaster = new THREE.Raycaster();
@@ -121,9 +121,9 @@
 
 	//https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
 
-		//menu();
+		menu();
 
-		play();
+		//play();
 		//var dinos = [];
 		//var ovi1 = addOviGLTF( scene, dinos );
 		//dinos.push([ovi1,oviraptor]);
@@ -438,6 +438,57 @@
 	//Creating the opening view of the game's menu
 	function menu() {
 
+		var canvas = document.createElement('canvas');
+		canvas.width = 256;
+		canvas.height = 256;
+		var context = canvas.getContext('2d');
+		context.fillStyle = '#ff0000';
+		context.textAlign = 'center';
+		context.font = '24px Arial';
+		context.fillText("Start Game", 175, 175);
+		var amap = new THREE.Texture(canvas);
+		amap.needsUpdate = true;
+
+		var mat = new THREE.SpriteMaterial({
+			map: amap,
+			transparent: false,
+			color: 0xffffff
+		});
+
+		var sp = new THREE.Sprite(mat);
+		sp.scale.set(10, 10, 1);
+		sp.name = "playme";
+		sp.position.y = 11;
+		sp.position.x = 2;
+		scene.add(sp);
+		gridT.push(sp);
+		console.log("sprite", sp);
+
+		var canvas2 = document.createElement('canvas');
+		canvas2.width = 600;
+		canvas2.height = 256;
+		var context2 = canvas2.getContext('2d');
+		context2.fillStyle = '#ff0000';
+		context2.textAlign = 'center';
+		context2.font = '16px Arial';
+		context2.fillText("Team Nunki: Christopher Frenchi, Jonathan Ruby, Ruben Torres", 300, 175);
+		var amap2 = new THREE.Texture(canvas2);
+		amap2.needsUpdate = true;
+
+		var mat2 = new THREE.SpriteMaterial({
+			map: amap2,
+			transparent: false,
+			color: 0xffffff
+		});
+
+		var credits = new THREE.Sprite(mat2);
+		credits.scale.set(10,10,1);
+		credits.name = "credits";
+		credits.position.y = 4;
+		credits.position.x = 0;
+		scene.add(credits);
+		gridT.push(credits);
+
 		//disables users ability to move around menu
 		controls.enabled = false;
 
@@ -462,7 +513,7 @@
 		playButton.name = "play";
 
 			//Pushing to the tile array
-		gridT.push( playButton );
+		//gridT.push( playButton );
 
 		/*Adding a Credits button*/
 
@@ -485,11 +536,11 @@
 		creditsButton.name = "credits";
 
 			//Pushing to the tile array
-		gridT.push( creditsButton );
+		//gridT.push( creditsButton );
 
 		//Add buttons to the scene
-		scene.add( playButton );
-		scene.add( creditsButton );
+		//scene.add( playButton );
+		//scene.add( creditsButton );
 
 		//Remove right click menu and add object clicking
 		document.addEventListener( 'contextmenu', function( event ) { event.preventDefault() }, false );
@@ -516,7 +567,7 @@
 
 				if( intersects.length != 0 ) {
 
-					if(intersects[0].object.name == "play") {
+					if(intersects[0].object.name == "playme") {
 
 						document.removeEventListener( 'click', menuSelect, false );
 
@@ -529,9 +580,15 @@
 
 							scene.remove( playButton );
 							scene.remove( creditsButton );
+							scene.remove(sp);
+							scene.remove(credits);
+							scene.remove(newSp);
 
 							buttonGeoPlay.dispose();
 							buttonGeoCredits.dispose();
+							mat.dispose();
+							mat2.dispose();
+							newMat.dispose();
 
 							buttonMatPlay.dispose();
 							buttonMatCredits.dispose();
@@ -545,8 +602,48 @@
 
 						//Show credit screen
 
+						/*scene.remove(credits);
+						mat2.dispose();
 
+						sp.position.y = -1;
+
+						var canvases = [];
+						var pos = 6;
+						var swidth = 600;
+						var sheight = 256;
+						//for(var i=0; i<4; i++)
+						//{
+							var newCanvas = document.createElement('canvas');
+							newCanvas.width = swidth;
+							newCanvas.height = sheight;
+							var newContext = newCanvas.getContext('2d');
+							newContext.fillStyle = '#ff0000';
+							newContext.textAlign = 'center';
+							newContext.font = '16px Arial';
+							newContext.fillText("Team Nunki: Christopher Frenchi, Jonathan Ruby, Ruben Torres", swidth/2, sheight/2);
+							var amap = new THREE.Texture(newCanvas);
+							amap.needsUpdate = true;
+
+							var newMat = new THREE.SpriteMaterial({
+								map: amap,
+								transparent: false,
+								color: 0xffffff
+							});
+
+							var newSp = new THREE.Sprite(newMat);
+							newSp.scale.set(14, 14, 1);
+							newSp.position.y = 8;
+							newSp.position.x = 0;
+							scene.add(newSp);
+							//canvases.push(newSp);
+							//pos+=2;
+						//}
+						/*for(var i=0; i<4; i++)
+					{
+						scene.add(canvases[i]);
+					}*/
 					}
+					
 
 				}
 
@@ -580,6 +677,31 @@
 		clock.startTime;
 
 		*/
+
+		//add a countdown timer
+		countdown = document.createElement('div');
+		countdown.style.position = 'absolute';
+		countdown.id = 'countdown';
+		countdown.style.width = "200px";
+		countdown.style.height = '50px';
+		countdown.style.background = 'green';
+		countdown.style.top = '50px';
+		countdown.style.left = '50%';
+		countdown.style.textAlign = 'center';
+		document.body.appendChild(countdown);
+
+		var timeleft = 10;
+		var downloadTimer = setInterval(function(){
+			document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
+			timeleft -= 1;
+			if(timeleft == -1){
+				document.getElementById("countdown").innerHTML = "Start"
+			}
+			else if(timeleft < -1){
+				clearInterval(downloadTimer);
+				document.getElementById("countdown").style.display = "none";
+			}
+		}, 1000);
 		var totWaves, timeXwave;
 		var coins = 100;
 		var curWave = 1;
@@ -725,7 +847,7 @@
 		/////////////////////////////////////////////////////
 		////////////////////////////////////////////////////
 		//start the waves
-		var delay = 0;
+		var delay = 10000;
 		for(var i=0; i<3; i++)
 		{
 			addOviGLTF(scene, dinos, delay);
