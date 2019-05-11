@@ -823,6 +823,10 @@
 
 		delay += 10000;
 
+		var waveTimer = setInterval(function(){
+			updateGameUIbar("waves", 2);
+		}, 21500);
+
 		for(var i=0; i<4; i++)
 		{
 			addOviGLTF(scene, dinos, delay);
@@ -831,6 +835,9 @@
 
 		delay += 10500;
 
+		waveTimer = setInterval(function(){
+			updateGameUIbar("waves", 3);
+		}, 33000);
 		for(var i=0; i<5; i++)
 		{
 			addOviGLTF(scene, dinos, delay);
@@ -1065,7 +1072,7 @@
 				}
 
 				//left, good
-				else if(dino.children[0].position.z == 10 && dino.children[0].position.x > 6 && dino.children[0].position.x < 10){
+				else if(dino.children[0].position.z == 10 && dino.children[0].position.x > 2 && dino.children[0].position.x < 10){
 					dino.children[0].rotation.y = 0;
 				}
 
@@ -1128,7 +1135,7 @@
 				}
 
 				//left, good
-				else if(dino.children[1].position.z == 10 && dino.children[1].position.x > 6 && dino.children[1].position.x < 10){
+				else if(dino.children[1].position.z == 10 && dino.children[1].position.x > 2 && dino.children[1].position.x < 10){
 					dino.children[1].rotation.y = 0;
 				}
 
