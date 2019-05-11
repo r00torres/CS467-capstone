@@ -582,13 +582,13 @@
 							scene.remove( creditsButton );
 							scene.remove(sp);
 							scene.remove(credits);
-							scene.remove(newSp);
+							//scene.remove(newSp);
 
 							buttonGeoPlay.dispose();
 							buttonGeoCredits.dispose();
 							mat.dispose();
 							mat2.dispose();
-							newMat.dispose();
+							//newMat.dispose();
 
 							buttonMatPlay.dispose();
 							buttonMatCredits.dispose();
@@ -691,14 +691,14 @@
 		document.body.appendChild(countdown);
 
 		var timeleft = 10;
-		var downloadTimer = setInterval(function(){
-			document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
+		var countdownTimer = setInterval(function(){
+			document.getElementById("countdown").innerHTML = "Start in " + timeleft;
 			timeleft -= 1;
 			if(timeleft == -1){
 				document.getElementById("countdown").innerHTML = "Start"
 			}
 			else if(timeleft < -1){
-				clearInterval(downloadTimer);
+				clearInterval(countdownTimer);
 				document.getElementById("countdown").style.display = "none";
 			}
 		}, 1000);
