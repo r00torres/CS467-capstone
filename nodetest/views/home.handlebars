@@ -343,6 +343,17 @@
 			target.z.push(map.path1[i][1]);
 		}
 
+		var targetHealth = {};
+		targetHealth.x = [];
+		targetHealth.z = [];
+		targetHealth.y = 3;
+		for(var i=0; i<map.path1.length; i++)
+		{
+			//add the coordinates from the path
+			targetHealth.x.push(map.path1[i][0]);
+			targetHealth.z.push(map.path1[i][1]);
+		}
+
 
 		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_multiple.html
 		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_keyframes.html
@@ -416,7 +427,7 @@
 			dinos.push([model,oviraptor]);
 			console.log("group ", dinogroup);
 			console.log("group pos ", dinogroup.position);
-			dinoPath( dinogroup, oviraptor.speed, target, delay );
+			dinoPath( dinogroup, oviraptor.speed, target, targetHealth, delay );
 			//moveDino(model);
 
 
@@ -582,13 +593,11 @@
 							scene.remove( creditsButton );
 							scene.remove(sp);
 							scene.remove(credits);
-							//scene.remove(newSp);
 
 							buttonGeoPlay.dispose();
 							buttonGeoCredits.dispose();
 							mat.dispose();
 							mat2.dispose();
-							//newMat.dispose();
 
 							buttonMatPlay.dispose();
 							buttonMatCredits.dispose();
@@ -600,48 +609,6 @@
 
 					} else if ( intersects[0].object.name == "credits" ) {
 
-						//Show credit screen
-
-						/*scene.remove(credits);
-						mat2.dispose();
-
-						sp.position.y = -1;
-
-						var canvases = [];
-						var pos = 6;
-						var swidth = 600;
-						var sheight = 256;
-						//for(var i=0; i<4; i++)
-						//{
-							var newCanvas = document.createElement('canvas');
-							newCanvas.width = swidth;
-							newCanvas.height = sheight;
-							var newContext = newCanvas.getContext('2d');
-							newContext.fillStyle = '#ff0000';
-							newContext.textAlign = 'center';
-							newContext.font = '16px Arial';
-							newContext.fillText("Team Nunki: Christopher Frenchi, Jonathan Ruby, Ruben Torres", swidth/2, sheight/2);
-							var amap = new THREE.Texture(newCanvas);
-							amap.needsUpdate = true;
-
-							var newMat = new THREE.SpriteMaterial({
-								map: amap,
-								transparent: false,
-								color: 0xffffff
-							});
-
-							var newSp = new THREE.Sprite(newMat);
-							newSp.scale.set(14, 14, 1);
-							newSp.position.y = 8;
-							newSp.position.x = 0;
-							scene.add(newSp);
-							//canvases.push(newSp);
-							//pos+=2;
-						//}
-						/*for(var i=0; i<4; i++)
-					{
-						scene.add(canvases[i]);
-					}*/
 					}
 					
 
@@ -692,7 +659,7 @@
 
 		var timeleft = 10;
 		var countdownTimer = setInterval(function(){
-			document.getElementById("countdown").innerHTML = "Start in " + timeleft;
+			document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
 			timeleft -= 1;
 			if(timeleft == -1){
 				document.getElementById("countdown").innerHTML = "Start"
@@ -1034,7 +1001,7 @@
 	// target is the path determined by the map
 	// delay is determined by the wave
 	// uses onUpdate to change the rotation of the dino in relation to the y axis
-	function dinoPath(dino, speed, target, delay)
+	function dinoPath(dino, speed, target, targetHealth, delay)
 	{
 		//var count = 0;
 		// for( var d = 0; d < dino.length; d++ ){
@@ -1128,9 +1095,8 @@
 
 				//health bar
 
-
 		var healthmove = new TWEEN.Tween(dino.children[1].position)
-			.to(target, speed).delay(delay)
+			.to(targetHealth, speed).delay(delay)
 			.onUpdate(function(){
 				if(dino.children[1].position.z == -6 && dino.children[1].position.x > -18 && dino.children[1].position.x < -6){
 					dino.children[1].rotation.y = 0;
