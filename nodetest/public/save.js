@@ -53,8 +53,12 @@ function checkCookie() {
     }
   }
 }
-
+let position = {
+                x = 1;
+                y = 1;
+                z = 1;
+              }
 //testing saving tower pos and name
-savedTowers.push({ position.x:1, position.y:1, position.z:1, name:"test" });
+savedTowers.push({ position, name:"test" });
 var json_str = JSON.stringify(savedTowers); 
 setCookie('loadBuildMap', json_str);
