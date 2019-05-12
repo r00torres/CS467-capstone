@@ -1,10 +1,9 @@
 var savedTowers = [];
-//clicking "load game" should call check cookies
-//click start new game should clear cookies
 
-//need to set coins, waves, lives, map base on load or new game
-
-//what else?
+//testing saving tower pos and name
+savedTowers.push({position.x:1, position.y:1, possition.z:1, name:"test"});
+var json_str = JSON.stringify(savedTowers); 
+setCookie('loadBuildMap', json_str);
 
 //gotta save the currently built towers! web suggest convert to json and create cookie this way
 function saveTowerLocations( endOfWaveTowers ) {
