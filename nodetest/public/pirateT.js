@@ -36,7 +36,7 @@ function addpirateT( object, scene, gridT, towers ){
 
         //set tower position to where user clicked
         newTower.position.x = object.x;
-        newTower.position.y = .1;
+        newTower.position.y = 2;
         newTower.position.z = object.z;
 
         //show the attack radius of the newTower
