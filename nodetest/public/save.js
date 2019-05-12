@@ -60,5 +60,7 @@ let position = {
               }
 //testing saving tower pos and name
 savedTowers.push({ position, name:"test" });
+savedTowers.push({ position, name:"test1" });
+savedTowers.push({ position, name:"test2" });
 var json_str = JSON.stringify(savedTowers); 
 setCookie('loadBuildMap', json_str);
