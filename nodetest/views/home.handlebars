@@ -1153,6 +1153,16 @@
 				else if(dino.children[1].position.x == 18 && dino.children[1].position.z > 2 && dino.children[1].position.z < 18){
 					dino.children[1].rotation.y = 300;
 				}
+
+				//reduce healthbar
+				if(dino.children[0].userData.health < oviraptor.health * .66 && dino.children[0].userData.health > oviraptor.health * .33)
+				{
+					dino.children[1].scale.z = .66;
+				}
+				else if(dino.children[0].userData.health < oviraptor.health * .33)
+				{
+					dino.children[1].scale.z = .33;
+				}
 			})
 			.start();
 		//removes the dino from the scene once it has reached the end
