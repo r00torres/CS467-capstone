@@ -13,6 +13,7 @@
 
 <script src="/static/gameUI.js"></script>
 <script src="/static/buildUI.js"></script>
+<script src="/static/save.js"></script>
 
 
 <script src="/static/map1.js"></script>
@@ -560,6 +561,7 @@
 	//Creating the game engine and functionality
 	function play() {
 
+		checkCookie();
 		/*
 
 		Game variables to be set by rule file:
