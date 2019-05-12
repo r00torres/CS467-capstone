@@ -8,9 +8,9 @@ let cannonT = {
   towerTime: 0,
   cost: 35
 };
-var group = new THREE.Group();
-function addcannonT( object, scene, gridT, towers ){
 
+function addcannonT( object, scene, gridT, towers ){
+  var group = new THREE.Group();
   //create a new Object3D so that the added object can be pushed to the
   //tower array, solved asynchronous js issues
   var newTower = new THREE.Object3D();
