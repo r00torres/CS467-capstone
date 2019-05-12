@@ -269,7 +269,7 @@ function attack( towers, dinos ) {
         //console.log("line...d t", dinov3lineAdj, towerv3lineAdj );
         //console.log("line", line);
         tc.userData.towerTime = clock.elapsedTime;
-        dino.userData.health--;
+        dino.userData.health = dino.userData.health - tc.userData.attackPower;
         console.log("POW!", clock.elapsedTime);
         console.log("DINO HEALTH: ", dino.userData.health);
         if(dino.userData.health <= 0){

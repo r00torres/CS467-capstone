@@ -2,9 +2,9 @@ let pirateT = {
 
   name: "pirate tower",
   buildSpeed: 3000, //3 seconds
-  attackSpeed: 1, //1 second
+  attackSpeed: 0.5, //1 second
   attackPower: 5,
-  attackRadius: 10,
+  attackRadius: 12,
   towerTime: 0,
   cost: 25
 };

@@ -93,7 +93,8 @@
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
 
 		stats = new Stats();
-		container.appendChild( stats.dom );
+		//Uncomment for FPS stats
+		//container.appendChild( stats.dom );
 
 		controls.target = new THREE.Vector3( 0, 5, 0 );
 
@@ -610,7 +611,7 @@
 					} else if ( intersects[0].object.name == "credits" ) {
 
 					}
-					
+
 
 				}
 
@@ -1273,7 +1274,8 @@
 		});
 		renderer.render( scene, camera );
 		controls.update();
-		stats.update();
+		//Uncomment for FPS stats
+		//stats.update();
 	}
 
 	/*
