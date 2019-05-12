@@ -30,7 +30,7 @@
 	var scene, camera, renderer, controls, raycaster, mouse;
 
 
-	var container, stats;
+	var container, stats, countdown;
 
 	//animation variables
 	const mixers = [];
@@ -69,7 +69,7 @@
 		//( FOV, aspect ratio, near clipping plane, far clipping plane )
 		camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 500 );
 		camera.position.set( 0, 10, -10 );
-		//camera.lookAt( menu );
+		camera.lookAt( menu );
 
 		//Create the renderer
 		renderer = new THREE.WebGLRenderer();
@@ -106,7 +106,7 @@
 		console.log("camera",camera);
 
 		//for a static menu
-		//controls.enableKeys = false;
+		controls.enableKeys = false;
 
 		//Raycaster
 		raycaster = new THREE.Raycaster();
@@ -121,9 +121,9 @@
 
 	//https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
 
-		//menu();
+		menu();
 
-		play();
+		//play();
 		//var dinos = [];
 		//var ovi1 = addOviGLTF( scene, dinos );
 		//dinos.push([ovi1,oviraptor]);
@@ -343,6 +343,17 @@
 			target.z.push(map.path1[i][1]);
 		}
 
+		var targetHealth = {};
+		targetHealth.x = [];
+		targetHealth.z = [];
+		targetHealth.y = 3;
+		for(var i=0; i<map.path1.length; i++)
+		{
+			//add the coordinates from the path
+			targetHealth.x.push(map.path1[i][0]);
+			targetHealth.z.push(map.path1[i][1]);
+		}
+
 
 		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_multiple.html
 		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_keyframes.html
@@ -416,7 +427,7 @@
 			dinos.push([model,oviraptor]);
 			console.log("group ", dinogroup);
 			console.log("group pos ", dinogroup.position);
-			dinoPath( dinogroup, oviraptor.speed, target, delay );
+			dinoPath( dinogroup, oviraptor.speed, target, targetHealth, delay );
 			//moveDino(model);
 
 
@@ -437,6 +448,57 @@
 
 	//Creating the opening view of the game's menu
 	function menu() {
+
+		var canvas = document.createElement('canvas');
+		canvas.width = 256;
+		canvas.height = 256;
+		var context = canvas.getContext('2d');
+		context.fillStyle = '#ff0000';
+		context.textAlign = 'center';
+		context.font = '24px Arial';
+		context.fillText("Start Game", 175, 175);
+		var amap = new THREE.Texture(canvas);
+		amap.needsUpdate = true;
+
+		var mat = new THREE.SpriteMaterial({
+			map: amap,
+			transparent: false,
+			color: 0xffffff
+		});
+
+		var sp = new THREE.Sprite(mat);
+		sp.scale.set(10, 10, 1);
+		sp.name = "playme";
+		sp.position.y = 11;
+		sp.position.x = 2;
+		scene.add(sp);
+		gridT.push(sp);
+		console.log("sprite", sp);
+
+		var canvas2 = document.createElement('canvas');
+		canvas2.width = 600;
+		canvas2.height = 256;
+		var context2 = canvas2.getContext('2d');
+		context2.fillStyle = '#ff0000';
+		context2.textAlign = 'center';
+		context2.font = '16px Arial';
+		context2.fillText("Team Nunki: Christopher Frenchi, Jonathan Ruby, Ruben Torres", 300, 175);
+		var amap2 = new THREE.Texture(canvas2);
+		amap2.needsUpdate = true;
+
+		var mat2 = new THREE.SpriteMaterial({
+			map: amap2,
+			transparent: false,
+			color: 0xffffff
+		});
+
+		var credits = new THREE.Sprite(mat2);
+		credits.scale.set(10,10,1);
+		credits.name = "credits";
+		credits.position.y = 4;
+		credits.position.x = 0;
+		scene.add(credits);
+		gridT.push(credits);
 
 		//disables users ability to move around menu
 		controls.enabled = false;
@@ -462,7 +524,7 @@
 		playButton.name = "play";
 
 			//Pushing to the tile array
-		gridT.push( playButton );
+		//gridT.push( playButton );
 
 		/*Adding a Credits button*/
 
@@ -485,11 +547,11 @@
 		creditsButton.name = "credits";
 
 			//Pushing to the tile array
-		gridT.push( creditsButton );
+		//gridT.push( creditsButton );
 
 		//Add buttons to the scene
-		scene.add( playButton );
-		scene.add( creditsButton );
+		//scene.add( playButton );
+		//scene.add( creditsButton );
 
 		//Remove right click menu and add object clicking
 		document.addEventListener( 'contextmenu', function( event ) { event.preventDefault() }, false );
@@ -516,7 +578,7 @@
 
 				if( intersects.length != 0 ) {
 
-					if(intersects[0].object.name == "play") {
+					if(intersects[0].object.name == "playme") {
 
 						document.removeEventListener( 'click', menuSelect, false );
 
@@ -529,9 +591,13 @@
 
 							scene.remove( playButton );
 							scene.remove( creditsButton );
+							scene.remove(sp);
+							scene.remove(credits);
 
 							buttonGeoPlay.dispose();
 							buttonGeoCredits.dispose();
+							mat.dispose();
+							mat2.dispose();
 
 							buttonMatPlay.dispose();
 							buttonMatCredits.dispose();
@@ -543,10 +609,8 @@
 
 					} else if ( intersects[0].object.name == "credits" ) {
 
-						//Show credit screen
-
-
 					}
+					
 
 				}
 
@@ -580,6 +644,31 @@
 		clock.startTime;
 
 		*/
+
+		//add a countdown timer
+		countdown = document.createElement('div');
+		countdown.style.position = 'absolute';
+		countdown.id = 'countdown';
+		countdown.style.width = "200px";
+		countdown.style.height = '50px';
+		countdown.style.background = 'green';
+		countdown.style.top = '50px';
+		countdown.style.left = '50%';
+		countdown.style.textAlign = 'center';
+		document.body.appendChild(countdown);
+
+		var timeleft = 10;
+		var countdownTimer = setInterval(function(){
+			document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
+			timeleft -= 1;
+			if(timeleft == -1){
+				document.getElementById("countdown").innerHTML = "Start"
+			}
+			else if(timeleft < -1){
+				clearInterval(countdownTimer);
+				document.getElementById("countdown").style.display = "none";
+			}
+		}, 1000);
 		var totWaves, timeXwave;
 		var coins = 100;
 		var curWave = 1;
@@ -725,7 +814,7 @@
 		/////////////////////////////////////////////////////
 		////////////////////////////////////////////////////
 		//start the waves
-		var delay = 0;
+		var delay = 10000;
 		for(var i=0; i<3; i++)
 		{
 			addOviGLTF(scene, dinos, delay);
@@ -733,6 +822,10 @@
 		}
 
 		delay += 10000;
+
+		var waveTimer = setInterval(function(){
+			updateGameUIbar("waves", 2);
+		}, 21500);
 
 		for(var i=0; i<4; i++)
 		{
@@ -742,6 +835,9 @@
 
 		delay += 10500;
 
+		waveTimer = setInterval(function(){
+			updateGameUIbar("waves", 3);
+		}, 33000);
 		for(var i=0; i<5; i++)
 		{
 			addOviGLTF(scene, dinos, delay);
@@ -912,7 +1008,7 @@
 	// target is the path determined by the map
 	// delay is determined by the wave
 	// uses onUpdate to change the rotation of the dino in relation to the y axis
-	function dinoPath(dino, speed, target, delay)
+	function dinoPath(dino, speed, target, targetHealth, delay)
 	{
 		//var count = 0;
 		// for( var d = 0; d < dino.length; d++ ){
@@ -976,7 +1072,7 @@
 				}
 
 				//left, good
-				else if(dino.children[0].position.z == 10 && dino.children[0].position.x > 6 && dino.children[0].position.x < 10){
+				else if(dino.children[0].position.z == 10 && dino.children[0].position.x > 2 && dino.children[0].position.x < 10){
 					dino.children[0].rotation.y = 0;
 				}
 
@@ -1006,9 +1102,8 @@
 
 				//health bar
 
-
 		var healthmove = new TWEEN.Tween(dino.children[1].position)
-			.to(target, speed).delay(delay)
+			.to(targetHealth, speed).delay(delay)
 			.onUpdate(function(){
 				if(dino.children[1].position.z == -6 && dino.children[1].position.x > -18 && dino.children[1].position.x < -6){
 					dino.children[1].rotation.y = 0;
@@ -1040,7 +1135,7 @@
 				}
 
 				//left, good
-				else if(dino.children[1].position.z == 10 && dino.children[1].position.x > 6 && dino.children[1].position.x < 10){
+				else if(dino.children[1].position.z == 10 && dino.children[1].position.x > 2 && dino.children[1].position.x < 10){
 					dino.children[1].rotation.y = 0;
 				}
 
