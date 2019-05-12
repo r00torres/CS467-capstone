@@ -1,10 +1,5 @@
 var savedTowers = [];
 
-//testing saving tower pos and name
-savedTowers.push({position.x:1, position.y:1, possition.z:1, name:"test"});
-var json_str = JSON.stringify(savedTowers); 
-setCookie('loadBuildMap', json_str);
-
 //gotta save the currently built towers! web suggest convert to json and create cookie this way
 function saveTowerLocations( endOfWaveTowers ) {
   for (var i = 0; i < endOfWaveTowers.length; i++){
@@ -60,3 +55,8 @@ function checkCookie() {
     }
   }
 }
+
+//testing saving tower pos and name
+savedTowers.push({position.x:1, position.y:1, possition.z:1, name:"test"});
+var json_str = JSON.stringify(savedTowers); 
+setCookie('loadBuildMap', json_str);
