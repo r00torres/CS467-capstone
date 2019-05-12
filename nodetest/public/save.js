@@ -1,4 +1,4 @@
-
+var savedTowers = [];
 //clicking "load game" should call check cookies
 //click start new game should clear cookies
 
@@ -7,7 +7,18 @@
 //what else?
 
 //gotta save the currently built towers! web suggest convert to json and create cookie this way
-//https://stackoverflow.com/questions/2980143/i-want-to-store-javascript-array-as-a-cookie
+function saveTowerLocations( endOfWaveTowers ) {
+  for (var i = 0; i < endOfWaveTowers.length; i++){
+    savedTowers.push({endOfWaveTowers[i].position, endOfWaveTowers[i].name});
+  }
+  
+  //https://stackoverflow.com/questions/2980143/i-want-to-store-javascript-array-as-a-cookie
+  var json_str = JSON.stringify(savedTowers);
+  
+  setCookie('loadBuildMap', json_str);
+  
+}
+
 //this will require that an additional function thatcan create these towers on the board upon load
 
 //after each wave or level do we update? we would need to make this clear to user
