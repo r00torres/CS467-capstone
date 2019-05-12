@@ -1,9 +1,9 @@
 var savedTowers = [];
 
 //gotta save the currently built towers! web suggest convert to json and create cookie this way
-function saveTowerLocations( endOfWaveTowers[] ) {
+/*function saveTowerLocations( endOfWaveTowers[] ) {
   for (var i = 0; i < endOfWaveTowers.length; i++){
-    savedTowers.push({endOfWaveTowers[i].position, endOfWaveTowers[i].name});
+    savedTowers.push({endOfWaveTowers[i].position.x, endOfWaveTowers[i].name});
   }
   
   //https://stackoverflow.com/questions/2980143/i-want-to-store-javascript-array-as-a-cookie
@@ -11,7 +11,7 @@ function saveTowerLocations( endOfWaveTowers[] ) {
   
   setCookie('loadBuildMap', json_str);
   
-}
+}*/
 
 //this will require that an additional function thatcan create these towers on the board upon load
 
