@@ -1,7 +1,7 @@
 var savedTowers = [];
 
 //gotta save the currently built towers! web suggest convert to json and create cookie this way
-function saveTowerLocations( endOfWaveTowers ) {
+function saveTowerLocations( endOfWaveTowers[] ) {
   for (var i = 0; i < endOfWaveTowers.length; i++){
     savedTowers.push({endOfWaveTowers[i].position, endOfWaveTowers[i].name});
   }
