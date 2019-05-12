@@ -40,8 +40,6 @@ function getCookie(cname) {
   return "";
 }
 
-
-//
 function checkCookie() {
   var username = getCookie("username");
   if (username != "") {
@@ -57,6 +55,6 @@ function checkCookie() {
 }
 
 //testing saving tower pos and name
-savedTowers.push({position.x:1, position.y:1, possition.z:1, name:"test"});
+savedTowers.push({ position.x:1, position.y:1, position.z:1, name:"test" });
 var json_str = JSON.stringify(savedTowers); 
 setCookie('loadBuildMap', json_str);
