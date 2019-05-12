@@ -26,7 +26,9 @@ function getCookie(cname) {
 //gotta save the currently built towers! web suggest convert to json and create cookie this way
 function saveTowerLocations( towers ) {
   for (var i = 0; i < towers.length; i++){
-    savedTowers.push({towers[i].position, towers[i].name});
+    var pos = towers[i].position;
+    var nameOf = towers[i].name;
+    savedTowers.push({pos, nameOf});
   }
   
   //https://stackoverflow.com/questions/2980143/i-want-to-store-javascript-array-as-a-cookie
