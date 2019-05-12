@@ -54,9 +54,9 @@ function checkCookie() {
   }
 }
 let position = {
-                x = 1;
-                y = 1;
-                z = 1;
+                x = 1,
+                y = 1,
+                z = 1,
               }
 //testing saving tower pos and name
 savedTowers.push({ position, name:"test" });
