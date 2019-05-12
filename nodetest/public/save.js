@@ -1,16 +1,4 @@
-
-//clicking "load game" should call check cookies
-//click start new game should clear cookies
-
-//need to set coins, waves, lives, map base on load or new game
-
-//what else?
-
-//gotta save the currently built towers! web suggest convert to json and create cookie this way
-//https://stackoverflow.com/questions/2980143/i-want-to-store-javascript-array-as-a-cookie
-//this will require that an additional function thatcan create these towers on the board upon load
-
-//after each wave or level do we update? we would need to make this clear to user
+var savedTowers = [];
 
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();
@@ -35,8 +23,21 @@ function getCookie(cname) {
   return "";
 }
 
+//gotta save the currently built towers! web suggest convert to json and create cookie this way
+function saveTowerLocations( towers ) {
+  for (var i = 0; i < towers.length; i++){
+    var pos = towers[i].position;
+    var nameOf = towers[i].name;
+    savedTowers.push({pos, nameOf});
+  }
+  
+  //https://stackoverflow.com/questions/2980143/i-want-to-store-javascript-array-as-a-cookie
+  var json_str = JSON.stringify(savedTowers);
+  
+  setCookie('loadBuildMap', json_str);
+  
+}
 
-//
 function checkCookie() {
   var username = getCookie("username");
   if (username != "") {
@@ -50,3 +51,16 @@ function checkCookie() {
     }
   }
 }
+
+//testing saving tower pos and name
+let position = {
+                x: 1,
+                y: 1,
+                z: 1,
+              }
+
+savedTowers.push({ position, name:"test" });
+savedTowers.push({ position, name:"test1" });
+savedTowers.push({ position, name:"test2" });
+var json_str = JSON.stringify(savedTowers); 
+setCookie('loadBuildMap', json_str);

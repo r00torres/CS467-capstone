@@ -1,5 +1,5 @@
 let oviraptor = {
-  health: 5,
+  health: 60,
   speed: 10000,
   reward: 5
 }

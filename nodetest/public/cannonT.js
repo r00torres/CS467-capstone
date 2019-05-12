@@ -8,9 +8,9 @@ let cannonT = {
   towerTime: 0,
   cost: 35
 };
-var group = new THREE.Group();
-function addcannonT( object, scene, gridT, towers ){
 
+function addcannonT( object, scene, gridT, towers ){
+  var group = new THREE.Group();
   //create a new Object3D so that the added object can be pushed to the
   //tower array, solved asynchronous js issues
   var newTower = new THREE.Object3D();
@@ -269,7 +269,7 @@ function attack( towers, dinos ) {
         //console.log("line...d t", dinov3lineAdj, towerv3lineAdj );
         //console.log("line", line);
         tc.userData.towerTime = clock.elapsedTime;
-        dino.userData.health--;
+        dino.userData.health = dino.userData.health - tc.userData.attackPower;
         console.log("POW!", clock.elapsedTime);
         console.log("DINO HEALTH: ", dino.userData.health);
         if(dino.userData.health <= 0){
