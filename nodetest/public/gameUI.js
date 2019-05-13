@@ -1,10 +1,10 @@
 //testing ui elements
-function initGameUI(coins, lives, waves){    
+function initGameUI(coins, lives, waves){
     var gameUI = document.createElement("div");
     gameUI.setAttribute("id", "game-ui-bar");
     gameUI.setAttribute("class", "game-ui");
     document.body.insertBefore(gameUI, document.body.firstChild);
-    
+
     var coinDiv = document.createElement("span");
     coinDiv.setAttribute("id", "coins");
     var text = document.createTextNode("COINS ");
@@ -13,7 +13,7 @@ function initGameUI(coins, lives, waves){
     coinVal.setAttribute("id", "coinVal");
     text = document.createTextNode(coins);
     coinVal.appendChild(text);
-        
+
     var livesDiv = document.createElement("span");
     livesDiv.setAttribute("id", "lives");
     text = document.createTextNode("LIVES ");
@@ -22,7 +22,7 @@ function initGameUI(coins, lives, waves){
     livesVal.setAttribute("id", "livesVal");
     text = document.createTextNode(lives);
     livesVal.appendChild(text);
-        
+
     var wavesDiv = document.createElement("span");
     wavesDiv.setAttribute("id", "wave");
     text = document.createTextNode("WAVE ");
@@ -31,7 +31,7 @@ function initGameUI(coins, lives, waves){
     wavesVal.setAttribute("id", "wavesVal");
     text = document.createTextNode(waves);
     wavesVal.appendChild(text);
-        
+
     document.getElementById("game-ui-bar").append(coinDiv);
     document.getElementById("game-ui-bar").append(coinVal);
     document.getElementById("game-ui-bar").append(livesDiv);
@@ -47,14 +47,14 @@ function initGameUI(coins, lives, waves){
             location.innerHTML = newValue;
             console.log("New Coin value is: ", location.innerHTML);
         }
-        
+
         else if(field == "lives"){
             var location = document.getElementById("livesVal");
             console.log("Current Lives value is: ", location.innerHTML);
             location.innerHTML = newValue;
             console.log("New Lives value is: ", location.innerHTML);
         }
-        
+
         else if(field == "waves"){
             var location = document.getElementById("wavesVal");
             console.log("Current Waves value is: ", location.innerHTML);

@@ -22,6 +22,7 @@
 <script src="/static/ovi.js"></script>
 <script src="/static/rap.js"></script>
 <script src="/static/trex.js"></script>
+<script src="/static/rules.js"></script>
 
 <script type='text/javascript' src='/static/Tween.js'></script>
 <script>
@@ -42,6 +43,10 @@
 	var dinos = [];
 	var towers = [];
 	var projectiles = [];
+	//var totWaves, timeXwave;
+	//var coins = 100;
+	//var curWave = 1;
+	//var lives = 3;
 
 
 	//var collisionSphere = []
@@ -623,6 +628,23 @@
 
 	}
 
+	function getCoins(){
+		console.log("Current Coins var", coins);
+		return coins;
+	}
+	function setCoins( newValue ){
+		console.log("coins", coins);
+		coins = newValue;
+	}
+	function getLives(){
+		console.log("Current Lives var", lives);
+		return lives;
+	}
+	function setLives( newValue ){
+		console.log("lives", lives);
+		lives = newValue;
+	}
+
 	//Creating the game engine and functionality
 	function play() {
 
@@ -670,10 +692,9 @@
 				document.getElementById("countdown").style.display = "none";
 			}
 		}, 1000);
-		var totWaves, timeXwave;
-		var coins = 100;
-		var curWave = 1;
-		var lives = 3;
+
+
+
 		initGameUI(coins, lives, curWave);
 
 
@@ -690,7 +711,7 @@
 		//console.log(".js MAP: ",jsMap.mapArray[0].name, jsMap.mapArray[0].map);
 
 
-		//Added a map as an array
+		//Added a map as an arraytimeleft
 		var map0 = ['a', 'b', 'a', 'b'];
 		var map1 = ['b', 'a', 'b', 'a'];
 		var map2 = ['a', 'b', 'a', 'b'];
@@ -704,7 +725,7 @@
 
 		var gridTiles = [];
 
-		var gridTiles = [];
+		var gridTiles = [];timeleft
 		var path = [];
 		function addTiles(m){
 			console.log("adding tiles", m);
@@ -782,7 +803,7 @@
 
 
 		var geometry = new THREE.Geometry();
-		/*geometry.vertices.push(
+		/*geometry.vertices.ptimeleftush(
 			new THREE.Vector3( path[0].position.x, 0, path[0].position.z ),
 			new THREE.Vector3( path[1].position.x, 0, path[1].position.z ),
 		);*/
@@ -815,35 +836,9 @@
 		/////////////////////////////////////////////////////
 		////////////////////////////////////////////////////
 		//start the waves
-		var delay = 10000;
-		for(var i=0; i<3; i++)
-		{
-			addOviGLTF(scene, dinos, delay);
-			delay += 500;
-		}
-
-		delay += 10000;
-
-		var waveTimer = setInterval(function(){
-			updateGameUIbar("waves", 2);
-		}, 21500);
-
-		for(var i=0; i<4; i++)
-		{
-			addOviGLTF(scene, dinos, delay);
-			delay += 500;
-		}
-
-		delay += 10500;
-
-		waveTimer = setInterval(function(){
-			updateGameUIbar("waves", 3);
-		}, 33000);
-		for(var i=0; i<5; i++)
-		{
-			addOviGLTF(scene, dinos, delay);
-			delay += 500;
-		}
+		setTimeout(function(){
+			mapWaves(curWave);
+		}, 10000);
 
 		//addOvi(scene, dinos);
 		//addRaptor(scene, dinos);
@@ -934,8 +929,8 @@
 				clickMusket = function () {
 						console.log("Clicked Musket Tower")
   						clearBuildMenu();
-						possibleCoins = coins - pirateT.cost;
-						updateGameUIbar("coins", possibleCoins);
+						coins = coins - pirateT.cost;
+						updateGameUIbar("coins", coins);
 						intersects[0].object.name = "tower";
 						addpirateT( intersects[0].object.position, scene, gridT, towers );
 						};
@@ -943,8 +938,9 @@
 				clickCannon = function() {
 						console.log("Clicked Cannon Tower")
   						clearBuildMenu();
-						possibleCoins = coins - cannonT.cost;
-						updateGameUIbar("coins", possibleCoins);
+						coins = coins - cannonT.cost;
+						updateGameUIbar("coins", coins);
+						//getCoins();
 						intersects[0].object.name = "tower";
 						addcannonT( intersects[0].object.position, scene, gridT, towers );
 						console.log("towers", towers);
@@ -953,8 +949,8 @@
 				clickNet = function() {
 						console.log("Clicked Net Tower")
   						clearBuildMenu();
-						possibleCoins = coins - pirateT.cost;
-						updateGameUIbar("coins", possibleCoins);
+						coins = coins - pirateT.cost;
+						updateGameUIbar("coins", coins);
 						intersects[0].object.name = "tower";
 						addcannonT( intersects[0].object.position, scene, gridT, towers );
 						};
@@ -1168,7 +1164,30 @@
 			.start();
 		//removes the dino from the scene once it has reached the end
 		healthmove.onComplete(function(){
-				scene.remove(dino);
+				console.log("end of path", dino);
+				console.log("dinos...", dinos);
+				var endDinolength = dinos.length;
+				curLives = getLives();
+				//two children being removed.
+				var dinoEnder = dino.parent;
+				for(var dinosleft = 0; dinosleft < dinos.length; dinosleft++){
+					console.log("for", dinos[dinosleft]);
+					console.log("DINO UUID", dino.children[0].uuid, dinos[dinosleft][0].uuid);
+					if(dino.children[0].uuid == dinos[dinosleft][0].uuid){
+						console.log("HERERERERER", dino.uuid, dinos[dinosleft][0].uuid);
+						curLives -= .5;
+						setLives(curLives);
+						updateGameUIbar( "lives", getLives() );
+						scene.remove(dino);
+
+					}
+
+				};
+				//}
+				//
+				if( getLives() <= 0 ){
+					loseCondition();
+				}
 		});
 		//
 		}
@@ -1221,7 +1240,7 @@
 	    	//console.log("for i", i );
 	      var tc = towers[i].children;
 	      for( var j = 0; j < tc.length; j=j+2) {
-					attack( towers, dinos );
+					attack( coins, towers, dinos );
 	        //radiusCheck( tc[j+1].userData.attackRadius, tc[j].position)
 	        //console.log("or herer?");
 	      };
