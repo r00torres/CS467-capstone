@@ -34,6 +34,9 @@ function saveTowerLocations( towers ) {
   //https://stackoverflow.com/questions/2980143/i-want-to-store-javascript-array-as-a-cookie
   var json_str = JSON.stringify(savedTowers);
   
+  //reset savedTowers
+  savedTowers = [];
+  
   setCookie('loadBuildMap', json_str);
   
 }
