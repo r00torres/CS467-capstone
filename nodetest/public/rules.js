@@ -21,6 +21,7 @@ function mapWaves(curWave){
     }
     //waveTime += clock.elapsedTime;
     curWave++;
+    saveTowerLocations( towers );
     //if( lives <= 0)
     if( lives > 0 ){
 
