@@ -918,7 +918,7 @@
 				//shows build options for player's current coin at this location (need to change first param to coin
 				//last param to cost of last tower
 
-				viewBuildMenu(coins, pirateT.cost, cannonT.cost, cannonT.cost);
+				viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cannonT.cost);
 
 				//remove the previous click event (which was to build for last location)
 				document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
@@ -929,8 +929,8 @@
 				clickMusket = function () {
 						console.log("Clicked Musket Tower")
   						clearBuildMenu();
-						coins = coins - pirateT.cost;
-						updateGameUIbar("coins", coins);
+						//coins = coins - pirateT.cost;
+						updateGameUIbar("coins", (getCoins() - pirateT.cost));
 						intersects[0].object.name = "tower";
 						addpirateT( intersects[0].object.position, scene, gridT, towers );
 						};
