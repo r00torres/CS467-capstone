@@ -26,8 +26,8 @@ function getCookie(cname) {
 //gotta save the currently built towers! web suggest convert to json and create cookie this way
 function saveTowerLocations( towers ) {
   for (var i = 0; i < towers.length; i++){
-    var pos = towers[i].position;
-    var nameOf = towers[i].name;
+    var pos = towers[i].children[1].position;
+    var nameOf = towers[i].children[1].name;
     savedTowers.push({pos, nameOf});
   }
   
