@@ -1,11 +1,4 @@
-var savedTowers = [];
-
-function setCookie(cname, cvalue, exdays) {
-  var d = new Date();
-  d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-  var expires = "expires="+d.toUTCString();
-  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
+var loadTowers = [];
 
 function getCookie(cname) {
   var name = cname + "=";
@@ -24,43 +17,24 @@ function getCookie(cname) {
 }
 
 //gotta save the currently built towers! web suggest convert to json and create cookie this way
-function saveTowerLocations( towers ) {
-  for (var i = 0; i < towers.length; i++){
-    var pos = towers[i].children[1].position;
-    var nameOf = towers[i].children[1].name;
-    savedTowers.push({pos, nameOf});
-  }
+function loadTowerLocations( towers ) {
+  var jsonloadedTowers = getCookie('loadBuildMap');
+  loadTowers = JSON.parse(jsonloadedTowers);
   
-  //https://stackoverflow.com/questions/2980143/i-want-to-store-javascript-array-as-a-cookie
-  var json_str = JSON.stringify(savedTowers);
-  
-  setCookie('loadBuildMap', json_str);
-  
-}
-
-function checkCookie() {
-  var username = getCookie("username");
-  if (username != "") {
-   //load game state variables
-   console.log("There's cookies here, yum!");
-  } else {
-    console.log("There's no cookies here yet, sad!");
-    var user = "testName"
-    if (user != "" && user != null) {
-      setCookie("username", user, 365);
+  for (var i = 0; i < loadTowers.length; i++){
+    
+    if(loadTowers[i].nameOf == "musket tower"){
+      //build
     }
+    
+    else if(loadTowers[i].nameOf == "cannon tower"){
+      //build
+    }
+    
+    else if(loadTowers[i].nameOf == "cannon tower"){
+      //build
+    }
+
   }
+  
 }
-
-/*//testing saving tower pos and name
-let position = {
-                x: 1,
-                y: 1,
-                z: 1,
-              }
-
-savedTowers.push({ position, name:"test" });
-savedTowers.push({ position, name:"test1" });
-savedTowers.push({ position, name:"test2" });
-var json_str = JSON.stringify(savedTowers); 
-setCookie('loadBuildMap', json_str);*/
