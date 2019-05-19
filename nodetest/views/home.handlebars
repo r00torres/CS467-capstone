@@ -929,8 +929,8 @@
 				clickMusket = function () {
 						console.log("Clicked Musket Tower")
   						clearBuildMenu();
-						//coins = coins - pirateT.cost;
-						updateGameUIbar("coins", (getCoins() - pirateT.cost));
+						coins = coins - pirateT.cost;
+						updateGameUIbar("coins", coins);
 						intersects[0].object.name = "tower";
 						addpirateT( intersects[0].object.position, scene, gridT, towers );
 						};
