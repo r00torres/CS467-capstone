@@ -48,21 +48,19 @@ function loadTowerLocations( towers ) {
 }
 
 function loadGameValues() {
-  var jsonloadedGameVariables = getCookie('loadGameVariables');
-  if(jsonloadedGameVariables == ""){
+  var coinAtLoad = getCookie('loadCoins');
+  var waveAtLoad = getCookie('loadWaves');
+  var livesAtLoad = getCookie('loadLivess');
+  if(coinAtLoad == ""){
     console.log("No game variables to load");
     return;
   }
   
-  loadedGameVariables = JSON.parse(jsonloadedGameVariables);
+  console.log("coinAtLoad: ", coinAtLoad);
   
-  var strCoins = jsonloadedGameVariables[0].coinAtSave;
-  console.log("StrCoins = ", strCoins);
-  var strLives = jsonloadedGameVariables[0].livesAtSave;
-  var strWaves = jsonloadedGameVariables[0].waveAtSave;
-  setCoins( parseInt(strCoins) );
-  setLives( parseInt(strLives) );
-  curWave = parseInt(strWaves);
+  setCoins( parseInt(coinAtLoad) );
+  setLives( parseInt(livesAtLoad) );
+  curWave = parseInt(waveAtLoad);
   
 }
 
