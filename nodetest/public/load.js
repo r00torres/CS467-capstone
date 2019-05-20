@@ -55,7 +55,7 @@ function loadGameValues() {
     return;
   }
   
-  console.log("coinAtLoad: ", coinAtLoad);
+  //console.log("coinAtLoad: ", coinAtLoad);
   
   setCoins( parseInt(coinAtLoad) );
   setLives( parseInt(livesAtLoad) );
