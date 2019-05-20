@@ -1,4 +1,5 @@
 var loadTowers = [];
+var loadedGameVariables = [];
 
 function getCookie(cname) {
   var name = cname + "=";
@@ -23,18 +24,37 @@ function loadTowerLocations( towers ) {
   
   for (var i = 0; i < loadTowers.length; i++){
     
-    if(loadTowers[i].nameOf == "musket tower"){
-      //build
+    if(loadTowers[i].nameOf == "musket tower"){('coins');
+      addpirateT( loadTowers[i].pos, scene, gridT, towers );
     }
     
     else if(loadTowers[i].nameOf == "cannon tower"){
       //build
+      addcannonT( loadTowers[i].pos, scene, gridT, towers );
     }
     
+    //CHANGE TO NET CANNON
     else if(loadTowers[i].nameOf == "cannon tower"){
       //build
+      addcannonT( loadTowers[i].pos, scene, gridT, towers );
     }
 
   }
   
+}
+
+function loadGameValues() {
+  var jsonloadedGameVariables = getCookie('loadGameVariables');
+  loadedGameVariables = JSON.parse(jsonloadedGameVariables);
+  
+  setCoins( jsonloadedGameVariables.coinsAtSave );
+  setLives( jsonloadedGameVariables.livesAtSave );
+  curWave = jsonloadedGameVariables.waveAtSave;
+  
+}
+
+function loadGame() {
+  loadTowerLocations( towers );
+  loadGameValues();
+  console.log("Loaded Game!");
 }
