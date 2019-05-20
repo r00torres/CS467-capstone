@@ -1,5 +1,4 @@
-var savedTowers = [];
-var savedGameVariables = [];
+
 
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();
@@ -26,6 +25,7 @@ function getCookie(cname) {
 
 //gotta save the currently built towers! web suggest convert to json and create cookie this way
 function saveTowerLocations( towers ) {
+  var savedTowers = [];
   for (var i = 0; i < towers.length; i++){
     var pos = towers[i].children[1].position;
     var nameOf = towers[i].children[1].name;
@@ -34,9 +34,6 @@ function saveTowerLocations( towers ) {
   
   //https://stackoverflow.com/questions/2980143/i-want-to-store-javascript-array-as-a-cookie
   var json_str = JSON.stringify(savedTowers);
-  
-  //reset savedTowers
-  savedTowers = [];
   
   setCookie('loadBuildMap', json_str);
   
@@ -47,17 +44,10 @@ function saveGameVariables( coins, curWave, lives ) {
     var coinAtSave = coins;
     var waveAtSave = curWave;
     var livesAtSave = lives;
-    savedGameVariables.push({coinAtSave, waveAtSave, livesAtSave});
-  }
-  
-  //https://stackoverflow.com/questions/2980143/i-want-to-store-javascript-array-as-a-cookie
-  var json_str_gameVariables = JSON.stringify(savedGameVariables);
-  
-  //reset savedTowers
-  savedGameVariables = [];
-  
-  setCookie('loadGameVariables', json_str_gameVariables);
-  
+
+    setCookie('loadCoins', coinAtSave);
+    setCookie('loadWaves', waveAtSave);
+    setCookie('loadLives', livesAtSave);
 }
 
 function checkCookie() {
