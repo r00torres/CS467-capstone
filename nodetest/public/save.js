@@ -40,7 +40,6 @@ function saveTowerLocations( towers ) {
 }
 
 function saveGameVariables( coins, curWave, lives ) {
-  for (var i = 0; i < towers.length; i++){
     var coinAtSave = coins;
     var waveAtSave = curWave;
     var livesAtSave = lives;
