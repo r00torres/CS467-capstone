@@ -56,10 +56,10 @@ function loadGameValues() {
   
   loadedGameVariables = JSON.parse(jsonloadedGameVariables);
   
-  var strCoins = jsonloadedGameVariables.coinsAtSave;
+  var strCoins = jsonloadedGameVariables[0].coinsAtSave;
   console.log("StrCoins = ", strCoins);
-  var strLives = jsonloadedGameVariables.livesAtSave;
-  var strWaves = jsonloadedGameVariables.waveAtSave;
+  var strLives = jsonloadedGameVariables[0].livesAtSave;
+  var strWaves = jsonloadedGameVariables[0].waveAtSave;
   setCoins( parseInt(strCoins) );
   setLives( parseInt(strLives) );
   curWave = parseInt(strWaves);
