@@ -20,6 +20,10 @@ function getCookie(cname) {
 //gotta save the currently built towers! web suggest convert to json and create cookie this way
 function loadTowerLocations( towers ) {
   var jsonloadedTowers = getCookie('loadBuildMap');
+  if(jsonloadedTowers == ""){
+    console.log("No towers to load");
+    return;
+  }
   loadTowers = JSON.parse(jsonloadedTowers);
   
   for (var i = 0; i < loadTowers.length; i++){
@@ -45,6 +49,11 @@ function loadTowerLocations( towers ) {
 
 function loadGameValues() {
   var jsonloadedGameVariables = getCookie('loadGameVariables');
+  if(jsonloadedGameVariables == ""){
+    console.log("No game variables to load");
+    return;
+  }
+  
   loadedGameVariables = JSON.parse(jsonloadedGameVariables);
   
   setCoins( jsonloadedGameVariables.coinsAtSave );
