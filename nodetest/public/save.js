@@ -1,4 +1,5 @@
 var savedTowers = [];
+var savedVariables = [];
 
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();
@@ -41,6 +42,24 @@ function saveTowerLocations( towers ) {
   
 }
 
+function saveGameVariables( coins, curWave, curLives ) {
+  for (var i = 0; i < towers.length; i++){
+    var coinAtSave = coins;
+    var waveAtSave = curWave;
+    var livesAtSave = curLives;
+    savedGameVariables.push({coinAtSave, waveAtSave, livesAtSave});
+  }
+  
+  //https://stackoverflow.com/questions/2980143/i-want-to-store-javascript-array-as-a-cookie
+  var json_str_gameVariables = JSON.stringify(savedGameVariables);
+  
+  //reset savedTowers
+  savedGameVariables = [];
+  
+  setCookie('loadGameVariables', json_str_gameVariables);
+  
+}
+
 function checkCookie() {
   var username = getCookie("username");
   if (username != "") {
@@ -53,6 +72,12 @@ function checkCookie() {
       setCookie("username", user, 365);
     }
   }
+}
+
+function saveGame(){
+  saveGameVariables(coins, curWave, curLives);
+  saveTowerLocations( towers );
+  
 }
 
 /*//testing saving tower pos and name
