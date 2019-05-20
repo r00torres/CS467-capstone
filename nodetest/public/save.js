@@ -1,5 +1,5 @@
 var savedTowers = [];
-var savedVariables = [];
+var savedGameVariables = [];
 
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();
