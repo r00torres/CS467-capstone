@@ -42,11 +42,11 @@ function saveTowerLocations( towers ) {
   
 }
 
-function saveGameVariables( coins, curWave, curLives ) {
+function saveGameVariables( coins, curWave, lives ) {
   for (var i = 0; i < towers.length; i++){
     var coinAtSave = coins;
     var waveAtSave = curWave;
-    var livesAtSave = curLives;
+    var livesAtSave = lives;
     savedGameVariables.push({coinAtSave, waveAtSave, livesAtSave});
   }
   
@@ -75,7 +75,7 @@ function checkCookie() {
 }
 
 function saveGame(){
-  saveGameVariables(coins, curWave, curLives);
+  saveGameVariables(coins, curWave, lives);
   saveTowerLocations( towers );
   
 }
