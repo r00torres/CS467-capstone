@@ -1,5 +1,4 @@
 var loadTowers = [];
-var loadedGameVariables = [];
 
 function getCookie(cname) {
   var name = cname + "=";
