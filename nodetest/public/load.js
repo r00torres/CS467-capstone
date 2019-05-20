@@ -50,7 +50,7 @@ function loadTowerLocations( towers ) {
 function loadGameValues() {
   var coinAtLoad = getCookie('loadCoins');
   var waveAtLoad = getCookie('loadWaves');
-  var livesAtLoad = getCookie('loadLivess');
+  var livesAtLoad = getCookie('loadLives');
   if(coinAtLoad == ""){
     console.log("No game variables to load");
     return;
