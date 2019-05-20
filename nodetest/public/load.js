@@ -60,10 +60,6 @@ function loadGameValues() {
   setLives( jsonloadedGameVariables.livesAtSave );
   curWave = jsonloadedGameVariables.waveAtSave;
   
-  updateGameUIbar("coins", coins);
-  updateGameUIbar("lives", lives);
-  updateGameUIbar("waves", curWave);
-  
 }
 
 function loadGame() {
