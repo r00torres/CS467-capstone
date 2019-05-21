@@ -14,6 +14,7 @@
 <script src="/static/gameUI.js"></script>
 <script src="/static/buildUI.js"></script>
 <script src="/static/save.js"></script>
+<script src="/static/load.js"></script>
 
 
 <script src="/static/map1.js"></script>
@@ -648,7 +649,7 @@
 	//Creating the game engine and functionality
 	function play() {
 
-		checkCookie();
+		loadGame();
 		/*
 
 		Game variables to be set by rule file:
@@ -918,7 +919,7 @@
 				//shows build options for player's current coin at this location (need to change first param to coin
 				//last param to cost of last tower
 
-				viewBuildMenu(coins, pirateT.cost, cannonT.cost, cannonT.cost);
+				viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cannonT.cost);
 
 				//remove the previous click event (which was to build for last location)
 				document.getElementById("build-musket-button").removeEventListener("click", clickMusket);

@@ -1,4 +1,4 @@
-var savedTowers = [];
+
 
 function setCookie(cname, cvalue, exdays) {
   var d = new Date();
@@ -25,9 +25,10 @@ function getCookie(cname) {
 
 //gotta save the currently built towers! web suggest convert to json and create cookie this way
 function saveTowerLocations( towers ) {
+  var savedTowers = [];
   for (var i = 0; i < towers.length; i++){
-    var pos = towers[i].position;
-    var nameOf = towers[i].name;
+    var pos = towers[i].children[1].position;
+    var nameOf = towers[i].children[1].name;
     savedTowers.push({pos, nameOf});
   }
   
@@ -36,6 +37,16 @@ function saveTowerLocations( towers ) {
   
   setCookie('loadBuildMap', json_str);
   
+}
+
+function saveGameVariables( coins, curWave, lives ) {
+    var coinAtSave = coins;
+    var waveAtSave = curWave;
+    var livesAtSave = lives;
+
+    setCookie('loadCoins', coinAtSave);
+    setCookie('loadWaves', waveAtSave);
+    setCookie('loadLives', livesAtSave);
 }
 
 function checkCookie() {
@@ -52,7 +63,13 @@ function checkCookie() {
   }
 }
 
-//testing saving tower pos and name
+function saveGame(){
+  saveGameVariables(coins, curWave, lives);
+  saveTowerLocations( towers );
+  
+}
+
+/*//testing saving tower pos and name
 let position = {
                 x: 1,
                 y: 1,
@@ -63,4 +80,4 @@ savedTowers.push({ position, name:"test" });
 savedTowers.push({ position, name:"test1" });
 savedTowers.push({ position, name:"test2" });
 var json_str = JSON.stringify(savedTowers); 
-setCookie('loadBuildMap', json_str);
+setCookie('loadBuildMap', json_str);*/
