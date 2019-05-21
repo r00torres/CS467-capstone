@@ -1,7 +1,7 @@
 //testing ui elements
 function initGameUI(coins, lives, waves){
     var gameUI = document.createElement("div");
-    gameUI.setAttribute("id", "game-ui-bar");
+    gameUI.setAttribute("id", "gameUIbar");
     gameUI.setAttribute("class", "game-ui");
     document.body.insertBefore(gameUI, document.body.firstChild);
 
@@ -32,12 +32,12 @@ function initGameUI(coins, lives, waves){
     text = document.createTextNode(waves);
     wavesVal.appendChild(text);
 
-    document.getElementById("game-ui-bar").append(coinDiv);
-    document.getElementById("game-ui-bar").append(coinVal);
-    document.getElementById("game-ui-bar").append(livesDiv);
-    document.getElementById("game-ui-bar").append(livesVal);
-    document.getElementById("game-ui-bar").append(wavesDiv);
-    document.getElementById("game-ui-bar").append(wavesVal);
+    document.getElementById("gameUIbar").append(coinDiv);
+    document.getElementById("gameUIbar").append(coinVal);
+    document.getElementById("gameUIbar").append(livesDiv);
+    document.getElementById("gameUIbar").append(livesVal);
+    document.getElementById("gameUIbar").append(wavesDiv);
+    document.getElementById("gameUIbar").append(wavesVal);
 };
 
     function updateGameUIbar(field, newValue){

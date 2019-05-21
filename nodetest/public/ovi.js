@@ -1,7 +1,8 @@
 let oviraptor = {
   health: 30,
   speed: 10000,
-  reward: 5
+  reward: 5,
+  tweenId: 5
 }
 
 function addOviGLTF( scene, dinos, delay ){

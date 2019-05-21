@@ -10,15 +10,15 @@ var clickCancel = function() {
 
 function initBuildUI(){
   var buildUI = document.createElement("div");
-	buildUI.setAttribute("id", "build-ui-container");
+	buildUI.setAttribute("id", "buildUIcontainer");
   buildUI.setAttribute("class", "build-ui-button-group");
 	document.body.append(buildUI);
-    
+
   var musketButton = document.createElement("button");
   musketButton.setAttribute("id", "build-musket-button");
   musketButton.setAttribute("class", "build-ui-button-group");
   musketButton.innerHTML = 'Build Musket Tower';
-    
+
   var cannonButton = document.createElement("button");
 	cannonButton.setAttribute("id", "build-cannon-button");
 	cannonButton.setAttribute("class", "build-ui-button-group");
@@ -28,26 +28,26 @@ function initBuildUI(){
 	netButton.setAttribute("id", "build-net-button");
 	netButton.setAttribute("class", "build-ui-button-group");
   netButton.innerHTML = 'Build Net Tower';
-	
+
 	var cancelButton = document.createElement("button");
 	cancelButton.setAttribute("id", "build-cancel-button");
 	cancelButton.setAttribute("class", "build-ui-button-group");
   	cancelButton.innerHTML = 'Cancel Build Here';
-	
-  
-  document.getElementById("build-ui-container").append(musketButton);
-  document.getElementById("build-ui-container").append(cannonButton);
-  document.getElementById("build-ui-container").append(netButton);
-	document.getElementById("build-ui-container").append(cancelButton);
-	
+
+
+  document.getElementById("buildUIcontainer").append(musketButton);
+  document.getElementById("buildUIcontainer").append(cannonButton);
+  document.getElementById("buildUIcontainer").append(netButton);
+	document.getElementById("buildUIcontainer").append(cancelButton);
+
 	document.getElementById("build-cancel-button").addEventListener("click", clickCancel);
 };
-  
-initBuildUI();
+
+//initBuildUI();
 
 function viewBuildMenu(coin, musketPrice, cannonPrice, netPrice) {
-  
-  var buildCont = document.getElementById("build-ui-container");
+
+  var buildCont = document.getElementById("buildUIcontainer");
   if (buildCont.style.display === "none") {
     buildCont.style.display = "block";
     buildCont.children[0].style.display = "block";
@@ -78,11 +78,11 @@ function viewBuildMenu(coin, musketPrice, cannonPrice, netPrice) {
     if(coin < netPrice){
       buildCont.children[2].disabled = true;
     }
-	 
+
   	if(coin < musketPrice && coin < cannonPrice && coin < netPrice){
 	  	//change cancel button to "cannot build, exit build mode"
 	}
-	  
+
 
   } else {	//hide build menu
   	buildCont.style.display = "none";
@@ -92,14 +92,14 @@ function viewBuildMenu(coin, musketPrice, cannonPrice, netPrice) {
 	  buildCont.children[3].style.display = "none";
   }
   console.log("Within viewBuildMenu")
-	
+
 };
 
-viewBuildMenu();
+//viewBuildMenu();
 
 function clearBuildMenu(){
-	
-	var buildCont = document.getElementById("build-ui-container");
+
+	var buildCont = document.getElementById("buildUIcontainer");
 	buildCont.style.display = "none";
     	buildCont.children[0].style.display = "none";
     	buildCont.children[1].style.display = "none";

@@ -28,7 +28,7 @@
 <script type='text/javascript' src='/static/Tween.js'></script>
 <script>
 
-	//Music: www.bensound.com Royalty Free Music 
+	//Music: www.bensound.com Royalty Free Music
 	//Sound effects from soundbible.com
 
 	//Global variables
@@ -55,9 +55,6 @@
 	//var curWave = 1;
 	//var lives = 3;
 
-
-	//var collisionSphere = []
-
 	/*We need to RENDER the SCENE with a CAMERA*/
 	function init() {
 
@@ -76,6 +73,7 @@
 
 		//Create a new scene
 		scene = new THREE.Scene();
+		console.log("scene", scene);
 
 		//Create a new camera
 		//( FOV, aspect ratio, near clipping plane, far clipping plane )
@@ -91,9 +89,9 @@
 		sound = new THREE.Audio(listener);
 		var audioLoader = new THREE.AudioLoader();
 		audioLoader.load('/static/bensound-instinct.mp3', function(buffer){
-			sound.setBuffer(buffer); 
+			sound.setBuffer(buffer);
 			sound.setLoop(true);
-			sound.setVolume(2.0); 
+			sound.setVolume(2.0);
 			sound.play();
 		});
 
@@ -101,9 +99,9 @@
 		dinoSound = new THREE.Audio(listener);
 		var dinoAudioLoader = new THREE.AudioLoader();
 		dinoAudioLoader.load('/static/TyrannosaurusRex-SoundBible.com-45786848.wav', function(buffer){
-			dinoSound.setBuffer(buffer); 
+			dinoSound.setBuffer(buffer);
 			dinoSound.setLoop(false);
-			dinoSound.setVolume(8.0); 
+			dinoSound.setVolume(8.0);
 			dinoSound.setPlaybackRate(1);
 		});
 
@@ -111,9 +109,9 @@
 		dinoSound2 = new THREE.Audio(listener);
 		var dinoAudioLoader2 = new THREE.AudioLoader();
 		dinoAudioLoader2.load('/static/VelociraptorCall-SoundBible.com-1782075819.wav', function(buffer){
-			dinoSound2.setBuffer(buffer); 
+			dinoSound2.setBuffer(buffer);
 			dinoSound2.setLoop(false);
-			dinoSound2.setVolume(6.0); 
+			dinoSound2.setVolume(6.0);
 			dinoSound2.setPlaybackRate(1);
 		});
 
@@ -144,7 +142,6 @@
 
 		controls.target = new THREE.Vector3( 0, 5, 0 );
 
-		//controls.target = menu.position;
 		controls.enabled = true;
 		//This sets the angle to which we can't look "under" the map
 		controls.maxPolarAngle = Math.PI / 2;
@@ -166,97 +163,13 @@
 		animate();
 		//Load the menu
 
-	//https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
+		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
 
 		menu();
 
 		//play();
-		//var dinos = [];
-		//var ovi1 = addOviGLTF( scene, dinos );
-		//dinos.push([ovi1,oviraptor]);
 
-		//play()
-
-
-		//requestAnimationFrame(render);
-
-
-	//used to create a path that an object can follow
-	//and will actually turn when following
-	//works for an object created in int function, but not for dinos
-	//rendered with the loader
-	/*var numPoints = 50;
-
-	var points = [];
-	for(var i=0; i<map.path1.length; i++)
-	{
-		points.push(new THREE.Vector3(map.path1[i][0], 0, map.path1[i][1]));
 	}
-
-	spline = new THREE.CatmullRomCurve3(points);
-
-	var smat = new THREE.LineBasicMaterial({color: 0xff00f0});
-	var sgeo = new THREE.Geometry();
-	var splinePoints = spline.getPoints(numPoints);
-	for(var i=0; i<splinePoints.Length; i++){
-		sgeo.vertices.push(splinePoints[i]);
-	}
-
-	var sline = new THREE.Line(sgeo, smat);
-	scene.add(sline);
-
-	sgeo = new THREE.BoxGeometry(2, 1, 3);
-	smat = new THREE.MeshBasicMaterial({color: 0xff0000});
-	sbox = new THREE.Mesh(sgeo, smat);
-	sbox.position.x = -18;
-	sbox.position.z = -18;
-	sbox.position.y = 1;
-	scene.add(sbox);*/
-
-	//animate();
-	//setInterval(moveBox, 10);
-	}
-
-	/*
-	function moveDino(dino){
-			dino.position.copy(spline.getPointAt(counter));
-
-			tangent = spline.getTangentAt(counter).normalize();
-			axis.crossVectors(up, tangent).normalize;
-			var radians = Math.acos(up.dot(tangent));
-			dino.quaternion.setFromAxisAngle(axis, radians);
-			counter += 0.006;
-	}
-
-	//function that moves the box
-	//actually turns the box when following the line
-	//uses math and magic to calculate what direction to rotate
-	//the box in
-	function moveBox(){
-			console.log("counter ", counter);
-			sbox.position.copy(spline.getPointAt(counter));
-			console.log("point ", spline.getPointAt(counter));
-			console.log("position ", sbox.position);
-
-			tangent = spline.getTangentAt(counter).normalize();
-			console.log("tangent", tangent);
-			axis.crossVectors(up, tangent).normalize;
-			var radians = Math.acos(up.dot(tangent));
-			sbox.quaternion.setFromAxisAngle(axis, radians);
-			counter += 0.01;
-	}*/
-
-
-
-
-
-
-
-
-
-
-	//////////////////////////////////////////////
-
 
 		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
 
@@ -271,14 +184,10 @@
 
 
 
-//THIS COULD CAUSE PROBLEMS
 	function render() {
 
-		//controls.update();
 
-		//requestAnimationFrame(animate);
 		TWEEN.update();
-		// 	renderer.render( scene, camera );
 		controls.update();
 
 		const delta = clock.getDelta();
@@ -287,91 +196,8 @@
 
 		renderer.render( scene, camera );
 
-		//requestAnimationFrame( render );
 
 	}
-
-	//Adding a gltf loader for passing creating an object at a location
-	//Derived from
-
-	//added a health bar and made the dino and health bar into a group
-	//const mixers = [];
-	//const clock = new THREE.Clock();
-
-
-//PREVIOUS
-	// function dinoLoader( object, position, dinos ) {
-	//
-	// 	console.log("dinos", dinos);
-	//
-	// 	var position = {x: map.path1[0][0], y: 0, z: map.path1[0][1]};
-	//
-	// 	//create a target object with the x and z coordinates from the enemy path
-	// 	var target = {};
-	// 	target.x = [];
-	// 	target.z = [];
-	// 	target.y = 0;
-	// 	for(var i=0; i<map.path1.length; i++)
-	// 	{
-	// 		//add the coordinates from the path
-	// 		target.x.push(map.path1[i][0]);
-	// 		target.z.push(map.path1[i][1]);
-	// 	}
-	//
-	//
-	// 	//https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_multiple.html
-	// 	//https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_keyframes.html
-	// 	const loader = new THREE.GLTFLoader();
-	//
-	// 	const onLoad = ( gltf, position ) => {
-	//
-	//
-	// 		//var grouping;
-	// 		// var geometry = new THREE.SphereGeometry( 8, 32, 32 );
-	// 		// var material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
-	// 		// var sphere = new THREE.Mesh( geometry, material );
-	// 		// scene.add(sphere);
-	// 		// collisionSphere.push(sphere);
-	//
-	// 		var model = gltf.scene;
-	//
-	// 		model.position.copy( position );
-	//
-	// 		var animation = gltf.animations[ 0 ];
-	//
-	// 		var mixer = new THREE.AnimationMixer( model );
-	// 		mixers.push( mixer );
-	//
-	// 		var action = mixer.clipAction( animation );
-	// 		action.play();
-	//
-	// 		model.scale.set( 0.3, 0.3, 0.3 );
-	//
-	// 		model.name = "oviraptor";
-	// 		model.position.x = map.path1[0][0];
-	// 		model.position.z = map.path1[0][1];
-	// 		model.userData.health = oviraptor.health;
-	// 		model.userData.speed = oviraptor.speed;
-	// 		model.userData.reward = oviraptor.reward;
-	// 		model.type = "Object3D";
-	// 		//model.computeBoundingSphere();
-	//
-	// 		console.log("loadDino model:", model);
-	// 		//model.add(dino);
-	// 		//group.add( sphere );
-	// 		//group.add( model );
-	// 		scene.add( model );
-	// 		dinos.push([model,oviraptor]);
-	// 		dinoPath( dinos, target );
-	//
-	//
-	//
-	// 	};
-
-	//One main gltfLoader function. Checks the third argument by name to determine
-	//the type of object, dino, tower, environment?
-
-
 
 	function enviroLoader( object, position ) {
 		console.log("enviroLoader");
@@ -382,7 +208,6 @@
 	}
 
 	function dinoLoader( object, position, dinos, delay ) {
-
 
 		console.log("dinos", dinos);
 
@@ -421,13 +246,6 @@
 		const onLoad = ( gltf, position ) => {
 
 
-			//var grouping;
-			// var geometry = new THREE.SphereGeometry( 8, 32, 32 );
-			// var material = new THREE.MeshBasicMaterial( { color: 0xffffff } );
-			// var sphere = new THREE.Mesh( geometry, material );
-			// scene.add(sphere);
-			// collisionSphere.push(sphere);
-
 			var model = gltf.scene;
 
 			model.position.copy( position );
@@ -448,6 +266,7 @@
 			model.userData.health = oviraptor.health;
 			model.userData.speed = oviraptor.speed;
 			model.userData.reward = oviraptor.reward;
+			model.userData.tweenId = oviraptor.tweenId;
 			model.type = "Object3D";
 
 
@@ -461,12 +280,6 @@
 
 			//make bar float above the dino
 			healthBar.position.y = 3;
-			//scene.add(healthBar);
-			//model.add(healthBar);
-
-			/*group = new THREE.Group();
-			group.add(model);
-			group.add(healthBar);*/
 
 			//create a new group out of a THREE.Object3D
 			//this allows the dino and bar to be moved together
@@ -476,10 +289,10 @@
 			dinogroup.add(model);
 			dinogroup.add(healthBar);
 			console.log("start pos", map.path1[0][0]);
-			//dinogroup.position.x = map.path1[0][0];
-			//dinogroup.position.z = map.path1[0][1];
 
 			console.log("loadDino model:", model);
+			console.log("loadDino healthbar:", healthBar);
+			console.log("dinogroup", dinogroup );
 			//model.add(dino);
 			scene.add( dinogroup );
 
@@ -487,9 +300,6 @@
 			console.log("group ", dinogroup);
 			console.log("group pos ", dinogroup.position);
 			dinoPath( dinogroup, oviraptor.speed, target, targetHealth, delay );
-			//moveDino(model);
-
-
 
 		};
 
@@ -506,61 +316,194 @@
 	}
 
 	//Creating the opening view of the game's menu
+	// function menu() {
+	//
+	// 	stopAnimation = false;
+	//
+	// 	var canvas = document.createElement('canvas');
+	// 	canvas.id = "canvas1";
+	// 	canvas.width = 256;
+	// 	canvas.height = 256;
+	// 	var context = canvas.getContext('2d');
+	// 	context.fillStyle = '#ff0000';
+	// 	context.textAlign = 'center';
+	// 	context.font = '24px Arial';
+	// 	context.fillText("Start Game", 175, 175);
+	// 	var amap = new THREE.Texture(canvas);
+	// 	amap.needsUpdate = true;
+	//
+	// 	var mat = new THREE.SpriteMaterial({
+	// 		map: amap,
+	// 		transparent: false,
+	// 		color: 0xffffff
+	// 	});
+	//
+	// 	var sp = new THREE.Sprite(mat);
+	// 	sp.scale.set(10, 10, 1);
+	// 	sp.name = "playme";
+	// 	sp.position.y = 11;
+	// 	sp.position.x = 2;
+	// 	scene.add(sp);
+	// 	gridT.push(sp);
+	// 	console.log("sprite", sp);
+	//
+	// 	var canvas2 = document.createElement('canvas');
+	// 	canvas2.width = 600;
+	// 	canvas2.height = 256;
+	// 	var context2 = canvas2.getContext('2d');
+	// 	context2.fillStyle = '#ff0000';
+	// 	context2.textAlign = 'center';
+	// 	context2.font = '16px Arial';
+	// 	context2.fillText("Team Nunki: Christopher Frenchi, Jonathan Ruby, Ruben Torres", 300, 175);
+	// 	var amap2 = new THREE.Texture(canvas2);
+	// 	amap2.needsUpdate = true;
+	//
+	// 	var mat2 = new THREE.SpriteMaterial({
+	// 		map: amap2,
+	// 		transparent: false,
+	// 		color: 0xffffff
+	// 	});
+	//
+	// 	var credits = new THREE.Sprite(mat2);
+	// 	credits.scale.set(10,10,1);
+	// 	credits.name = "credits";
+	// 	credits.position.y = 4;
+	// 	credits.position.x = 0;
+	// 	scene.add(credits);
+	// 	gridT.push(credits);
+	//
+	// 	//disables users ability to move around menu
+	// 	controls.enabled = false;
+	//
+	// 	/*Adding a play button*/
+	//
+	// 		//Creating a plane
+	// 	var buttonGeoPlay = new THREE.PlaneBufferGeometry( 5, 3 );
+	// 	console.log( "buttonGeoPlay", buttonGeoPlay );
+	// 	buttonGeoPlay.rotateX( 2.677945044588987 );
+	// 	buttonGeoPlay.rotateY( -1 );
+	// 	buttonGeoPlay.rotateZ( Math.PI );
+	//
+	// 		//Creating material
+	// 	var buttonMatPlay = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+	//
+	// 		//Creating a mesh
+	// 	var playButton = new THREE.Mesh( buttonGeoPlay, buttonMatPlay );
+	//
+	// 		//Setting variables
+	// 	playButton.position.y = 6;
+	// 	playButton.rotation.y = -1;
+	// 	playButton.name = "play";
+	//
+	// 		//Pushing to the tile array
+	// 	//gridT.push( playButton );
+	//
+	// 	/*Adding a Credits button*/
+	//
+	// 		//Creating a plane
+	// 	var buttonGeoCredits = new THREE.PlaneBufferGeometry( 3, 1 );
+	// 	console.log( "buttonGeoCredits", buttonGeoCredits );
+	// 	buttonGeoCredits.rotateX( 2.677945044588987 );
+	// 	buttonGeoCredits.rotateY( -1 );
+	// 	buttonGeoCredits.rotateZ( Math.PI );
+	//
+	// 		//Creating material
+	// 	var buttonMatCredits = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
+	//
+	// 		//Creating a mesh
+	// 	var creditsButton = new THREE.Mesh( buttonGeoCredits, buttonMatCredits );
+	//
+	// 		//Setting variables
+	// 	creditsButton.position.y = 2;
+	// 	creditsButton.rotation.y = -1;
+	// 	creditsButton.name = "credits";
+	//
+	// 		//Pushing to the tile array
+	// 	//gridT.push( creditsButton );
+	//
+	// 	//Add buttons to the scene
+	// 	//scene.add( playButton );
+	// 	//scene.add( creditsButton );
+	//
+	// 	//Remove right click menu and add object clicking
+	// 	document.addEventListener( 'contextmenu', function( event ) { event.preventDefault() }, false );
+	// 	document.addEventListener( 'click', menuSelect, false );
+	//
+	// 	var menuScope = this;
+	//
+	// 	function menuSelect( event ) {
+	//
+	// 		console.log( "mouse: ", event );
+	//
+	// 		if( event.button == 0 ) {
+	//
+	// 			event.preventDefault();
+	// 			event.stopPropagation();
+	//
+	// 			mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+	//
+	// 			raycaster.setFromCamera( mouse, camera );
+	//
+	// 			var intersects = raycaster.intersectObjects( gridT );
+	//
+	// 			console.log( "intersects", intersects);
+	//
+	// 			if( intersects.length != 0 ) {
+	//
+	// 				if(intersects[0].object.name == "playme") {
+	//
+	// 					document.removeEventListener( 'click', menuSelect, false );
+	//
+	// 					scene.remove(intersects[0].object);
+	//
+	// 					setTimeout( function() {
+	//
+	// 						gridT.pop();
+	// 						gridT.pop();
+	//
+	// 						scene.remove( playButton );
+	// 						scene.remove( creditsButton );
+	// 						scene.remove(sp);
+	// 						scene.remove(credits);
+	//
+	// 						buttonGeoPlay.dispose();
+	// 						buttonGeoCredits.dispose();
+	// 						mat.dispose();
+	// 						mat2.dispose();
+	//
+	// 						buttonMatPlay.dispose();
+	// 						buttonMatCredits.dispose();
+	//
+	// 						//google chrome needs a user input to start audio
+	// 						sound.context.resume();
+	//
+	// 					}, 500 );
+	//
+	// 					//Play the game
+	// 					setTimeout( function() { play(); }, 600 );
+	//
+	// 				} else if ( intersects[0].object.name == "credits" ) {
+	//
+	// 				}
+	//
+	//
+	// 			}
+	//
+	// 		}
+	//
+	// 	}
+	//
+	// 	console.log("menu");
+	//
+	// }
+
 	function menu() {
-
-		var canvas = document.createElement('canvas');
-		canvas.width = 256;
-		canvas.height = 256;
-		var context = canvas.getContext('2d');
-		context.fillStyle = '#ff0000';
-		context.textAlign = 'center';
-		context.font = '24px Arial';
-		context.fillText("Start Game", 175, 175);
-		var amap = new THREE.Texture(canvas);
-		amap.needsUpdate = true;
-
-		var mat = new THREE.SpriteMaterial({
-			map: amap,
-			transparent: false,
-			color: 0xffffff
-		});
-
-		var sp = new THREE.Sprite(mat);
-		sp.scale.set(10, 10, 1);
-		sp.name = "playme";
-		sp.position.y = 11;
-		sp.position.x = 2;
-		scene.add(sp);
-		gridT.push(sp);
-		console.log("sprite", sp);
-
-		var canvas2 = document.createElement('canvas');
-		canvas2.width = 600;
-		canvas2.height = 256;
-		var context2 = canvas2.getContext('2d');
-		context2.fillStyle = '#ff0000';
-		context2.textAlign = 'center';
-		context2.font = '16px Arial';
-		context2.fillText("Team Nunki: Christopher Frenchi, Jonathan Ruby, Ruben Torres", 300, 175);
-		var amap2 = new THREE.Texture(canvas2);
-		amap2.needsUpdate = true;
-
-		var mat2 = new THREE.SpriteMaterial({
-			map: amap2,
-			transparent: false,
-			color: 0xffffff
-		});
-
-		var credits = new THREE.Sprite(mat2);
-		credits.scale.set(10,10,1);
-		credits.name = "credits";
-		credits.position.y = 4;
-		credits.position.x = 0;
-		scene.add(credits);
-		gridT.push(credits);
-
 		//disables users ability to move around menu
 		controls.enabled = false;
+
+		console.log("menuscene", scene);
+		stopAnimation = false;
+
 
 		/*Adding a play button*/
 
@@ -570,7 +513,6 @@
 		buttonGeoPlay.rotateX( 2.677945044588987 );
 		buttonGeoPlay.rotateY( -1 );
 		buttonGeoPlay.rotateZ( Math.PI );
-
 			//Creating material
 		var buttonMatPlay = new THREE.MeshBasicMaterial( { color: 0xffffff } );
 
@@ -583,7 +525,9 @@
 		playButton.name = "play";
 
 			//Pushing to the tile array
-		//gridT.push( playButton );
+		gridT.push( playButton );
+
+
 
 		/*Adding a Credits button*/
 
@@ -593,7 +537,6 @@
 		buttonGeoCredits.rotateX( 2.677945044588987 );
 		buttonGeoCredits.rotateY( -1 );
 		buttonGeoCredits.rotateZ( Math.PI );
-
 			//Creating material
 		var buttonMatCredits = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
 
@@ -606,11 +549,11 @@
 		creditsButton.name = "credits";
 
 			//Pushing to the tile array
-		//gridT.push( creditsButton );
-
+		gridT.push( creditsButton );
 		//Add buttons to the scene
-		//scene.add( playButton );
-		//scene.add( creditsButton );
+		scene.add( playButton );
+		scene.add( creditsButton );
+
 
 		//Remove right click menu and add object clicking
 		document.addEventListener( 'contextmenu', function( event ) { event.preventDefault() }, false );
@@ -628,16 +571,14 @@
 				event.stopPropagation();
 
 				mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
-
 				raycaster.setFromCamera( mouse, camera );
 
 				var intersects = raycaster.intersectObjects( gridT );
-
 				console.log( "intersects", intersects);
 
 				if( intersects.length != 0 ) {
 
-					if(intersects[0].object.name == "playme") {
+					if(intersects[0].object.name == "play") {
 
 						document.removeEventListener( 'click', menuSelect, false );
 
@@ -650,38 +591,31 @@
 
 							scene.remove( playButton );
 							scene.remove( creditsButton );
-							scene.remove(sp);
-							scene.remove(credits);
 
 							buttonGeoPlay.dispose();
 							buttonGeoCredits.dispose();
-							mat.dispose();
-							mat2.dispose();
 
 							buttonMatPlay.dispose();
 							buttonMatCredits.dispose();
 
-							//google chrome needs a user input to start audio
-							sound.context.resume();
-
 						}, 500 );
-
 						//Play the game
 						setTimeout( function() { play(); }, 600 );
 
 					} else if ( intersects[0].object.name == "credits" ) {
 
-					}
+						//Show credit screen
 
+
+
+					}
 
 				}
 
 			}
 
 		}
-
 		console.log("menu");
-
 	}
 
 	function getCoins(){
@@ -700,14 +634,34 @@
 		console.log("lives", lives);
 		lives = newValue;
 	}
+	function getWave(){
+		console.log("Current Wave", curWave);
+		return curWave;
+	}
+	function setWave( newValue ){
+		console.log("wave:", curWave);
+		curWave = newValue;
+	}
 
 	//Creating the game engine and functionality
 	function play() {
-
-		loadGame();
+		initBuildUI();
+		viewBuildMenu();
+		setLives(1);
+		setWave(1);
+		if(stopAnimation){
+			console.log("sa******************************",stopAnimation);
+			return;
+		}
+		// if(document.getElementById("buildUIcontainer") == false ){
+		//
+		//
+		// }
+		//load.js
+		//loadGame();
 		/*
 
-		Game variables to be set by rule file:
+		Game variables to be set by map file:
 
 		Total Waves = totWaves
 		Current Wave = curWave
@@ -723,7 +677,7 @@
 		clock.startTime;
 
 		*/
-		
+
 		//create a button to pause the audio
 		soundButton = document.createElement('button');
 		soundButton.style.position = 'absolute';
@@ -763,21 +717,24 @@
 
 		played = 1;
 		var timeleft = 10;
-		var countdownTimer = setInterval(function(){
-			document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
-			timeleft -= 1;
-			if(timeleft == -1){
-				document.getElementById("countdown").innerHTML = "Start"
-				if(played == 1)
-				{
-					dinoSound.play();
+		if( document.getElementById("countdown") == true){
+			var countdownTimer = setInterval(function(){
+				document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
+				timeleft -= 1;
+				if(timeleft == -1){
+					document.getElementById("countdown").innerHTML = "Start"
+					if(played == 1)
+					{
+						dinoSound.play();
+					}
 				}
-			}
-			else if(timeleft < -1){
-				clearInterval(countdownTimer);
-				document.getElementById("countdown").style.display = "none";
-			}
-		}, 1000);
+				else if(timeleft < -1){
+					clearInterval(countdownTimer);
+					document.getElementById("countdown").style.display = "none";
+				}
+			}, 10000);
+		}
+
 
 
 
@@ -797,12 +754,12 @@
 
 
 		//Added a map as an arraytimeleft
-		var map0 = ['a', 'b', 'a', 'b'];
-		var map1 = ['b', 'a', 'b', 'a'];
-		var map2 = ['a', 'b', 'a', 'b'];
-		var map3 = ['b', 'a', 'b', 'a'];
-		var map4 = ['a', 'b', 'a', 'b'];
-		var m = [map0, map1, map2, map3, map4];
+		// var map0 = ['a', 'b', 'a', 'b'];
+		// var map1 = ['b', 'a', 'b', 'a'];
+		// var map2 = ['a', 'b', 'a', 'b'];
+		// var map3 = ['b', 'a', 'b', 'a'];
+		// var map4 = ['a', 'b', 'a', 'b'];
+		// var m = [map0, map1, map2, map3, map4];
 
 
 
@@ -888,13 +845,17 @@
 
 
 		var geometry = new THREE.Geometry();
-		/*geometry.vertices.ptimeleftush(
-			new THREE.Vector3( path[0].position.x, 0, path[0].position.z ),
-			new THREE.Vector3( path[1].position.x, 0, path[1].position.z ),
-		);*/
 
 		//convert the path to usable coordinates
-		makePath(map.path1, map.level1x, map.level1z);
+		console.log("Before make path", map.path1, map.level1x, map.level1z);
+		var testpath = [];
+		testpath = map.path1;
+		console.log("map.path1", map.path1);
+		console.log("testpath", testpath);
+		var newArrtest = testpath.slice();
+		console.log("newArrtest", newArrtest);
+
+		//makePath(newArrtest, map.level1x, map.level1z);
 
 		//add the vertices to the path
 		for(var i=0; i<map.path1.length; i++)
@@ -910,64 +871,15 @@
 		var line = new THREE.Line( geometry, material );
 		scene.add( line );
 
-		//array to hold the current dinos in play
-		//var dinos = [];
-
-		//add an oviraptor
-
-		//addOviGLTF( scene, dinos );
-		//addOviGLTF( scene, dinos );
-
-		/////////////////////////////////////////////////////
-		////////////////////////////////////////////////////
-
-		//create wave starting sound
-		/*dinoSound = new THREE.Audio(listener);
-		var dinoAudioLoader = new THREE.AudioLoader();
-		dinoAudioLoader.load('/static/TyrannosaurusRex-SoundBible.com-45786848.wav', function(buffer){
-			dinoSound.setBuffer(buffer); 
-			dinoSound.setLoop(false);
-			dinoSound.setVolume(8.0); 
-			dinoSound.setPlaybackRate(1);
-		});*/
-		//start the waves
 
 		setTimeout(function(){
+			curWave = 1;
 			mapWaves(curWave);
 		}, 10000);
 
-		//addOvi(scene, dinos);
-		//addRaptor(scene, dinos);
-		//addTrex(scene, dinos);
-		// console.log("dinos", dinos);
-		//
-		// var position = {x: map.path1[0][0], y: 0, z: map.path1[0][1]};
-		//
-		// //create a target object with the x and z coordinates from the enemy path
-		// var target = {};
-		// target.x = [];
-		// target.z = [];
-		// target.y = 0;
-		// for(var i=0; i<map.path1.length; i++)
-		// {
-		// 	//add the coordinates from the path
-		// 	target.x.push(map.path1[i][0]);
-		// 	target.z.push(map.path1[i][1]);
-		// }
-
-		//create a new tween to move the dinos
-		//console.log("speed", dinos[0][1].speed);
-		//setTimeout Work around... we need to be able to run this function once
-		//all dinos are loaded...
-		//Wave setup?
-		//setTimeout(function() {
-
-		//}, 1500);
 
 		console.log("dinos array", dinos );
 
-		//array to hold created towers
-		//var towers = [];
 
 		function tileHover( event ) {
 
@@ -1025,9 +937,9 @@
 				sound2 = new THREE.Audio(listener);
 				var audioLoader2 = new THREE.AudioLoader();
 				audioLoader2.load('/static/Hammer.wav', function(buffer){
-					sound2.setBuffer(buffer); 
+					sound2.setBuffer(buffer);
 					sound2.setLoop(false);
-					sound2.setVolume(8.0); 
+					sound2.setVolume(8.0);
 					sound2.setPlaybackRate(1);
 				});
 
@@ -1072,28 +984,6 @@
 				document.getElementById("build-cannon-button").addEventListener("click", clickCannon);
 				document.getElementById("build-net-button").addEventListener("click", clickNet);
 
-
-
-// THIS COULD CASE PROBLEMS
-
-				/*******************************************************
-				change tower add function to see other types of towers
-				*******************************************************/
-				// addcannonT( intersects[0].object.position, scene, gridT, towers );
-				//
-				// //testing tower locations for raycasting
-				// if ( towers.length == 1 ) {
-				// 	console.log( "dinos ", dinos );
-				// 	//attack(towers, dinos);
-				// }
-				// else if ( towers.length > 1 ) {
-				// 	var tc = towers[0].children;
-		    //   console.log( "towers",towers[0] );
-		    //   console.log( "t", tc[0].position );
-				//
-				// }
-
-
 			}
 			else {
 
@@ -1104,238 +994,193 @@
 
 	}
 
-	var points = [];
-	for(var i=0; i<map.path1.length; i++)
-	{
-		points.push(new THREE.Vector3(map.path1[i][0], 0, map.path1[i][1]));
-	}
+	// var points = [];
+	// for(var i=0; i<map.path1.length; i++)
+	// {
+	// 	points.push(new THREE.Vector3(map.path1[i][0], 0, map.path1[i][1]));
+	// }
+	//
+	// spline = new THREE.CatmullRomCurve3(points);
 
-	spline = new THREE.CatmullRomCurve3(points);
+
 
 	// function that sends a dino down the path
 	// target is the path determined by the map
 	// delay is determined by the wave
 	// uses onUpdate to change the rotation of the dino in relation to the y axis
-	function dinoPath(dino, speed, target, targetHealth, delay)
-	{
-		//var count = 0;
-		// for( var d = 0; d < dino.length; d++ ){
-		//
-		//
-		// }
+	function dinoPath(dino, speed, target, targetHealth, delay) {
+
 		console.log("dino in dinoPath", dino);
 		console.log(dino.children);
 		console.log(dino.children.length);
 		//dino.children because we are passing in a group
 		for( var dc = 0; dc < dino.children.length; dc++){
-		//
-		//
-		//
-		//
-		dino.children[dc].rotation.y = 300;
-		// // //console.log("dino qurt",dino.quaternion);
-		// // //var tan = new THREE.Vector3();
-		// // //var ax = new THREE.Vector3();
-		// // //var u = new THREE.Vector3(0,0,1);
-		var move = new TWEEN.Tween(dino.children[0].position)
-			.to(target, speed).delay(delay)
-			.onUpdate(function(){
-				//console.log("counter", counter);
-				/*tan = spline.getTangentAt(count).normalize();
-				ax.crossVectors(u, tan).normalize;
-				var radians = Math.acos(u.dot(tan));
-				dino.quaternion.setFromAxisAngle(ax, radians);
-				count += 1;*/
-				//console.log("tan", tan);
-				//console.log("ax", ax);
 
-				//to the left, good
-				if(dino.children[0].position.z == -6 && dino.children[0].position.x > -18 && dino.children[0].position.x < -6){
-					dino.children[0].rotation.y = 0;
-				}
+			dino.children[dc].rotation.y = 300;
 
-				//down, good
-				else if(dino.children[0].position.x == -6 && dino.children[0].position.z < -6 && dino.children[0].position.z > -10){
-					dino.children[0].rotation.y = 89.5;
-				}
-
-				//to the left, good
-				else if(dino.children[0].position.z == -10 && dino.children[0].position.x > -5 && dino.children[0].position.x < 2){
-					dino.children[0].rotation.y = 0;
-				}
-
-				//up, good
-				else if(dino.children[0].position.x == 2 && dino.children[0].position.z > -10 && dino.children[0].position.z < -6){
-					dino.children[0].rotation.y = 300;
-				}
-
-				//left, good
-				else if(dino.children[0].position.z == -6 && dino.children[0].position.x > 2 && dino.children[0].position.x < 6){
-					dino.children[0].rotation.y = 0;
-				}
-
-				//up, good
-				else if(dino.children[0].position.x == 6 && dino.children[0].position.z > -5 && dino.children[0].position.z < 10){
-					dino.children[0].rotation.y = 300;
-				}
-
-				//left, good
-				else if(dino.children[0].position.z == 10 && dino.children[0].position.x > 2 && dino.children[0].position.x < 10){
-					dino.children[0].rotation.y = 0;
-				}
-
-				//down, good
-				else if(dino.children[0].position.x == 10 && dino.children[0].position.z < 10 && dino.children[0].position.z > 2){
-					dino.children[0].rotation.y = 89.5;
-				}
-
-				//left, good
-				else if(dino.children[0].position.z == 2 && dino.children[0].position.x > 10 && dino.children[0].position.x < 18){
-					dino.children[0].rotation.y = 0;
-				}
-
-				//up, disappears
-				else if(dino.children[0].position.x == 18 && dino.children[0].position.z > 2 && dino.children[0].position.z < 18){
-					dino.children[0].rotation.y = 300;
-				}
-				//console.log("dino pos ", dino.position);
-
-			})
-			.start();
-			//removes the dino from the scene once it has reached the end
-			// move.onComplete(function(){
-			// 	scene.remove(dino);
-			// });
-
-
-				//health bar
-
-		var healthmove = new TWEEN.Tween(dino.children[1].position)
-			.to(targetHealth, speed).delay(delay)
-			.onUpdate(function(){
-				if(dino.children[1].position.z == -6 && dino.children[1].position.x > -18 && dino.children[1].position.x < -6){
-					dino.children[1].rotation.y = 0;
-				}
-
-				//down, good
-				else if(dino.children[1].position.x == -6 && dino.children[1].position.z < -6 && dino.children[1].position.z > -10){
-					dino.children[1].rotation.y = 89.5;
-				}
-
-				//to the left, good
-				else if(dino.children[1].position.z == -10 && dino.children[1].position.x > -5 && dino.children[1].position.x < 2){
-					dino.children[1].rotation.y = 0;
-				}
-
-				//up, good
-				else if(dino.children[1].position.x == 2 && dino.children[1].position.z > -10 && dino.children[1].position.z < -6){
-					dino.children[1].rotation.y = 300;
-				}
-
-				//left, good
-				else if(dino.children[1].position.z == -6 && dino.children[1].position.x > 2 && dino.children[1].position.x < 6){
-					dino.children[1].rotation.y = 0;
-				}
-
-				//up, good
-				else if(dino.children[1].position.x == 6 && dino.children[1].position.z > -5 && dino.children[1].position.z < 10){
-					dino.children[1].rotation.y = 300;
-				}
-
-				//left, good
-				else if(dino.children[1].position.z == 10 && dino.children[1].position.x > 2 && dino.children[1].position.x < 10){
-					dino.children[1].rotation.y = 0;
-				}
-
-				//down, good
-				else if(dino.children[1].position.x == 10 && dino.children[1].position.z < 10 && dino.children[1].position.z > 2){
-					dino.children[1].rotation.y = 89.5;
-				}
-
-				//left, good
-				else if(dino.children[1].position.z == 2 && dino.children[1].position.x > 10 && dino.children[1].position.x < 18){
-					dino.children[1].rotation.y = 0;
-				}
-
-				//up, disappears
-				else if(dino.children[1].position.x == 18 && dino.children[1].position.z > 2 && dino.children[1].position.z < 18){
-					dino.children[1].rotation.y = 300;
-				}
-
-				//reduce healthbar
-				if(dino.children[0].userData.health < oviraptor.health * .66 && dino.children[0].userData.health > oviraptor.health * .33)
-				{
-					dino.children[1].scale.z = .66;
-				}
-				else if(dino.children[0].userData.health < oviraptor.health * .33)
-				{
-					dino.children[1].scale.z = .33;
-				}
-			})
-			.start();
-		//removes the dino from the scene once it has reached the end
-		healthmove.onComplete(function(){
-				console.log("end of path", dino);
-				console.log("dinos...", dinos);
-				var endDinolength = dinos.length;
-				curLives = getLives();
-				//two children being removed.
-				var dinoEnder = dino.parent;
-				for(var dinosleft = 0; dinosleft < dinos.length; dinosleft++){
-					console.log("for", dinos[dinosleft]);
-					console.log("DINO UUID", dino.children[0].uuid, dinos[dinosleft][0].uuid);
-					if(dino.children[0].uuid == dinos[dinosleft][0].uuid){
-						console.log("HERERERERER", dino.uuid, dinos[dinosleft][0].uuid);
-						curLives -= .5;
-						setLives(curLives);
-						updateGameUIbar( "lives", getLives() );
-						scene.remove(dino);
-
+			var move = new TWEEN.Tween(dino.children[0].position)
+				.to(target, speed).delay(delay)
+				.onUpdate(function(){
+					dino.children[0].userData.tweenId = move.getId();
+					//console.log("dino tweenid", move.getId());
+					//to the left, good
+					if(dino.children[0].position.z == -6 && dino.children[0].position.x > -18 && dino.children[0].position.x < -6){
+						dino.children[0].rotation.y = 0;
 					}
 
-				};
-				//}
-				//
-				if( getLives() <= 0 ){
-					loseCondition();
-				}
-		});
+					//down, good
+					else if(dino.children[0].position.x == -6 && dino.children[0].position.z < -6 && dino.children[0].position.z > -10){
+						dino.children[0].rotation.y = 89.5;
+					}
+
+					//to the left, good
+					else if(dino.children[0].position.z == -10 && dino.children[0].position.x > -5 && dino.children[0].position.x < 2){
+						dino.children[0].rotation.y = 0;
+					}
+
+					//up, good
+					else if(dino.children[0].position.x == 2 && dino.children[0].position.z > -10 && dino.children[0].position.z < -6){
+						dino.children[0].rotation.y = 300;
+					}
+
+					//left, good
+					else if(dino.children[0].position.z == -6 && dino.children[0].position.x > 2 && dino.children[0].position.x < 6){
+						dino.children[0].rotation.y = 0;
+					}
+
+					//up, good
+					else if(dino.children[0].position.x == 6 && dino.children[0].position.z > -5 && dino.children[0].position.z < 10){
+						dino.children[0].rotation.y = 300;
+					}
+
+					//left, good
+					else if(dino.children[0].position.z == 10 && dino.children[0].position.x > 2 && dino.children[0].position.x < 10){
+						dino.children[0].rotation.y = 0;
+					}
+
+					//down, good
+					else if(dino.children[0].position.x == 10 && dino.children[0].position.z < 10 && dino.children[0].position.z > 2){
+						dino.children[0].rotation.y = 89.5;
+					}
+
+					//left, good
+					else if(dino.children[0].position.z == 2 && dino.children[0].position.x > 10 && dino.children[0].position.x < 18){
+						dino.children[0].rotation.y = 0;
+					}
+
+					//up, disappears
+					else if(dino.children[0].position.x == 18 && dino.children[0].position.z > 2 && dino.children[0].position.z < 18){
+						dino.children[0].rotation.y = 300;
+					}
+					//console.log("dino pos ", dino.position);
+
+				})
+				.start();
+				//removes the dino from the scene once it has reached the end
+
+					//health bar
+
+			var healthmove = new TWEEN.Tween(dino.children[1].position)
+				.to(targetHealth, speed).delay(delay)
+				.onUpdate(function(){
+					if(dino.children[1].position.z == -6 && dino.children[1].position.x > -18 && dino.children[1].position.x < -6){
+						dino.children[1].rotation.y = 0;
+					}
+
+					//down, good
+					else if(dino.children[1].position.x == -6 && dino.children[1].position.z < -6 && dino.children[1].position.z > -10){
+						dino.children[1].rotation.y = 89.5;
+					}
+
+					//to the left, good
+					else if(dino.children[1].position.z == -10 && dino.children[1].position.x > -5 && dino.children[1].position.x < 2){
+						dino.children[1].rotation.y = 0;
+					}
+
+					//up, good
+					else if(dino.children[1].position.x == 2 && dino.children[1].position.z > -10 && dino.children[1].position.z < -6){
+						dino.children[1].rotation.y = 300;
+					}
+
+					//left, good
+					else if(dino.children[1].position.z == -6 && dino.children[1].position.x > 2 && dino.children[1].position.x < 6){
+						dino.children[1].rotation.y = 0;
+					}
+
+					//up, good
+					else if(dino.children[1].position.x == 6 && dino.children[1].position.z > -5 && dino.children[1].position.z < 10){
+						dino.children[1].rotation.y = 300;
+					}
+
+					//left, good
+					else if(dino.children[1].position.z == 10 && dino.children[1].position.x > 2 && dino.children[1].position.x < 10){
+						dino.children[1].rotation.y = 0;
+					}
+
+					//down, good
+					else if(dino.children[1].position.x == 10 && dino.children[1].position.z < 10 && dino.children[1].position.z > 2){
+						dino.children[1].rotation.y = 89.5;
+					}
+
+					//left, good
+					else if(dino.children[1].position.z == 2 && dino.children[1].position.x > 10 && dino.children[1].position.x < 18){
+						dino.children[1].rotation.y = 0;
+					}
+
+					//up, disappears
+					else if(dino.children[1].position.x == 18 && dino.children[1].position.z > 2 && dino.children[1].position.z < 18){
+						dino.children[1].rotation.y = 300;
+					}
+
+					//reduce healthbar
+					if(dino.children[0].userData.health < oviraptor.health * .66 && dino.children[0].userData.health > oviraptor.health * .33)
+					{
+						dino.children[1].scale.z = .66;
+					}
+					else if(dino.children[0].userData.health < oviraptor.health * .33)
+					{
+						dino.children[1].scale.z = .33;
+					}
+
+					// if(getLives() <= 0 ){
+					// 	Tween.remove(healthmove.getId());
+					// }
+				})
+				.start();
+			//removes the dino from the scene once it has reached the end
+			healthmove.onComplete(function(){
+					console.log("end of path", dino);
+					console.log("dinos...", dinos);
+					var endDinolength = dinos.length;
+					curLives = getLives();
+					//two children being removed.
+					var dinoEnder = dino.parent;
+					for(var dinosleft = 0; dinosleft < dinos.length; dinosleft++){
+						console.log("for", dinos[dinosleft]);
+						console.log("DINO UUID", dino.children[0].uuid, dinos[dinosleft][0].uuid);
+						if(dino.children[0].uuid == dinos[dinosleft][0].uuid){
+							console.log("HERERERERER", dino.uuid, dinos[dinosleft][0].uuid);
+							curLives -= .5;
+							setLives(curLives);
+							updateGameUIbar( "lives", getLives() );
+							scene.remove(dino);
+
+						}
+
+					};
+
+					if( getLives() <= 0 ){
+
+						//TWEEN.removeAll();
+						//healthmove.removeAll();
+
+						loseCondition();
+					}
+			});
 		//
 		}
 
 	}
-	/*function dinoPath( dinos, target, delay ){
-	for(var i=0; i<dinos.length; i++)
-	{
-		console.log("dino length = ", dinos.length, i);
-		console.log("delay", delay);
-		var moveOvi = new TWEEN.Tween(dinos[i][0].position)
-			.to(target, dinos[i][1].speed).delay(delay)
-			.start();
-		moveOvi.repeat(1000);
-		console.log( "moveOvi", moveOvi );
-	}
-}*/
-	// function addOviGLTF( scene, dinos ){
-	//   console.log( "dinos gltf", dinos );
-	//   const oviPosition = new THREE.Vector3( 0, 0, 0 );
-	// 	modelLoader( '/static/dinos/raptor1.glb', oviPosition );
-	//   //scene.add(newOvi);
-	//   //dinos.push([newOvi,oviraptor]);
-	// }
-
-//PREVIOUS
-	// function dinoPath( dinos, target ){
-	// 	for(var i=0; i<dinos.length; i++)
-	// 	{
-	// 		console.log("dino length = ", dinos.length, dinos);
-	// 		var moveOvi = new TWEEN.Tween(dinos[i][0].position)
-	// 			.to(target, dinos[i][1].speed)
-	// 			.start();
-	// 		moveOvi.repeat(1000);
-	// 		console.log( "moveOvi", moveOvi );
-	// 	}
-	// }
 
 
 	init();
@@ -1343,81 +1188,72 @@
 	/*Rendering the scene https://www.august.com.au/blog/animating-scenes-with-webgl-three-js/*/
 	//animate();
 
+	var stopAnimation = false;
+
 	function animate(){
 
-		//https://stackoverflow.com/questions/14465495/how-do-i-stop-requestanimationframe
-		//
-
-		if( towers.length >= 1 ){
-			for( var i = 0; i < towers.length; i++ ) {
-	    	//console.log("for i", i );
-	      var tc = towers[i].children;
-	      for( var j = 0; j < tc.length; j=j+2) {
-					attack( coins, towers, dinos );
-	        //radiusCheck( tc[j+1].userData.attackRadius, tc[j].position)
-	        //console.log("or herer?");
-	      };
-			};
-
-			//attack( towers, dinos );
+		if(stopAnimation){
+			console.log("stopped");
 		}
-		if( projectiles.length > 0 ){
-			for( var p = 0; p < projectiles.length; p++){
-				//console.log("projectile", projectiles[p].userData);
-				//projectiles[p].position.y = 2;
-				projectiles[p].position.y -= .2;
-				//projectiles[p].position.x = 1;
-				//projectiles[p].position.z = 1;
-				// var distanceV = new THREE.Vector3();
-				if ( projectiles[p].position.x > projectiles[p].userData.x ){
-					//console.log("************",projectiles[p].userData.x, projectiles[p].position.x);
-					projectiles[p].position.x -= .75;//projectiles[p].userData.x;
-					//projectiles[p].position.y -= .2;
+		else{
+
+
+
+			//https://stackoverflow.com/questions/14465495/how-do-i-stop-requestanimationframe
+			if( towers.length >= 1 ){
+				for( var i = 0; i < towers.length; i++ ) {
+		    	//console.log("for i", i );
+		      var tc = towers[i].children;
+		      for( var j = 0; j < tc.length; j=j+2) {
+						attack( coins, towers, dinos );
+		      };
+				};
+
+			}
+			if( projectiles.length > 0 ){
+				for( var p = 0; p < projectiles.length; p++){
+
+					projectiles[p].position.y -= .2;
+
+					if ( projectiles[p].position.x > projectiles[p].userData.x ){
+						projectiles[p].position.x -= .75;
+					}
+					if ( projectiles[p].position.z > projectiles[p].userData.z ){
+						projectiles[p].position.z -= .75;
+
+					}
+					if ( projectiles[p].position.x < projectiles[p].userData.x){
+						projectiles[p].position.x += .75;
+
+					}
+					if ( projectiles[p].position.z < projectiles[p].userData.z){
+						projectiles[p].position.z += .75;
+
+					}
+
+					projectiles[p].position.y -= .2;
+
+					if (projectiles[p].position.y <= 0){
+
+						scene.remove(projectiles[p]);
+						projectiles.splice(p, 1);
+
+					}
 				}
-				if ( projectiles[p].position.z > projectiles[p].userData.z ){
-					projectiles[p].position.z -= .75;//projectiles[p].userData.z;
-					//projectiles[p].position.y -= .2;
 
-				}
-				if ( projectiles[p].position.x < projectiles[p].userData.x){
-					//console.log("here");
-					projectiles[p].position.x += .75;//projectiles[p].userData.x;
-					//projectiles[p].position.y -= .2;
-
-				}
-				if ( projectiles[p].position.z < projectiles[p].userData.z){
-					projectiles[p].position.z += .75;
-
-				}
-
-				projectiles[p].position.y -= .2;
-				// distanceV.x = projectiles[p].position.x - projectiles[p].userData.x;
-				// distanceV.y = projectiles[p].position.y - projectiles[p].userData.y;
-				// distanceV.z = projectiles[p].position.z - projectiles[p].userData.z;
-				// distanceV.normalize();
-				// projectiles[p].position.copy( distanceV );
-				if (projectiles[p].position.y <= 0){
-
-					scene.remove(projectiles[p]);
-					//console.log("removing proj", projectiles[p].uuid);
-					//console.log("remaining", projectiles);
-					projectiles.splice(p, 1);
-
-				}
 			}
 
+			requestAnimationFrame(animate);
+			TWEEN.update();
+			const delta = clock.getDelta();
+			mixers.forEach( ( mixer ) => {
+				mixer.update( delta );
+			});
+			renderer.render( scene, camera );
+			controls.update();
+			//Uncomment for FPS stats
+			//stats.update();
 		}
-
-		requestAnimationFrame(animate);
-		TWEEN.update();
-		const delta = clock.getDelta();
-		mixers.forEach( ( mixer ) => {
-			mixer.update( delta );
-		});
-		renderer.render( scene, camera );
-		controls.update();
-		//Uncomment for FPS stats
-		//stats.update();
 	}
 
 	/*
