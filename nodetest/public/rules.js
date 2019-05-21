@@ -19,14 +19,14 @@ function mapWaves(curWaveVal){
     uplives = 0;
 
   }
-  if( getCurWave != curWaveVal ){
-    console.log("mapwaves else if");
-    curWaveVal = getCurWave;
-    //Tween.removeAll();
-
-    //loseCondition();
-
-  }
+  // if( getCurWave != curWaveVal ){
+  //   console.log("mapwaves else if");
+  //   curWaveVal = getCurWave;
+  //   //TWEEN.removeAll();
+  //
+  //   //loseCondition();
+  //
+  // }
   else {
     console.log("mapwaves else");
 
@@ -106,7 +106,7 @@ function clearErrythang() {
 
   stopAnimation = true;
   //document.getElementById("game-ui-bar").style.display = "none";
-
+  TWEEN.removeAll();
   gridT = [];
   towers = [];
   dinos = [];
@@ -128,6 +128,7 @@ function clearErrythang() {
 
   //document.getElementById("soundButton").style.display = "none";
   if( document.getElementById("buildUIcontainer") ){
+    //clearBuildMenu();
     document.body.removeChild(buildUIcontainer);
   }
 

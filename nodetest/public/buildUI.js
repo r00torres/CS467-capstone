@@ -4,8 +4,8 @@ var clickMusket = function (){ };
 var clickCannon = function () { };
 var clickNet = function () { };
 var clickCancel = function() {
-			console.log("Clicked Cancel Build")
-  			viewBuildMenu();
+			// console.log("Clicked Cancel Build")
+  		// 	viewBuildMenu();
 		};
 
 function initBuildUI(){
@@ -47,8 +47,14 @@ function initBuildUI(){
 
 function viewBuildMenu(coin, musketPrice, cannonPrice, netPrice) {
 
+	console.log("here in viewBuildMenu");
+
   var buildCont = document.getElementById("buildUIcontainer");
+
+	console.log("buildCont", buildCont);
+
   if (buildCont.style.display === "none") {
+		console.log("inside if");
     buildCont.style.display = "block";
     buildCont.children[0].style.display = "block";
     buildCont.children[0].disabled = false;
@@ -85,6 +91,7 @@ function viewBuildMenu(coin, musketPrice, cannonPrice, netPrice) {
 
 
   } else {	//hide build menu
+		console.log("inside else");
   	buildCont.style.display = "none";
     buildCont.children[0].style.display = "none";
     buildCont.children[1].style.display = "none";
@@ -101,9 +108,9 @@ function clearBuildMenu(){
 
 	var buildCont = document.getElementById("buildUIcontainer");
 	buildCont.style.display = "none";
-    	buildCont.children[0].style.display = "none";
-    	buildCont.children[1].style.display = "none";
-    	buildCont.children[2].style.display = "none";
+	buildCont.children[0].style.display = "none";
+	buildCont.children[1].style.display = "none";
+	buildCont.children[2].style.display = "none";
 	buildCont.children[3].style.display = "none";
 
 };

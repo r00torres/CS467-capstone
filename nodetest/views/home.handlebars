@@ -115,6 +115,8 @@
 			dinoSound2.setPlaybackRate(1);
 		});
 
+
+
 		//Create the renderer
 		renderer = new THREE.WebGLRenderer();
 
@@ -316,194 +318,64 @@
 	}
 
 	//Creating the opening view of the game's menu
-	// function menu() {
-	//
-	// 	stopAnimation = false;
-	//
-	// 	var canvas = document.createElement('canvas');
-	// 	canvas.id = "canvas1";
-	// 	canvas.width = 256;
-	// 	canvas.height = 256;
-	// 	var context = canvas.getContext('2d');
-	// 	context.fillStyle = '#ff0000';
-	// 	context.textAlign = 'center';
-	// 	context.font = '24px Arial';
-	// 	context.fillText("Start Game", 175, 175);
-	// 	var amap = new THREE.Texture(canvas);
-	// 	amap.needsUpdate = true;
-	//
-	// 	var mat = new THREE.SpriteMaterial({
-	// 		map: amap,
-	// 		transparent: false,
-	// 		color: 0xffffff
-	// 	});
-	//
-	// 	var sp = new THREE.Sprite(mat);
-	// 	sp.scale.set(10, 10, 1);
-	// 	sp.name = "playme";
-	// 	sp.position.y = 11;
-	// 	sp.position.x = 2;
-	// 	scene.add(sp);
-	// 	gridT.push(sp);
-	// 	console.log("sprite", sp);
-	//
-	// 	var canvas2 = document.createElement('canvas');
-	// 	canvas2.width = 600;
-	// 	canvas2.height = 256;
-	// 	var context2 = canvas2.getContext('2d');
-	// 	context2.fillStyle = '#ff0000';
-	// 	context2.textAlign = 'center';
-	// 	context2.font = '16px Arial';
-	// 	context2.fillText("Team Nunki: Christopher Frenchi, Jonathan Ruby, Ruben Torres", 300, 175);
-	// 	var amap2 = new THREE.Texture(canvas2);
-	// 	amap2.needsUpdate = true;
-	//
-	// 	var mat2 = new THREE.SpriteMaterial({
-	// 		map: amap2,
-	// 		transparent: false,
-	// 		color: 0xffffff
-	// 	});
-	//
-	// 	var credits = new THREE.Sprite(mat2);
-	// 	credits.scale.set(10,10,1);
-	// 	credits.name = "credits";
-	// 	credits.position.y = 4;
-	// 	credits.position.x = 0;
-	// 	scene.add(credits);
-	// 	gridT.push(credits);
-	//
-	// 	//disables users ability to move around menu
-	// 	controls.enabled = false;
-	//
-	// 	/*Adding a play button*/
-	//
-	// 		//Creating a plane
-	// 	var buttonGeoPlay = new THREE.PlaneBufferGeometry( 5, 3 );
-	// 	console.log( "buttonGeoPlay", buttonGeoPlay );
-	// 	buttonGeoPlay.rotateX( 2.677945044588987 );
-	// 	buttonGeoPlay.rotateY( -1 );
-	// 	buttonGeoPlay.rotateZ( Math.PI );
-	//
-	// 		//Creating material
-	// 	var buttonMatPlay = new THREE.MeshBasicMaterial( { color: 0xffffff } );
-	//
-	// 		//Creating a mesh
-	// 	var playButton = new THREE.Mesh( buttonGeoPlay, buttonMatPlay );
-	//
-	// 		//Setting variables
-	// 	playButton.position.y = 6;
-	// 	playButton.rotation.y = -1;
-	// 	playButton.name = "play";
-	//
-	// 		//Pushing to the tile array
-	// 	//gridT.push( playButton );
-	//
-	// 	/*Adding a Credits button*/
-	//
-	// 		//Creating a plane
-	// 	var buttonGeoCredits = new THREE.PlaneBufferGeometry( 3, 1 );
-	// 	console.log( "buttonGeoCredits", buttonGeoCredits );
-	// 	buttonGeoCredits.rotateX( 2.677945044588987 );
-	// 	buttonGeoCredits.rotateY( -1 );
-	// 	buttonGeoCredits.rotateZ( Math.PI );
-	//
-	// 		//Creating material
-	// 	var buttonMatCredits = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
-	//
-	// 		//Creating a mesh
-	// 	var creditsButton = new THREE.Mesh( buttonGeoCredits, buttonMatCredits );
-	//
-	// 		//Setting variables
-	// 	creditsButton.position.y = 2;
-	// 	creditsButton.rotation.y = -1;
-	// 	creditsButton.name = "credits";
-	//
-	// 		//Pushing to the tile array
-	// 	//gridT.push( creditsButton );
-	//
-	// 	//Add buttons to the scene
-	// 	//scene.add( playButton );
-	// 	//scene.add( creditsButton );
-	//
-	// 	//Remove right click menu and add object clicking
-	// 	document.addEventListener( 'contextmenu', function( event ) { event.preventDefault() }, false );
-	// 	document.addEventListener( 'click', menuSelect, false );
-	//
-	// 	var menuScope = this;
-	//
-	// 	function menuSelect( event ) {
-	//
-	// 		console.log( "mouse: ", event );
-	//
-	// 		if( event.button == 0 ) {
-	//
-	// 			event.preventDefault();
-	// 			event.stopPropagation();
-	//
-	// 			mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
-	//
-	// 			raycaster.setFromCamera( mouse, camera );
-	//
-	// 			var intersects = raycaster.intersectObjects( gridT );
-	//
-	// 			console.log( "intersects", intersects);
-	//
-	// 			if( intersects.length != 0 ) {
-	//
-	// 				if(intersects[0].object.name == "playme") {
-	//
-	// 					document.removeEventListener( 'click', menuSelect, false );
-	//
-	// 					scene.remove(intersects[0].object);
-	//
-	// 					setTimeout( function() {
-	//
-	// 						gridT.pop();
-	// 						gridT.pop();
-	//
-	// 						scene.remove( playButton );
-	// 						scene.remove( creditsButton );
-	// 						scene.remove(sp);
-	// 						scene.remove(credits);
-	//
-	// 						buttonGeoPlay.dispose();
-	// 						buttonGeoCredits.dispose();
-	// 						mat.dispose();
-	// 						mat2.dispose();
-	//
-	// 						buttonMatPlay.dispose();
-	// 						buttonMatCredits.dispose();
-	//
-	// 						//google chrome needs a user input to start audio
-	// 						sound.context.resume();
-	//
-	// 					}, 500 );
-	//
-	// 					//Play the game
-	// 					setTimeout( function() { play(); }, 600 );
-	//
-	// 				} else if ( intersects[0].object.name == "credits" ) {
-	//
-	// 				}
-	//
-	//
-	// 			}
-	//
-	// 		}
-	//
-	// 	}
-	//
-	// 	console.log("menu");
-	//
-	// }
-
 	function menu() {
-		//disables users ability to move around menu
-		controls.enabled = false;
 
-		console.log("menuscene", scene);
 		stopAnimation = false;
 
+		var canvas = document.createElement('canvas');
+		canvas.id = "canvas1";
+		canvas.width = 256;
+		canvas.height = 256;
+		var context = canvas.getContext('2d');
+		context.fillStyle = '#ff0000';
+		context.textAlign = 'center';
+		context.font = '24px Arial';
+		context.fillText("Start Game", 175, 175);
+		var amap = new THREE.Texture(canvas);
+		amap.needsUpdate = true;
+
+		var mat = new THREE.SpriteMaterial({
+			map: amap,
+			transparent: false,
+			color: 0xffffff
+		});
+
+		var sp = new THREE.Sprite(mat);
+		sp.scale.set(10, 10, 1);
+		sp.name = "playme";
+		sp.position.y = 11;
+		sp.position.x = 2;
+		scene.add(sp);
+		gridT.push(sp);
+		console.log("sprite", sp);
+
+		var canvas2 = document.createElement('canvas');
+		canvas2.width = 600;
+		canvas2.height = 256;
+		var context2 = canvas2.getContext('2d');
+		context2.fillStyle = '#ff0000';
+		context2.textAlign = 'center';
+		context2.font = '16px Arial';
+		context2.fillText("Team Nunki: Christopher Frenchi, Jonathan Ruby, Ruben Torres", 300, 175);
+		var amap2 = new THREE.Texture(canvas2);
+		amap2.needsUpdate = true;
+
+		var mat2 = new THREE.SpriteMaterial({
+			map: amap2,
+			transparent: false,
+			color: 0xffffff
+		});
+
+		var credits = new THREE.Sprite(mat2);
+		credits.scale.set(10,10,1);
+		credits.name = "credits";
+		credits.position.y = 4;
+		credits.position.x = 0;
+		scene.add(credits);
+		gridT.push(credits);
+
+		//disables users ability to move around menu
+		controls.enabled = false;
 
 		/*Adding a play button*/
 
@@ -513,6 +385,7 @@
 		buttonGeoPlay.rotateX( 2.677945044588987 );
 		buttonGeoPlay.rotateY( -1 );
 		buttonGeoPlay.rotateZ( Math.PI );
+
 			//Creating material
 		var buttonMatPlay = new THREE.MeshBasicMaterial( { color: 0xffffff } );
 
@@ -525,9 +398,7 @@
 		playButton.name = "play";
 
 			//Pushing to the tile array
-		gridT.push( playButton );
-
-
+		//gridT.push( playButton );
 
 		/*Adding a Credits button*/
 
@@ -537,6 +408,7 @@
 		buttonGeoCredits.rotateX( 2.677945044588987 );
 		buttonGeoCredits.rotateY( -1 );
 		buttonGeoCredits.rotateZ( Math.PI );
+
 			//Creating material
 		var buttonMatCredits = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
 
@@ -549,11 +421,11 @@
 		creditsButton.name = "credits";
 
 			//Pushing to the tile array
-		gridT.push( creditsButton );
-		//Add buttons to the scene
-		scene.add( playButton );
-		scene.add( creditsButton );
+		//gridT.push( creditsButton );
 
+		//Add buttons to the scene
+		//scene.add( playButton );
+		//scene.add( creditsButton );
 
 		//Remove right click menu and add object clicking
 		document.addEventListener( 'contextmenu', function( event ) { event.preventDefault() }, false );
@@ -571,14 +443,16 @@
 				event.stopPropagation();
 
 				mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+
 				raycaster.setFromCamera( mouse, camera );
 
 				var intersects = raycaster.intersectObjects( gridT );
+
 				console.log( "intersects", intersects);
 
 				if( intersects.length != 0 ) {
 
-					if(intersects[0].object.name == "play") {
+					if(intersects[0].object.name == "playme") {
 
 						document.removeEventListener( 'click', menuSelect, false );
 
@@ -591,32 +465,160 @@
 
 							scene.remove( playButton );
 							scene.remove( creditsButton );
+							scene.remove(sp);
+							scene.remove(credits);
 
 							buttonGeoPlay.dispose();
 							buttonGeoCredits.dispose();
+							mat.dispose();
+							mat2.dispose();
 
 							buttonMatPlay.dispose();
 							buttonMatCredits.dispose();
 
+							//google chrome needs a user input to start audio
+							sound.context.resume();
+
 						}, 500 );
+
 						//Play the game
 						setTimeout( function() { play(); }, 600 );
 
 					} else if ( intersects[0].object.name == "credits" ) {
 
-						//Show credit screen
-
-
-
 					}
+
 
 				}
 
 			}
 
 		}
+
 		console.log("menu");
+
 	}
+
+	// function menu() {
+	// 	//disables users ability to move around menu
+	// 	controls.enabled = false;
+	//
+	// 	console.log("menuscene", scene);
+	// 	stopAnimation = false;
+	//
+	//
+	// 	/*Adding a play button*/
+	//
+	// 		//Creating a plane
+	// 	var buttonGeoPlay = new THREE.PlaneBufferGeometry( 5, 3 );
+	// 	console.log( "buttonGeoPlay", buttonGeoPlay );
+	// 	buttonGeoPlay.rotateX( 2.677945044588987 );
+	// 	buttonGeoPlay.rotateY( -1 );
+	// 	buttonGeoPlay.rotateZ( Math.PI );
+	// 		//Creating material
+	// 	var buttonMatPlay = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+	//
+	// 		//Creating a mesh
+	// 	var playButton = new THREE.Mesh( buttonGeoPlay, buttonMatPlay );
+	//
+	// 		//Setting variables
+	// 	playButton.position.y = 6;
+	// 	playButton.rotation.y = -1;
+	// 	playButton.name = "play";
+	//
+	// 		//Pushing to the tile array
+	// 	gridT.push( playButton );
+	//
+	//
+	//
+	// 	/*Adding a Credits button*/
+	//
+	// 		//Creating a plane
+	// 	var buttonGeoCredits = new THREE.PlaneBufferGeometry( 3, 1 );
+	// 	console.log( "buttonGeoCredits", buttonGeoCredits );
+	// 	buttonGeoCredits.rotateX( 2.677945044588987 );
+	// 	buttonGeoCredits.rotateY( -1 );
+	// 	buttonGeoCredits.rotateZ( Math.PI );
+	// 		//Creating material
+	// 	var buttonMatCredits = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
+	//
+	// 		//Creating a mesh
+	// 	var creditsButton = new THREE.Mesh( buttonGeoCredits, buttonMatCredits );
+	//
+	// 		//Setting variables
+	// 	creditsButton.position.y = 2;
+	// 	creditsButton.rotation.y = -1;
+	// 	creditsButton.name = "credits";
+	//
+	// 		//Pushing to the tile array
+	// 	gridT.push( creditsButton );
+	// 	//Add buttons to the scene
+	// 	scene.add( playButton );
+	// 	scene.add( creditsButton );
+	//
+	//
+	// 	//Remove right click menu and add object clicking
+	// 	document.addEventListener( 'contextmenu', function( event ) { event.preventDefault() }, false );
+	// 	document.addEventListener( 'click', menuSelect, false );
+	//
+	// 	var menuScope = this;
+	//
+	// 	function menuSelect( event ) {
+	//
+	// 		console.log( "mouse: ", event );
+	//
+	// 		if( event.button == 0 ) {
+	//
+	// 			event.preventDefault();
+	// 			event.stopPropagation();
+	//
+	// 			mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+	// 			raycaster.setFromCamera( mouse, camera );
+	//
+	// 			var intersects = raycaster.intersectObjects( gridT );
+	// 			console.log( "intersects", intersects);
+	//
+	// 			if( intersects.length != 0 ) {
+	//
+	// 				if(intersects[0].object.name == "play") {
+	//
+	// 					document.removeEventListener( 'click', menuSelect, false );
+	//
+	// 					scene.remove(intersects[0].object);
+	//
+	// 					setTimeout( function() {
+	//
+	// 						gridT.pop();
+	// 						gridT.pop();
+	//
+	// 						scene.remove( playButton );
+	// 						scene.remove( creditsButton );
+	//
+	// 						buttonGeoPlay.dispose();
+	// 						buttonGeoCredits.dispose();
+	//
+	// 						buttonMatPlay.dispose();
+	// 						buttonMatCredits.dispose();
+	//
+	// 					}, 500 );
+	// 					//Play the game
+	// 					setTimeout( function() { play(); }, 600 );
+	//
+	// 				} else if ( intersects[0].object.name == "credits" ) {
+	//
+	// 					//Show credit screen
+	//
+	//
+	//
+	// 				}
+	//
+	// 			}
+	//
+	// 		}
+	//
+	// 	}
+	// 	console.log("menu");
+	// }
 
 	function getCoins(){
 		console.log("Current Coins var", coins);
@@ -645,8 +647,8 @@
 
 	//Creating the game engine and functionality
 	function play() {
-		initBuildUI();
-		viewBuildMenu();
+
+		//viewBuildMenu();
 		setLives(1);
 		setWave(1);
 		if(stopAnimation){
@@ -737,7 +739,7 @@
 
 
 
-
+		initBuildUI();
 		initGameUI(coins, lives, curWave);
 
 		//allows user to move the map
@@ -893,18 +895,18 @@
 
 		document.addEventListener( 'dblclick', onDocumentMouseDown, false );
 
-		function onDocumentMouseDown( event ) {
-			event.preventDefault();
-			mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
-
-			raycaster.setFromCamera( mouse, camera );
-			var intersects = raycaster.intersectObjects( gridT );
-
-			if(intersects[0].object.name == "buildable") {
-				scene.remove(intersects[0].object);
-				//addpirateT( intersects[0].object.position, scene, gridT, towers );
-			}
-		}
+		// function onDocumentMouseDown( event ) {
+		// 	event.preventDefault();
+		// 	mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+		//
+		// 	raycaster.setFromCamera( mouse, camera );
+		// 	var intersects = raycaster.intersectObjects( gridT );
+		//
+		// 	if(intersects[0].object.name == "buildable") {
+		// 		scene.remove(intersects[0].object);
+		// 		//addpirateT( intersects[0].object.position, scene, gridT, towers );
+		// 	}
+		// }
 
 		function onDocumentMouseDown( event ) {
 
@@ -932,6 +934,9 @@
 				document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
 				document.getElementById("build-cannon-button").removeEventListener("click", clickCannon);
 				document.getElementById("build-net-button").removeEventListener("click", clickNet);
+				//document.getElementById("")
+				//document.getElementById("build-cancel-button").removeEventListener("click", clickCancel);
+
 
 				//create building sound
 				sound2 = new THREE.Audio(listener);
@@ -983,6 +988,7 @@
 				document.getElementById("build-musket-button").addEventListener("click", clickMusket);
 				document.getElementById("build-cannon-button").addEventListener("click", clickCannon);
 				document.getElementById("build-net-button").addEventListener("click", clickNet);
+				//document.getElementById("build-cancel-button").addEventListener("click", clickCancel);
 
 			}
 			else {
@@ -1142,8 +1148,8 @@
 						dino.children[1].scale.z = .33;
 					}
 
-					// if(getLives() <= 0 ){
-					// 	Tween.remove(healthmove.getId());
+					// if(dino.children[0].userData.health <= 0){
+					// 	healthmove.remove(healthmove.getId());
 					// }
 				})
 				.start();
