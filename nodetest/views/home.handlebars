@@ -876,7 +876,25 @@
 
 		setTimeout(function(){
 			curWave = 1;
-			mapWaves(curWave);
+			//mapWaves(curWave);
+
+			if( curWave < totWaves && lives > 0){
+
+				console.log("mapwaves clock", clock.elapsedTime);
+				var delay = 0;
+
+				for( var i=0; i<curWave; i++ ) {
+
+					addOviGLTF(scene, dinos, delay);
+					delay += 500;
+
+				}
+
+				curWave++;
+				saveGame();
+
+
+			}
 		}, 10000);
 
 
