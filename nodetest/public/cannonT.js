@@ -99,6 +99,7 @@ function deadDino( d ){
   console.log("DEAD DINO ID",d.uuid);
   console.log("dino:", d);
   scene.remove( d.parent );
+  dinoSound2.play();
   console.log("removing", d.uuid);
   //console.log("dinos", d);
   //console.log("after", dinos);

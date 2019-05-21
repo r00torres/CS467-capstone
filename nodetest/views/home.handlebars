@@ -28,11 +28,17 @@
 <script type='text/javascript' src='/static/Tween.js'></script>
 <script>
 
+	//Music: www.bensound.com Royalty Free Music 
+	//Sound effects from soundbible.com
+
 	//Global variables
-	var scene, camera, renderer, controls, raycaster, mouse;
+	var scene, camera, renderer, controls, raycaster, mouse, listener;
+
+	//sound variables
+	var sound, sound2, dinoSound, played;
 
 
-	var container, stats, countdown;
+	var container, stats, countdown, soundButton;
 
 	//animation variables
 	const mixers = [];
@@ -76,6 +82,40 @@
 		camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 500 );
 		camera.position.set( 0, 10, -10 );
 		camera.lookAt( menu );
+
+		//create audio listener
+		listener = new THREE.AudioListener();
+		camera.add(listener);
+
+		//start audio
+		sound = new THREE.Audio(listener);
+		var audioLoader = new THREE.AudioLoader();
+		audioLoader.load('/static/bensound-instinct.mp3', function(buffer){
+			sound.setBuffer(buffer); 
+			sound.setLoop(true);
+			sound.setVolume(2.0); 
+			sound.play();
+		});
+
+		//wave start sound
+		dinoSound = new THREE.Audio(listener);
+		var dinoAudioLoader = new THREE.AudioLoader();
+		dinoAudioLoader.load('/static/TyrannosaurusRex-SoundBible.com-45786848.wav', function(buffer){
+			dinoSound.setBuffer(buffer); 
+			dinoSound.setLoop(false);
+			dinoSound.setVolume(8.0); 
+			dinoSound.setPlaybackRate(1);
+		});
+
+		//dino defeated sound
+		dinoSound2 = new THREE.Audio(listener);
+		var dinoAudioLoader2 = new THREE.AudioLoader();
+		dinoAudioLoader2.load('/static/VelociraptorCall-SoundBible.com-1782075819.wav', function(buffer){
+			dinoSound2.setBuffer(buffer); 
+			dinoSound2.setLoop(false);
+			dinoSound2.setVolume(6.0); 
+			dinoSound2.setPlaybackRate(1);
+		});
 
 		//Create the renderer
 		renderer = new THREE.WebGLRenderer();
@@ -609,6 +649,9 @@
 							buttonMatPlay.dispose();
 							buttonMatCredits.dispose();
 
+							//google chrome needs a user input to start audio
+							sound.context.resume();
+
 						}, 500 );
 
 						//Play the game
@@ -668,6 +711,31 @@
 		clock.startTime;
 
 		*/
+		
+		//create a button to pause the audio
+		soundButton = document.createElement('button');
+		soundButton.style.position = 'absolute';
+		soundButton.id = 'soundButton';
+		soundButton.style.width = '100px';
+		soundButton.style.height = '50px';
+		soundButton.style.background = 'green';
+		soundButton.style.top = '0px';
+		soundButton.style.left = '375px';
+		soundButton.style.textAlign = 'center';
+		soundButton.innerHTML = 'Music';
+		soundButton.style.color = 'white';
+
+		document.body.appendChild(soundButton);
+		soundButton.onclick = function(){
+			if(sound.isPlaying){
+				sound.pause();
+				soundButton.style.background = 'red';
+			}
+			else{
+				soundButton.style.background = 'green';
+				sound.play();
+			}
+		};
 
 		//add a countdown timer
 		countdown = document.createElement('div');
@@ -681,12 +749,17 @@
 		countdown.style.textAlign = 'center';
 		document.body.appendChild(countdown);
 
+		played = 1;
 		var timeleft = 10;
 		var countdownTimer = setInterval(function(){
 			document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
 			timeleft -= 1;
 			if(timeleft == -1){
 				document.getElementById("countdown").innerHTML = "Start"
+				if(played == 1)
+				{
+					dinoSound.play();
+				}
 			}
 			else if(timeleft < -1){
 				clearInterval(countdownTimer);
@@ -697,7 +770,6 @@
 
 
 		initGameUI(coins, lives, curWave);
-
 
 		//allows user to move the map
 		controls.enabled = true;
@@ -836,7 +908,18 @@
 
 		/////////////////////////////////////////////////////
 		////////////////////////////////////////////////////
+
+		//create wave starting sound
+		/*dinoSound = new THREE.Audio(listener);
+		var dinoAudioLoader = new THREE.AudioLoader();
+		dinoAudioLoader.load('/static/TyrannosaurusRex-SoundBible.com-45786848.wav', function(buffer){
+			dinoSound.setBuffer(buffer); 
+			dinoSound.setLoop(false);
+			dinoSound.setVolume(8.0); 
+			dinoSound.setPlaybackRate(1);
+		});*/
 		//start the waves
+
 		setTimeout(function(){
 			mapWaves(curWave);
 		}, 10000);
@@ -926,6 +1009,16 @@
 				document.getElementById("build-cannon-button").removeEventListener("click", clickCannon);
 				document.getElementById("build-net-button").removeEventListener("click", clickNet);
 
+				//create building sound
+				sound2 = new THREE.Audio(listener);
+				var audioLoader2 = new THREE.AudioLoader();
+				audioLoader2.load('/static/Hammer.wav', function(buffer){
+					sound2.setBuffer(buffer); 
+					sound2.setLoop(false);
+					sound2.setVolume(8.0); 
+					sound2.setPlaybackRate(1);
+				});
+
 				//new build functions at this location
 				clickMusket = function () {
 						console.log("Clicked Musket Tower")
@@ -934,6 +1027,8 @@
 						updateGameUIbar("coins", coins);
 						intersects[0].object.name = "tower";
 						addpirateT( intersects[0].object.position, scene, gridT, towers );
+						//start audio
+						sound2.play();
 						};
 
 				clickCannon = function() {
@@ -945,6 +1040,8 @@
 						intersects[0].object.name = "tower";
 						addcannonT( intersects[0].object.position, scene, gridT, towers );
 						console.log("towers", towers);
+						//start audio
+						sound2.play();
 						};
 
 				clickNet = function() {
@@ -954,6 +1051,7 @@
 						updateGameUIbar("coins", coins);
 						intersects[0].object.name = "tower";
 						addcannonT( intersects[0].object.position, scene, gridT, towers );
+						sound2.play();
 						};
 
 
