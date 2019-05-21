@@ -347,6 +347,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		return function pan( deltaX, deltaY ) {
 
+
+
 			var element = scope.domElement === document ? scope.domElement.body : scope.domElement;
 
 			if ( scope.object.isPerspectiveCamera ) {
@@ -519,7 +521,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	function handleMouseWheel( event ) {
 
-		// console.log( 'handleMouseWheel' );
+		console.log( 'handleMouseWheel' );
 
 		if ( event.deltaY < 0 ) {
 

@@ -92,7 +92,7 @@ function loseCondition(){
 function clearErrythang() {
   // var animationID = requestAnimationFrame(animate);
   // cancelAnimationFrame(animationID);
-  // scene = NULL;
+  //scene = NULL;
   // camera = NULL;
   // renderer = NULL;
   // controls = NULL;
