@@ -97,7 +97,7 @@ function addcannonT( object, scene, gridT, towers ){
 
 function deadDino( d ){
   console.log("DEAD DINO ID",d.uuid);
-  console.log("dino:", d)
+  console.log("dino:", d);
   scene.remove( d.parent );
   dinoSound2.play();
   console.log("removing", d.uuid);
@@ -107,7 +107,7 @@ function deadDino( d ){
 
 //May want to implement a "starting tower" to mitigate the transfer from
 //what appears to be an array to an object
-function attack( towers, dinos ) {
+function attack( coins, towers, dinos ) {
   //the first one gives me problems with children...
   if ( towers.length == 1 ) {
     if (towers == Array){
@@ -146,7 +146,8 @@ function attack( towers, dinos ) {
 
               console.log(dinos[d][0].userData.health);
               console.log(dinos[d][0].uuid);
-              //console.log("dl", dinos.length);
+              console.log("dinos, d",dinos, d);
+              console.log("dl", dinos[d]);
               dinos.splice(d, 1);
 
               //console.log("after", dinos.length);
@@ -274,7 +275,12 @@ function attack( towers, dinos ) {
         console.log("POW!", clock.elapsedTime);
         console.log("DINO HEALTH: ", dino.userData.health);
         if(dino.userData.health <= 0){
-          //console.log("Dead dino",dino.userData.health);
+          console.log("Dead dino reward",dino.userData.reward);
+
+          coins = getCoins() + dino.userData.reward;
+          setCoins(coins);
+
+          updateGameUIbar( "coins", coins );
           deadDino( dino );
           //deadDino(dinos);
         }
