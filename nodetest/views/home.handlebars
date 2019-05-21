@@ -368,6 +368,18 @@
 	//
 	// 	};
 
+	//One main gltfLoader function. Checks the third argument by name to determine
+	//the type of object, dino, tower, environment?
+
+
+
+	function enviroLoader( object, position ) {
+		console.log("enviroLoader");
+	}
+
+	function towerLoader( object, position, towers ) {
+		console.log("towers");
+	}
 
 	function dinoLoader( object, position, dinos, delay ) {
 
@@ -798,7 +810,7 @@
 
 		var gridTiles = [];
 
-		var gridTiles = [];timeleft
+		//var gridTiles = [];timeleft
 		var path = [];
 		function addTiles(m){
 			console.log("adding tiles", m);
@@ -1333,6 +1345,8 @@
 
 	function animate(){
 
+		//https://stackoverflow.com/questions/14465495/how-do-i-stop-requestanimationframe
+		//
 
 		if( towers.length >= 1 ){
 			for( var i = 0; i < towers.length; i++ ) {
