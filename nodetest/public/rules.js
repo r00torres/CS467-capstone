@@ -5,9 +5,7 @@ var totWaves = 10;
 var timeXwave = 10;
 var coins = 100;
 
-function mapWaves(curWaveVal){
-
-
+function mapWaves(testPath, curWaveVal){
 
   var uplives = getLives();
   var getCurWave = getWave();
@@ -17,6 +15,7 @@ function mapWaves(curWaveVal){
     //loseCondition();
     console.log("mapwaves if");
     uplives = 0;
+    //loseCondition();
 
   }
   // if( getCurWave != curWaveVal ){
@@ -36,6 +35,7 @@ function mapWaves(curWaveVal){
     if(curWave == totWaves){
 
       console.log("You win!");
+      clearEverything();
 
     }
     if( curWave < totWaves && lives > 0){
@@ -45,7 +45,7 @@ function mapWaves(curWaveVal){
 
       for( var i=0; i<curWave; i++ ) {
 
-        addOviGLTF(scene, dinos, delay);
+        addOviGLTF(scene, dinos, delay, testPath);
         delay += 500;
 
       }
@@ -57,14 +57,16 @@ function mapWaves(curWaveVal){
     }
     //if( lives > 0 ){
 
-      setTimeout(function(){
+    var timex = 10000;
 
-          //var newWaveVal = curWave.slice(0);
-          console.log("Timeout wave", curWave, getCurWave);
-          mapWaves(getCurWave);
+    setTimeout(function(){
+
+        //var newWaveVal = curWave.slice(0);
+        console.log("Timeout wave", curWave, getCurWave);
+        mapWaves(testPath, getCurWave);
 
 
-      }, 10000);
+    }, timex);
 
     //}
   }
@@ -76,6 +78,14 @@ function loseCondition(){
   console.log("YOU LOSE", lives);
   //https://stackoverflow.com/questions/30359830/how-do-i-clear-three-js-scene
   //TWEEN.removeAll();
+  controls.enabled = false;
+
+  clearEverything();
+}
+
+function clearEverything() {
+  stopAnimation = true;
+
   while ( scene.children.length > 1 ) {
     //testing
     if( scene.children.type != "AmbientLight" ){
@@ -86,27 +96,12 @@ function loseCondition(){
   }
 
   console.log("scene",scene);
-  clearErrythang();
-}
 
-function clearErrythang() {
-  // var animationID = requestAnimationFrame(animate);
-  // cancelAnimationFrame(animationID);
-  //scene = NULL;
-  // camera = NULL;
-  // renderer = NULL;
-  // controls = NULL;
-  // stats = NULL;
-  // raycaster = NULL;
-  // mouse = NULL;
-  // setTimeout( function(){
-  //   init();
-  // }, 500);
   console.log("CLEARING!!!!!!!!!!!!!!!!!!!!!!!");
 
-  stopAnimation = true;
+
   //document.getElementById("game-ui-bar").style.display = "none";
-  TWEEN.removeAll();
+  //TWEEN.removeAll();
   gridT = [];
   towers = [];
   dinos = [];
@@ -136,7 +131,14 @@ function clearErrythang() {
     document.body.removeChild(gameUIbar);
   }
 
-
+  camera.position.set( 0, 10, -10 );
+  camera.lookAt( 0, 0, 0 );
+  camera.rotation.x = -2.677945044588987;
+  camera.rotation.y = 0;
+  camera.rotation.z = 3.141592653589793;
+  console.log("camera", camera);
+  controls.reset();
+  TWEEN.removeAll();
   //document.body.removeChild(canvas);
   menu();
   //document.body.removeChild(game-ui-bar);

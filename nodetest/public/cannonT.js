@@ -94,7 +94,7 @@ function deadDino( d ){
   console.log("dino:", d);
   scene.remove( d.parent );
   console.log("tweens", TWEEN.getAll());
-  dinoSound2.play();
+  //dinoSound2.play();
   console.log("removing", d.uuid);
 
 }
