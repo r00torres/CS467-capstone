@@ -106,6 +106,8 @@ function menu() {
             buttonMatPlay.dispose();
             buttonMatCredits.dispose();
 
+            sound.context.resume();
+
           }, 500 );
           //Play the game
           setTimeout( function() { play(); }, 600 );
