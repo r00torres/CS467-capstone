@@ -1,6 +1,53 @@
-function enviroLoader( object, position ) {
+function enviroLoader( object, position, orotation, glname ) {
 
   console.log("enviroLoader");
+
+  const loader = new THREE.GLTFLoader();
+
+  const onLoad = ( gltf, position ) => {
+
+
+    var model = gltf.scene;
+
+    model.position.copy( position );
+
+    model.rotation.y = orotation;
+
+    var animation = gltf.animations[ 0 ];
+
+    var mixer = new THREE.AnimationMixer( model );
+    mixers.push( mixer );
+
+    var action = mixer.clipAction( animation );
+    action.play();
+
+    if( glname == "palm" ){
+      model.scale.set( Math.random()+.2, Math.random()+.2, Math.random()+.3 );
+    }
+    else if( glname == "mapbg" ){
+      model.scale.set( 1, 0, 1 );
+    }
+    else{
+      model.scale.set( 0.3, 0.3, 0.3 );
+    }
+
+
+
+
+    scene.add( model );
+
+  };
+
+  const onProgress = () => {};
+
+  const onError = (errorMessage ) => {
+
+    console.log( errorMessage );
+
+  };
+
+  loader.load( object, gltf => onLoad( gltf, position ), onProgress, onError );
+
 }
 
 function towerLoader( object, position, towers ) {

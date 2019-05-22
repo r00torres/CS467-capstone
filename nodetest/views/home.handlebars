@@ -78,6 +78,8 @@
 
 		//Create a new scene
 		scene = new THREE.Scene();
+		scene.background = new THREE.Color( 0xadd8e6 );
+		scene.fog = new THREE.Fog( 0xadd8e6, 500, 1000 );
 		console.log("scene", scene);
 
 		//Create a new camera
@@ -167,8 +169,13 @@
 
 		//need to add a light so that colors and textures of loaded objects
 		//will show up
-		var ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
-		scene.add(ambientLight);
+		var directLight = new THREE.DirectionalLight(0xffffff, 2);
+		directLight.position.set( 20, 20, 20 );
+		scene.add(directLight);
+		var directionLight1
+		var hemiLight = new THREE.HemisphereLight( 0x000000, 0x000000, 4 );
+		hemiLight.position.set( 0, 20, 0 );
+		scene.add(hemiLight);
 		animate();
 		//Load the menu
 
@@ -350,7 +357,20 @@
 
 		//var gridTiles = [];timeleft
 		var path = [];
-		function addTiles(m){
+		function addTiles(m, mapName){
+
+			if( mapName == "coast" ){
+				//25m radius
+				var mapbg = "mapbg";
+				var mapbgRotation = Math.floor(Math.random() * 3);
+				var mapPos = new THREE.Vector3( 0, -.1, 0 );
+				//var mapgltf = enviroLoader("/static/enviro/beach.glb", mapPos, mapbgRotation, mapbg);
+
+				var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xf2d527 } ) );
+				plane.scale.set( 15, 15, 15 );
+				plane.position.y = -.1;
+				scene.add( plane );
+			}
 			console.log("adding tiles", m);
 			//gets the length of a single array (map0 a,b,a,b)
 			var arrZ = m[0].length;
@@ -376,6 +396,12 @@
 						gridRow.push( plane );
 						//for testing raycaster
 						gridT.push( plane );
+
+						var ubName = "palm";
+						var palmRotation = Math.floor(Math.random() * 3);
+						var palmPos = plane.position;
+						var palm = enviroLoader("/static/enviro/palm.glb", palmPos, palmRotation, ubName);
+
 						scene.add( plane );
 					}
 					else if(m[i][j] == '.'){
@@ -398,17 +424,28 @@
 						path.push(plane);
 						//for testing raycaster
 						gridT.push( plane );
+
+						//var palmPos = plane.position;
+						//var palm = enviroLoader("/static/enviro/palm.glb", palmPos);
+
 						scene.add( plane );
 					}
 					else if (m[i][j] == 's'){
 						var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x4568c2 } ) );
-						plane.position.x = 4*x+2;
-						plane.position.z = 4*z+2;
+						plane.position.x = 4*x-5;
+						plane.position.z = 4*z-3;
+						plane.position.y = -1;
 						plane.name = "start";
 						gridRow.push( plane );
 						console.log("start ", plane);
 						//for testing raycaster
 						gridT.push( plane );
+
+						var startName = "cave";
+						var caveRotation = -0.3;
+						var cavePos = plane.position;
+						var cave = enviroLoader("/static/enviro/cave.glb", cavePos, caveRotation, startName);
+
 						scene.add( plane );
 					}
 					else if (m[i][j] == 'e'){
@@ -420,6 +457,12 @@
 						console.log("end", plane);
 						//for testing raycaster
 						gridT.push( plane );
+
+						var endName = "dinoZone";
+						var endRotation = 0;
+						var endPos = plane.position;
+						var endPoint = enviroLoader("/static/enviro/getaway.glb", endPos, endRotation, endName);
+
 						scene.add( plane );
 					}
 				}
@@ -450,19 +493,19 @@
 			testPath = map1.dinoPath.map(arr => arr.slice());
 			levelX = map1.level1x;
 			levelZ = map1.level1z;
-			addTiles(maplevel1);
+			addTiles(maplevel1, map1.name);
 		}
 		else if( currMap == 2 ){
 			testPath = map2.dinoPath.map(arr => arr.slice());
 			levelX = map2.level2x;
 			levelZ = map2.level2z;
-			addTiles(maplevel2);
+			addTiles(maplevel2, map2.name);
 		}
 		else if( currMap == 3 ){
 			testPath = map3.dinoPath.map(arr => arr.slice());
 			levelX = map3.level3x;
 			levelZ = map3.level3z;
-			addTiles(maplevel3);
+			addTiles(maplevel3, map3.name);
 		}
 
 
