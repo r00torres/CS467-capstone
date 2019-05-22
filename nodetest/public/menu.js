@@ -28,7 +28,7 @@ function menu() {
   var playButton = new THREE.Mesh( buttonGeoPlay, buttonMatPlay );
 
     //Setting variables
-  playButton.position.y = 6;
+  playButton.position.y = 10;
   playButton.rotation.y = -1;
   playButton.name = "play";
 
