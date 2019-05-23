@@ -202,7 +202,7 @@ function dinoPath(dino, speed, target, targetHealth, delay) {
         // }
 
 
-        if( getLives() <= 0 ){
+        if( getLives() == 0 ){
           stopAnimation = true;
           //TWEEN.removeAll();
           //healthmove.removeAll();
