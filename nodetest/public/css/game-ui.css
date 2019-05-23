@@ -1,3 +1,6 @@
+body {
+  margin: 0;
+}
 #gameUIbar {
   background-color: #333;
   position: fixed;
