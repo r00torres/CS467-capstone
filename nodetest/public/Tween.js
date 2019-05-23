@@ -68,7 +68,7 @@ var TWEEN = TWEEN || (function () {
 
 				tweenIds = Object.keys(_tweensAddedDuringUpdate);
 			}
-
+      
 			return true;
 
 		},

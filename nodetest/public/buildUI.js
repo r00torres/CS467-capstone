@@ -4,8 +4,8 @@ var clickMusket = function (){ };
 var clickCannon = function () { };
 var clickNet = function () { };
 var clickCancel = function() {
-			// console.log("Clicked Cancel Build")
-  		// 	viewBuildMenu();
+			console.log("Clicked Cancel Build")
+  		viewBuildMenu();
 		};
 
 function initBuildUI(){

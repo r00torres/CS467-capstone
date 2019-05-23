@@ -3,7 +3,8 @@ function menu() {
   controls.reset();
   controls.enabled = false;
 
-  TWEEN.removeAll();
+  console.log("tween menu", TWEEN.getAll());
+  console.log("d", dinos);
 
   camera.position.set( 0, 10, -10 );
   camera.lookAt( 0, 0, 0 );

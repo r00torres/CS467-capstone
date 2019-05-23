@@ -55,6 +55,7 @@
 	var dinos = [];
 	var towers = [];
 	var projectiles = [];
+	var currMap;
 	//var totWaves, timeXwave;
 	//var coins = 100;
 	//var curWave = 1;
@@ -199,8 +200,12 @@
 
 	function render() {
 
-
-		TWEEN.update();
+		var tc = TWEEN.getAll();
+		if(tc.length > 0){
+			//console.log(tc.length);
+			TWEEN.update();
+		}
+		//TWEEN.update();
 		controls.update();
 
 		const delta = clock.getDelta();
@@ -251,6 +256,7 @@
 		controls.maxDistance = 50;
 
 		console.log("controls", controls);
+		console.log("tween c", TWEEN.getAll());
 
 		//viewBuildMenu();
 		setLives(1);
@@ -487,7 +493,7 @@
 		var testPath = [];
 		var levelX = 0;
 		var levelZ = 0;
-		var currMap = 1;
+		currMap = 1;
 
 		if( currMap == 1 ){
 			testPath = map1.dinoPath.map(arr => arr.slice());
@@ -589,7 +595,7 @@
 				document.getElementById("build-cannon-button").removeEventListener("click", clickCannon);
 				document.getElementById("build-net-button").removeEventListener("click", clickNet);
 				//document.getElementById("")
-				//document.getElementById("build-cancel-button").removeEventListener("click", clickCancel);
+				document.getElementById("build-cancel-button").removeEventListener("click", clickCancel);
 
 
 				//create building sound
@@ -609,7 +615,9 @@
 						coins = coins - pirateT.cost;
 						updateGameUIbar("coins", coins);
 						intersects[0].object.name = "tower";
-						addpirateT( intersects[0].object.position, scene, gridT, towers );
+						var towerName = "musketT";
+						//addpirateT( intersects[0].object.position, scene, gridT, towers );
+						towerLoader( '/static/towers/musket1.glb', intersects[0].object.position, gridT, towers, towerName );
 						//start audio
 						sound2.play();
 						};
@@ -621,7 +629,10 @@
 						updateGameUIbar("coins", coins);
 						//getCoins();
 						intersects[0].object.name = "tower";
-						addcannonT( intersects[0].object.position, scene, gridT, towers );
+						var towerName = "cannonT";
+						//addcannonT( intersects[0].object.position, scene, gridT, towers );
+
+						towerLoader( '/static/towers/canontowermodified2.glb', intersects[0].object.position, gridT, towers, towerName );
 						console.log("towers", towers);
 						//start audio
 						sound2.play();
@@ -642,7 +653,7 @@
 				document.getElementById("build-musket-button").addEventListener("click", clickMusket);
 				document.getElementById("build-cannon-button").addEventListener("click", clickCannon);
 				document.getElementById("build-net-button").addEventListener("click", clickNet);
-				//document.getElementById("build-cancel-button").addEventListener("click", clickCancel);
+				document.getElementById("build-cancel-button").addEventListener("click", clickCancel);
 
 			}
 			else {
@@ -744,7 +755,13 @@
 			// var tweencheck = TWEEN.getAll();
 			requestAnimationFrame(animate);
 			// if(tweencheck.length > 0  ){
-			TWEEN.update();
+			var tc = TWEEN.getAll();
+			if(tc.length > 0){
+				//console.log(tc.length);
+				 TWEEN.update();
+				 //console.log(tc.length);
+			}
+
 			// }
 
 			const delta = clock.getDelta();

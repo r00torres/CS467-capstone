@@ -9,12 +9,14 @@ function mapWaves(testPath, curWaveVal){
 
   var uplives = getLives();
   var getCurWave = getWave();
+  var setWaveTime;
 
   console.log("start of mapwaves", getCurWave, curWaveVal);
   if( uplives < 1 ){
     //loseCondition();
     console.log("mapwaves if");
     uplives = 0;
+    stopWaveTimeout();
     //loseCondition();
 
   }
@@ -54,12 +56,22 @@ function mapWaves(testPath, curWaveVal){
       saveGame();
 
 
+
     }
     //if( lives > 0 ){
 
-    var timex = 10000;
+    var timex = 11000;
 
-    setTimeout(function(){
+
+
+
+
+    waveTimeout();
+    //}
+  }
+
+  function waveTimeout(){
+    setWaveTime = setTimeout(function(){
 
         //var newWaveVal = curWave.slice(0);
         console.log("Timeout wave", curWave, getCurWave);
@@ -67,8 +79,11 @@ function mapWaves(testPath, curWaveVal){
 
 
     }, timex);
+  }
 
-    //}
+  function stopWaveTimeout(){
+    console.log("stopwave");
+    clearTimeout( setWaveTime );
   }
 
 }
@@ -105,6 +120,7 @@ function clearEverything() {
   gridT = [];
   towers = [];
   dinos = [];
+
   //mixers = [];
   projectiles = [];
 
@@ -138,7 +154,21 @@ function clearEverything() {
   camera.rotation.z = 3.141592653589793;
   console.log("camera", camera);
   controls.reset();
-  TWEEN.removeAll();
+  console.log("tweengetall", TWEEN.getAll() );
+  var tweencheck = TWEEN.getAll();
+  console.log("tweencheck", tweencheck.length);
+  if( tweencheck.length > 0 ){
+    //console.log("inside tween if", TWEEN.Tween[0]);
+    //console.log(TWEEN.Tween.removeAll());
+    //TWEEN.Tween.removeAll; //stop();
+    for(var c = 0; c < tweencheck.length; c++){
+      console.log("for");
+       TWEEN.removeAll();
+    }
+    console.log("tweencheck if", tweencheck );
+    //console.log("tween_", TWEEN._tweens);
+
+  }
   //document.body.removeChild(canvas);
   menu();
   //document.body.removeChild(game-ui-bar);
