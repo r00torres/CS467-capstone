@@ -587,126 +587,128 @@
 
 		//To add towers, use double click
 
-		document.addEventListener( 'dblclick', onDocumentMouseDown, false );
-
-		// function onDocumentMouseDown( event ) {
-		// 	event.preventDefault();
-		// 	mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
-		//
-		// 	raycaster.setFromCamera( mouse, camera );
-		// 	var intersects = raycaster.intersectObjects( gridT );
-		//
-		// 	if(intersects[0].object.name == "buildable") {
-		// 		scene.remove(intersects[0].object);
-		// 		//addpirateT( intersects[0].object.position, scene, gridT, towers );
-		// 	}
-		// }
-
-		function onDocumentMouseDown( event ) {
 
 
+	}
+
+	document.addEventListener( 'dblclick', onDocumentMouseDown, false );
+
+	// function onDocumentMouseDown( event ) {
+	// 	event.preventDefault();
+	// 	mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+	//
+	// 	raycaster.setFromCamera( mouse, camera );
+	// 	var intersects = raycaster.intersectObjects( gridT );
+	//
+	// 	if(intersects[0].object.name == "buildable") {
+	// 		scene.remove(intersects[0].object);
+	// 		//addpirateT( intersects[0].object.position, scene, gridT, towers );
+	// 	}
+	// }
+
+	function onDocumentMouseDown( event ) {
 
 
-			event.preventDefault();
-
-			mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
-
-			raycaster.setFromCamera( mouse, camera );
-
-			var intersects = raycaster.intersectObjects( gridT );
-
-			console.log(intersects);
-
-			if(intersects[0].object.name == "buildable") {
 
 
-				var possibleCoins = 0;
+		event.preventDefault();
 
-				//shows build options for player's current coin at this location (need to change first param to coin
-				//last param to cost of last tower
+		mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
 
-				viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cannonT.cost);
+		raycaster.setFromCamera( mouse, camera );
 
-				//remove the previous click event (which was to build for last location)
-				document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
-				document.getElementById("build-cannon-button").removeEventListener("click", clickCannon);
-				document.getElementById("build-net-button").removeEventListener("click", clickNet);
-				//document.getElementById("")
-				document.getElementById("build-cancel-button").removeEventListener("click", clickCancel);
+		var intersects = raycaster.intersectObjects( gridT );
+
+		console.log(intersects);
+
+		if(intersects[0].object.name == "buildable") {
 
 
-				//create building sound
-				sound2 = new THREE.Audio(listener);
-				var audioLoader2 = new THREE.AudioLoader();
-				audioLoader2.load('/static/Hammer.wav', function(buffer){
-					sound2.setBuffer(buffer);
-					sound2.setLoop(false);
-					sound2.setVolume(8.0);
-					sound2.setPlaybackRate(1);
-				});
+			var possibleCoins = 0;
 
-				//new build functions at this location
-				clickMusket = function () {
-						console.log("Clicked Musket Tower")
-  						clearBuildMenu();
-						coins = coins - pirateT.cost;
-						updateGameUIbar("coins", coins);
-						intersects[0].object.name = "tower";
-						var towerName = "musketT";
-						//addpirateT( intersects[0].object.position, scene, gridT, towers );
-						towerLoader( '/static/towers/musket1.glb', intersects[0].object.position, gridT, towers, towerName );
-						//start audio
-						sound2.play();
-						};
+			//shows build options for player's current coin at this location (need to change first param to coin
+			//last param to cost of last tower
 
-				clickCannon = function() {
-						console.log("Clicked Cannon Tower")
-  						clearBuildMenu();
-						coins = coins - cannonT.cost;
-						updateGameUIbar("coins", coins);
-						//getCoins();
-						intersects[0].object.name = "tower";
-						var towerName = "cannonT";
-						//addcannonT( intersects[0].object.position, scene, gridT, towers );
+			viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cannonT.cost);
 
-						towerLoader( '/static/towers/canontowermodified2.glb', intersects[0].object.position, gridT, towers, towerName );
-						console.log("towers", towers);
-						//start audio
-						sound2.play();
-						};
-
-				clickNet = function() {
-						console.log("Clicked Net Tower")
-  						clearBuildMenu();
-						coins = coins - pirateT.cost;
-						updateGameUIbar("coins", coins);
-						intersects[0].object.name = "tower";
-						var towerName = "cannonT";
-						//addcannonT( intersects[0].object.position, scene, gridT, towers );
-
-						towerLoader( '/static/towers/canontowermodified2.glb', intersects[0].object.position, gridT, towers, towerName );
-						console.log("towers", towers);
-						//addcannonT( intersects[0].object.position, scene, gridT, towers );
-						sound2.play();
-						};
+			//remove the previous click event (which was to build for last location)
+			document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
+			document.getElementById("build-cannon-button").removeEventListener("click", clickCannon);
+			document.getElementById("build-net-button").removeEventListener("click", clickNet);
+			//document.getElementById("")
+			document.getElementById("build-cancel-button").removeEventListener("click", clickCancel);
 
 
-				//new events for on click at this location
-				document.getElementById("build-musket-button").addEventListener("click", clickMusket);
-				document.getElementById("build-cannon-button").addEventListener("click", clickCannon);
-				document.getElementById("build-net-button").addEventListener("click", clickNet);
-				document.getElementById("build-cancel-button").addEventListener("click", clickCancel);
+			//create building sound
+			sound2 = new THREE.Audio(listener);
+			var audioLoader2 = new THREE.AudioLoader();
+			audioLoader2.load('/static/Hammer.wav', function(buffer){
+				sound2.setBuffer(buffer);
+				sound2.setLoop(false);
+				sound2.setVolume(8.0);
+				sound2.setPlaybackRate(1);
+			});
 
-			}
-			else {
+			//new build functions at this location
+			clickMusket = function () {
+					console.log("Clicked Musket Tower")
+						clearBuildMenu();
+					coins = coins - pirateT.cost;
+					updateGameUIbar("coins", coins);
+					intersects[0].object.name = "tower";
+					var towerName = "musketT";
+					//addpirateT( intersects[0].object.position, scene, gridT, towers );
+					towerLoader( '/static/towers/musket1.glb', intersects[0].object.position, gridT, towers, towerName );
+					//start audio
+					sound2.play();
+					};
 
-				console.log("Can not build", intersects[0].object.name);
+			clickCannon = function() {
+					console.log("Clicked Cannon Tower")
+						clearBuildMenu();
+					coins = coins - cannonT.cost;
+					updateGameUIbar("coins", coins);
+					//getCoins();
+					intersects[0].object.name = "tower";
+					var towerName = "cannonT";
+					//addcannonT( intersects[0].object.position, scene, gridT, towers );
 
-			}
+					towerLoader( '/static/towers/canontowermodified2.glb', intersects[0].object.position, gridT, towers, towerName );
+					console.log("towers", towers);
+					//start audio
+					sound2.play();
+					};
 
-			//
+			clickNet = function() {
+					console.log("Clicked Net Tower")
+						clearBuildMenu();
+					coins = coins - pirateT.cost;
+					updateGameUIbar("coins", coins);
+					intersects[0].object.name = "tower";
+					var towerName = "cannonT";
+					//addcannonT( intersects[0].object.position, scene, gridT, towers );
+
+					towerLoader( '/static/towers/canontowermodified2.glb', intersects[0].object.position, gridT, towers, towerName );
+					console.log("towers", towers);
+					//addcannonT( intersects[0].object.position, scene, gridT, towers );
+					sound2.play();
+					};
+
+
+			//new events for on click at this location
+			document.getElementById("build-musket-button").addEventListener("click", clickMusket);
+			document.getElementById("build-cannon-button").addEventListener("click", clickCannon);
+			document.getElementById("build-net-button").addEventListener("click", clickNet);
+			document.getElementById("build-cancel-button").addEventListener("click", clickCancel);
+
+		}
+		else {
+
+			console.log("Can not build", intersects[0].object.name);
+
 		}
 
+		//
 	}
 
 
