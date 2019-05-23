@@ -31,12 +31,12 @@ function saveTowerLocations( towers ) {
     var nameOf = towers[i].children[1].name;
     savedTowers.push({pos, nameOf});
   }
-  
+
   //https://stackoverflow.com/questions/2980143/i-want-to-store-javascript-array-as-a-cookie
   var json_str = JSON.stringify(savedTowers);
-  
+
   setCookie('loadBuildMap', json_str);
-  
+
 }
 
 function saveGameVariables( coins, curWave, lives ) {
@@ -64,9 +64,10 @@ function checkCookie() {
 }
 
 function saveGame(){
+  console.log("saving game");
   saveGameVariables(coins, curWave, lives);
   saveTowerLocations( towers );
-  
+
 }
 
 /*//testing saving tower pos and name
@@ -79,5 +80,5 @@ let position = {
 savedTowers.push({ position, name:"test" });
 savedTowers.push({ position, name:"test1" });
 savedTowers.push({ position, name:"test2" });
-var json_str = JSON.stringify(savedTowers); 
+var json_str = JSON.stringify(savedTowers);
 setCookie('loadBuildMap', json_str);*/

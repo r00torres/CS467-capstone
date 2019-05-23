@@ -24,18 +24,19 @@ function loadTowerLocations( towers ) {
     return;
   }
   loadTowers = JSON.parse(jsonloadedTowers);
-  
+
   for (var i = 0; i < loadTowers.length; i++){
-    
-    if(loadTowers[i].nameOf == "musket tower"){('coins');
-      addpirateT( loadTowers[i].pos, scene, gridT, towers );
+
+    if(loadTowers[i].nameOf == "musketT"){
+      var towerName = "musketT";
+      towerLoader( '/static/towers/musket1.glb', loadTowers[i].pos, gridT, towers, towerName);
     }
-    
-    else if(loadTowers[i].nameOf == "cannon tower"){
-      //build
-      addcannonT( loadTowers[i].pos, scene, gridT, towers );
+
+    else if(loadTowers[i].nameOf == "cannonT"){
+      var towerName = "musketT";
+      towerLoader( '/static/towers/canontowermodified2.glb', loadTowers[i].pos, gridT, towers, towerName);
     }
-    
+
     //CHANGE TO NET CANNON
     else if(loadTowers[i].nameOf == "cannon tower"){
       //build
@@ -43,7 +44,7 @@ function loadTowerLocations( towers ) {
     }
 
   }
-  
+
 }
 
 function loadGameValues() {
@@ -54,17 +55,19 @@ function loadGameValues() {
     console.log("No game variables to load");
     return;
   }
-  
+
   //console.log("coinAtLoad: ", coinAtLoad);
-  
+
   setCoins( parseInt(coinAtLoad) );
   setLives( parseInt(livesAtLoad) );
   curWave = parseInt(waveAtLoad);
-  
+
 }
 
 function loadGame() {
   loadTowerLocations( towers );
   loadGameValues();
   console.log("Loaded Game!");
+  //stopAnimation = false;
+  play();
 }

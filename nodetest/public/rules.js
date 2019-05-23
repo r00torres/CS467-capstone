@@ -37,7 +37,7 @@ function mapWaves(testPath, curWaveVal){
     if(curWave == totWaves){
 
       console.log("You win!");
-      clearEverything();
+      //clearEverything();
 
     }
     if( curWave < totWaves && lives > 0){
@@ -60,7 +60,7 @@ function mapWaves(testPath, curWaveVal){
     }
     //if( lives > 0 ){
 
-    var timex = 11000;
+    var timex = 11000 + delay;
 
 
 
@@ -91,11 +91,160 @@ function mapWaves(testPath, curWaveVal){
 //Win lose conditions
 function loseCondition(){
   console.log("YOU LOSE", lives);
+  //stopAnimation = false;
   //https://stackoverflow.com/questions/30359830/how-do-i-clear-three-js-scene
   //TWEEN.removeAll();
+  // controls.enabled = false;
+  gridT = [];
+  //
+  //menu();
+
+
+  controls.reset();
   controls.enabled = false;
 
-  clearEverything();
+  console.log("tween menu", TWEEN.getAll());
+  console.log("d", dinos);
+
+  camera.position.set( 0, 10, -10 );
+  camera.lookAt( 0, 0, 0 );
+  console.log("camera menu", camera);
+
+  console.log("menuscene", scene);
+  stopAnimation = false;
+
+  var buttonGeoPlay = new THREE.PlaneBufferGeometry( 5, 3 );
+  console.log( "buttonGeoPlay", buttonGeoPlay );
+  buttonGeoPlay.rotateX( 2.677945044588987 );
+  buttonGeoPlay.rotateY( -1 );
+  buttonGeoPlay.rotateZ( Math.PI );
+    //Creating material
+  var buttonMatPlay = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+
+    //Creating a mesh
+  var playButton = new THREE.Mesh( buttonGeoPlay, buttonMatPlay );
+
+    //Setting variables
+  playButton.position.y = 10;
+  playButton.rotation.y = -1;
+  playButton.name = "play";
+
+    //Pushing to the tile array
+  gridT.push( playButton );
+
+  var buttonGeoCredits = new THREE.PlaneBufferGeometry( 3, 1 );
+  console.log( "buttonGeoCredits", buttonGeoCredits );
+  buttonGeoCredits.rotateX( 2.677945044588987 );
+  buttonGeoCredits.rotateY( -1 );
+  buttonGeoCredits.rotateZ( Math.PI );
+    //Creating material
+  var buttonMatCredits = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
+
+    //Creating a mesh
+  var creditsButton = new THREE.Mesh( buttonGeoCredits, buttonMatCredits );
+
+    //Setting variables
+  creditsButton.position.y = 2;
+  creditsButton.rotation.y = -1;
+  creditsButton.name = "credits";
+
+    //Pushing to the tile array
+  gridT.push( creditsButton );
+  //Add buttons to the scene
+  scene.add( playButton );
+  scene.add( creditsButton );
+
+
+  //Remove right click menu and add object clicking
+  document.addEventListener( 'contextmenu', function( event ) { event.preventDefault() }, false );
+  document.addEventListener( 'click', menuSelect, false );
+
+  var menuScope = this;
+  console.log("menuscope", menuScope);
+
+  function menuSelect( event ) {
+
+    console.log( "mouse: ", event );
+
+    if( event.button == 0 ) {
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+      raycaster.setFromCamera( mouse, camera );
+
+      var intersects = raycaster.intersectObjects( gridT );
+      console.log( "intersects", intersects);
+
+      if( intersects.length != 0 ) {
+
+        if(intersects[0].object.name == "play") {
+          console.log("CLICKED");
+
+          document.removeEventListener( 'click', menuSelect, false );
+
+          scene.remove(intersects[0].object);
+
+          setTimeout( function() {
+
+            gridT.pop();
+            gridT.pop();
+
+            scene.remove( playButton );
+            scene.remove( creditsButton );
+
+            buttonGeoPlay.dispose();
+            buttonGeoCredits.dispose();
+
+            buttonMatPlay.dispose();
+            buttonMatCredits.dispose();
+
+            sound.context.resume();
+
+
+          }, 500 );
+          //Play the game
+          setTimeout( function() { clearEverything(); loadGame(); }, 600 );
+
+        }
+        else if (intersects[0].object.name == "credits"){
+          console.log("CLICKED");
+
+          document.removeEventListener( 'click', menuSelect, false );
+
+          scene.remove(intersects[0].object);
+
+          setTimeout( function() {
+
+            gridT.pop();
+            gridT.pop();
+
+            scene.remove( playButton );
+            scene.remove( creditsButton );
+
+            buttonGeoPlay.dispose();
+            buttonGeoCredits.dispose();
+
+            buttonMatPlay.dispose();
+            buttonMatCredits.dispose();
+
+            sound.context.resume();
+
+
+          }, 500 );
+          //Play the game
+          setTimeout( function() { clearEverything(); menu(); }, 600 );
+        }
+
+      }
+
+    }
+
+  }
+
+
+  //clearEverything();
 }
 
 function clearEverything() {
@@ -170,6 +319,8 @@ function clearEverything() {
 
   }
   //document.body.removeChild(canvas);
-  menu();
+  //menu();
+
+  console.log("ALL CLEAR");
   //document.body.removeChild(game-ui-bar);
 }

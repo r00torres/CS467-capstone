@@ -69,6 +69,7 @@ function menu() {
   document.addEventListener( 'click', menuSelect, false );
 
   var menuScope = this;
+  console.log("menuScoped", menuScope);
 
   function menuSelect( event ) {
 
@@ -115,7 +116,32 @@ function menu() {
 
         } else if ( intersects[0].object.name == "credits" ) {
 
-          //Show credit screen
+          console.log("CLICKED");
+
+          document.removeEventListener( 'click', menuSelect, false );
+
+          scene.remove(intersects[0].object);
+
+          setTimeout( function() {
+
+            gridT.pop();
+            gridT.pop();
+
+            scene.remove( playButton );
+            scene.remove( creditsButton );
+
+            buttonGeoPlay.dispose();
+            buttonGeoCredits.dispose();
+
+            buttonMatPlay.dispose();
+            buttonMatCredits.dispose();
+
+            sound.context.resume();
+
+
+          }, 500 );
+          //Play the game
+          setTimeout( function() { clearEverything(); loadGame(); }, 600 );
 
 
 
