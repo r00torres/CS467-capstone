@@ -52,7 +52,7 @@ function mapWaves(testPath, curWaveVal){
   //   //loseCondition();
   //
   // }
-  else if( uplives > 1 ){
+  else if( uplives > 0 ){
     console.log("mapwaves else");
 
     console.log("MAPWAVES******************");
@@ -133,32 +133,42 @@ function loseCondition(){
   console.log("menuscene", scene);
   stopAnimation = false;
 
+  var losemenu = new THREE.TextureLoader();
+  var loadg = losemenu.load( '/static/load.jpg' );
+  var loadm = losemenu.load( '/static/menu.jpg' );
+
   var buttonGeoPlay = new THREE.PlaneBufferGeometry( 5, 3 );
   console.log( "buttonGeoPlay", buttonGeoPlay );
   buttonGeoPlay.rotateX( 2.677945044588987 );
   buttonGeoPlay.rotateY( -1 );
   buttonGeoPlay.rotateZ( Math.PI );
     //Creating material
-  var buttonMatPlay = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+  var buttonMatPlay = new THREE.MeshBasicMaterial( {
+    map: loadg,
+    alphaTest: 0.5
+  } );
 
     //Creating a mesh
   var playButton = new THREE.Mesh( buttonGeoPlay, buttonMatPlay );
 
     //Setting variables
-  playButton.position.y = 10;
+  playButton.position.y = 8;
   playButton.rotation.y = -1;
   playButton.name = "play";
 
     //Pushing to the tile array
   gridT.push( playButton );
 
-  var buttonGeoCredits = new THREE.PlaneBufferGeometry( 3, 1 );
+  var buttonGeoCredits = new THREE.PlaneBufferGeometry( 5, 3 );
   console.log( "buttonGeoCredits", buttonGeoCredits );
   buttonGeoCredits.rotateX( 2.677945044588987 );
   buttonGeoCredits.rotateY( -1 );
   buttonGeoCredits.rotateZ( Math.PI );
     //Creating material
-  var buttonMatCredits = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
+  var buttonMatCredits = new THREE.MeshBasicMaterial( {
+    map: loadm,
+    alphaTest: 0.5
+  } );
 
     //Creating a mesh
   var creditsButton = new THREE.Mesh( buttonGeoCredits, buttonMatCredits );
@@ -215,10 +225,10 @@ function loseCondition(){
             scene.remove( creditsButton );
 
             buttonGeoPlay.dispose();
-            buttonGeoCredits.dispose();
+            //buttonGeoCredits.dispose();
 
             buttonMatPlay.dispose();
-            buttonMatCredits.dispose();
+            //buttonMatCredits.dispose();
 
             sound.context.resume();
 
