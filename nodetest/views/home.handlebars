@@ -681,7 +681,12 @@
 						coins = coins - pirateT.cost;
 						updateGameUIbar("coins", coins);
 						intersects[0].object.name = "tower";
-						addcannonT( intersects[0].object.position, scene, gridT, towers );
+						var towerName = "cannonT";
+						//addcannonT( intersects[0].object.position, scene, gridT, towers );
+
+						towerLoader( '/static/towers/canontowermodified2.glb', intersects[0].object.position, gridT, towers, towerName );
+						console.log("towers", towers);
+						//addcannonT( intersects[0].object.position, scene, gridT, towers );
 						sound2.play();
 						};
 
