@@ -1,5 +1,5 @@
 var lives = 3;
-var curWave = 1;
+var curWave = 0;
 var waveTime = 0;
 var totWaves = 10;
 var timeXwave = 10;
@@ -10,9 +10,33 @@ function mapWaves(testPath, curWaveVal){
   var uplives = getLives();
   var getCurWave = getWave();
   var setWaveTime;
+  //curWave ++;
 
   console.log("start of mapwaves", getCurWave, curWaveVal);
-  if( uplives < 1 ){
+  console.log("rules values:", getCurWave, totWaves);
+  if(curWave >= totWaves){
+
+    console.log("You win!");
+    console.log("map", currMap);
+    //clearEverything();
+    var newMap = parseInt(currMap);
+    newMap += 1;
+    console.log("NEWMAP", newMap);
+
+    if(currMap < 4){
+      clearEverything();
+      setMap(newMap);
+      var win = false;
+      play(win);
+    }
+    if(currMap > 3 ){
+      clearEverything();
+      console.log("you beat the game");
+      menu();
+    }
+
+  }
+  else if( uplives < 1 ){
     //loseCondition();
     console.log("mapwaves if");
     uplives = 0;
@@ -28,18 +52,13 @@ function mapWaves(testPath, curWaveVal){
   //   //loseCondition();
   //
   // }
-  else {
+  else if( uplives > 1 ){
     console.log("mapwaves else");
 
     console.log("MAPWAVES******************");
     console.log("wt txw clock", waveTime, timeXwave, clock.elapsedTime);
     updateGameUIbar("waves", getCurWave);
-    if(curWave == totWaves){
 
-      console.log("You win!");
-      //clearEverything();
-
-    }
     if( curWave < totWaves && lives > 0){
 
       console.log("mapwaves clock", clock.elapsedTime);
@@ -52,8 +71,9 @@ function mapWaves(testPath, curWaveVal){
 
       }
 
-      curWave++;
       saveGame();
+      curWave++;
+
 
 
 

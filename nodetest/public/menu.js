@@ -112,7 +112,7 @@ function menu() {
 
           }, 500 );
           //Play the game
-          setTimeout( function() { play(); }, 600 );
+          setTimeout( function() { clearEverything(); loadGame(); }, 600 );
 
         } else if ( intersects[0].object.name == "credits" ) {
 
@@ -141,7 +141,8 @@ function menu() {
 
           }, 500 );
           //Play the game
-          setTimeout( function() { clearEverything(); loadGame(); }, 600 );
+          var loaded = false;
+          setTimeout( function() { clearEverything(); play(loaded); }, 600 );
 
 
 

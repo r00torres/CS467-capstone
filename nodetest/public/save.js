@@ -39,14 +39,16 @@ function saveTowerLocations( towers ) {
 
 }
 
-function saveGameVariables( coins, curWave, lives ) {
+function saveGameVariables( coins, curWave, lives, currMap ) {
     var coinAtSave = coins;
     var waveAtSave = curWave;
     var livesAtSave = lives;
+    var mapAtSave = currMap;
 
     setCookie('loadCoins', coinAtSave);
     setCookie('loadWaves', waveAtSave);
     setCookie('loadLives', livesAtSave);
+    setCookie('loadMap', mapAtSave);
 }
 
 function checkCookie() {
@@ -65,7 +67,7 @@ function checkCookie() {
 
 function saveGame(){
   console.log("saving game");
-  saveGameVariables(coins, curWave, lives);
+  saveGameVariables(coins, curWave, lives, currMap);
   saveTowerLocations( towers );
 
 }

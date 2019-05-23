@@ -33,14 +33,15 @@ function loadTowerLocations( towers ) {
     }
 
     else if(loadTowers[i].nameOf == "cannonT"){
-      var towerName = "musketT";
+      var towerName = "cannonT";
       towerLoader( '/static/towers/canontowermodified2.glb', loadTowers[i].pos, gridT, towers, towerName);
     }
 
     //CHANGE TO NET CANNON
     else if(loadTowers[i].nameOf == "cannon tower"){
-      //build
-      addcannonT( loadTowers[i].pos, scene, gridT, towers );
+      var towerName = "cannon tower";
+      towerLoader( '/static/towers/canontowermodified2.glb', loadTowers[i].pos, gridT, towers, towerName);
+
     }
 
   }
@@ -51,6 +52,7 @@ function loadGameValues() {
   var coinAtLoad = getCookie('loadCoins');
   var waveAtLoad = getCookie('loadWaves');
   var livesAtLoad = getCookie('loadLives');
+  var mapAtLoad = getCookie('loadMap');
   if(coinAtLoad == ""){
     console.log("No game variables to load");
     return;
@@ -61,6 +63,7 @@ function loadGameValues() {
   setCoins( parseInt(coinAtLoad) );
   setLives( parseInt(livesAtLoad) );
   curWave = parseInt(waveAtLoad);
+  currMap = parseInt(mapAtLoad);
 
 }
 
@@ -69,5 +72,6 @@ function loadGame() {
   loadGameValues();
   console.log("Loaded Game!");
   //stopAnimation = false;
-  play();
+  var loaded = true;
+  play(loaded);
 }

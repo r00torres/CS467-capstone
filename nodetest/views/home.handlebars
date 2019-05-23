@@ -55,7 +55,7 @@
 	var dinos = [];
 	var towers = [];
 	var projectiles = [];
-	var currMap;
+	var currMap = 1;
 	//var totWaves, timeXwave;
 	//var coins = 100;
 	//var curWave = 1;
@@ -246,9 +246,16 @@
 		console.log("wave:", curWave);
 		curWave = newValue;
 	}
+	function setMap( newValue ){
+		console.log("map:", currMap);
+		currMap += 1;
+	}
 
 	//Creating the game engine and functionality
-	function play() {
+	//play should have map and if loaded
+	function play(loaded) {
+
+		//document.removeEventListener( 'dblclick', onDocumentMouseDown, false );
 
 		controls.reset();
 
@@ -258,9 +265,35 @@
 		console.log("controls", controls);
 		console.log("tween c", TWEEN.getAll());
 
+		if(loaded == true){
+			console.log("cookie loaded");
+		}
+		else{
+			console.log('PLAY currMap', currMap);
+			curWave = 0;
+			console.log("currMap", currMap);
+			if( currMap == 1 ){
+				lives = parseInt(map1.lives);
+				coins = parseInt(map1.coins);
+				totWaves = parseInt(map1.waves);
+			}
+			if( currMap == 2 ){
+				lives = parseInt(map2.lives);
+				coins = parseInt(map2.coins);
+				totWaves = parseInt(map2.waves);
+			}
+			if( currMap == 3 ){
+				lives = parseInt(map3.lives);
+				coins = parseInt(map3.coins);
+				totWaves = parseInt(map3.waves);
+			}
+
+		}
+
 		//viewBuildMenu();
-		setLives(1);
-		setWave(1);
+		//setLives(3);
+		//getLives();
+		//setWave(1);
 		if(stopAnimation){
 			console.log("sa******************************",stopAnimation);
 			stopAnimation = false;
@@ -494,7 +527,7 @@
 		var testPath = [];
 		var levelX = 0;
 		var levelZ = 0;
-		currMap = 1;
+		//currMap = 1;
 
 		if( currMap == 1 ){
 			testPath = map1.dinoPath.map(arr => arr.slice());
@@ -535,7 +568,7 @@
 
 
 		setTimeout(function(){
-			curWave = 1;
+			//curWave = 1;
 			mapWaves(testPath, curWave);
 
 		}, 10000);
@@ -570,6 +603,9 @@
 		// }
 
 		function onDocumentMouseDown( event ) {
+
+
+
 
 			event.preventDefault();
 
@@ -662,9 +698,12 @@
 				console.log("Can not build", intersects[0].object.name);
 
 			}
+
+			//
 		}
 
 	}
+
 
 	// var points = [];
 	// for(var i=0; i<testPath.length; i++)
