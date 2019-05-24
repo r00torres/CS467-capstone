@@ -144,6 +144,8 @@
 			//three.js https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
 		window.addEventListener( 'resize', onWindowResize, false );
 
+		//window.addEventListener( 'touchstart', )
+
 		/*Adding orbit controls. Allows camera to move*/
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
 
@@ -292,6 +294,9 @@
 				coins = parseInt(map3.coins);
 				totWaves = parseInt(map3.waves);
 			}
+			updateGameUIbar("lives", lives)
+			updateGameUIbar("coins", coins)
+			updateGameUIbar("totWaves", totWaves)
 
 		}
 		
