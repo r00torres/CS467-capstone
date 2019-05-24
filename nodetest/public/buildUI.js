@@ -103,7 +103,7 @@ function viewBuildMenu(coin, musketPrice, cannonPrice, netPrice) {
 
   	if(coin < musketPrice && coin < cannonPrice && coin < netPrice){
 	  	//change cancel button to "cannot build, exit build mode"
-		updateCancel.innerHTML = 'Insufficent Coins, Close Build Mode';
+		updateCancel.innerHTML = 'Insufficient Coins, Close Build Mode';
 	}
 
 
