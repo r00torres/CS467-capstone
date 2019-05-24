@@ -871,11 +871,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 				} else {
 
-					console.log("t else", event);
-
-					event.type = "type: dblclick";
-
-					console.log("t after", event);
+					//https://stackoverflow.com/questions/1517924/javascript-mapping-touch-events-to-mouse-events
 
 					//var dbltouch = event.changedTouches,
 					var	dbldeets = event.touches[0];
