@@ -61,6 +61,9 @@
 	//var curWave = 1;
 	//var lives = 3;
 
+	initGameUI(coins, lives, curWave);
+
+
 	/*We need to RENDER the SCENE with a CAMERA*/
 	function init() {
 
@@ -383,8 +386,8 @@
 
 
 
-		initBuildUI();
-		initGameUI(coins, lives, curWave);
+		//initBuildUI();
+		//initGameUI(coins, lives, curWave);
 
 		//allows user to move the map
 		controls.enabled = true;
