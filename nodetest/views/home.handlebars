@@ -61,7 +61,7 @@
 	//var curWave = 1;
 	//var lives = 3;
 
-	//initGameUI(coins, lives, curWave);
+	initGameUI(coins, lives, curWave);
 
 
 	/*We need to RENDER the SCENE with a CAMERA*/
@@ -279,6 +279,10 @@
 				lives = parseInt(map1.lives);
 				coins = parseInt(map1.coins);
 				totWaves = parseInt(map1.waves);
+				
+				updateGameUIbar('lives', lives);
+				updateGameUIbar('coins', coins);
+				updateGameUIbar('waves', totWaves);
 			}
 			if( currMap == 2 ){
 				lives = parseInt(map2.lives);
@@ -293,7 +297,6 @@
 
 		}
 		
-		initGameUI(coins, lives, curWave);
 
 		//viewBuildMenu();
 		//setLives(3);
