@@ -52,7 +52,9 @@ function loadGameValues() {
   var coinAtLoad = getCookie('loadCoins');
   var waveAtLoad = getCookie('loadWaves');
   var livesAtLoad = getCookie('loadLives');
+
   var mapAtLoad = getCookie('loadMap');
+
   if(coinAtLoad == ""){
     console.log("No game variables to load");
     return;
@@ -64,7 +66,7 @@ function loadGameValues() {
   setLives( parseInt(livesAtLoad) );
   curWave = parseInt(waveAtLoad);
   currMap = parseInt(mapAtLoad);
-
+  
 }
 
 function loadGame() {
