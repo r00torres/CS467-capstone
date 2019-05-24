@@ -17,7 +17,7 @@ function initBuildUI(){
   var musketButton = document.createElement("button");
   musketButton.setAttribute("id", "build-musket-button");
   musketButton.setAttribute("class", "build-ui-button-group");
-  musketButton.innerHTML = 'Build Musket Tower';
+  musketButton.innerHTML = 'Build Musket Tower (-' + pirateT.cost + ')';
 
   var cannonButton = document.createElement("button");
 	cannonButton.setAttribute("id", "build-cannon-button");
