@@ -61,6 +61,17 @@ function initGameUI(coins, lives, waves){
 			}
 		};
 
+    soundButton.ontouch = function(){
+      if(sound.isPlaying){
+				sound.pause();
+				soundButton.style.background = 'red';
+			}
+			else{
+				soundButton.style.background = 'green';
+				sound.play();
+			}
+    };
+
     document.getElementById("gameUIbar").append(coinDiv);
     document.getElementById("gameUIbar").append(coinVal);
     document.getElementById("gameUIbar").append(livesDiv);
