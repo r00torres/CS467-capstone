@@ -55,11 +55,14 @@
 	var dinos = [];
 	var towers = [];
 	var projectiles = [];
-	var currMap;
+	var currMap = 1;
 	//var totWaves, timeXwave;
 	//var coins = 100;
 	//var curWave = 1;
 	//var lives = 3;
+
+	initGameUI(coins, lives, curWave);
+
 
 	/*We need to RENDER the SCENE with a CAMERA*/
 	function init() {
@@ -246,10 +249,17 @@
 		console.log("wave:", curWave);
 		curWave = newValue;
 	}
+	function setMap( newValue ){
+		console.log("map:", currMap);
+		currMap += 1;
+	}
 
 	//Creating the game engine and functionality
-	function play() {
+	//play should have map and if loaded
+	function play(loaded) {
 
+		//document.removeEventListener( 'dblclick', onDocumentMouseDown, false );
+		//clearBuildMenu();
 		controls.reset();
 
 		controls.minDistance = 10;
@@ -258,12 +268,39 @@
 		console.log("controls", controls);
 		console.log("tween c", TWEEN.getAll());
 
+		if(loaded == true){
+			console.log("cookie loaded");
+		}
+		else{
+			console.log('PLAY currMap', currMap);
+			curWave = 0;
+			console.log("currMap", currMap);
+			if( currMap == 1 ){
+				lives = parseInt(map1.lives);
+				coins = parseInt(map1.coins);
+				totWaves = parseInt(map1.waves);
+			}
+			if( currMap == 2 ){
+				lives = parseInt(map2.lives);
+				coins = parseInt(map2.coins);
+				totWaves = parseInt(map2.waves);
+			}
+			if( currMap == 3 ){
+				lives = parseInt(map3.lives);
+				coins = parseInt(map3.coins);
+				totWaves = parseInt(map3.waves);
+			}
+
+		}
+
 		//viewBuildMenu();
-		setLives(1);
-		setWave(1);
+		//setLives(3);
+		//getLives();
+		//setWave(1);
 		if(stopAnimation){
 			console.log("sa******************************",stopAnimation);
-			return;
+			stopAnimation = false;
+			//return;
 		}
 		// if(document.getElementById("buildUIcontainer") == false ){
 		//
@@ -290,30 +327,30 @@
 
 		*/
 
-		//create a button to pause the audio
-		soundButton = document.createElement('button');
-		soundButton.style.position = 'absolute';
-		soundButton.id = 'soundButton';
-		soundButton.style.width = '100px';
-		soundButton.style.height = '50px';
-		soundButton.style.background = 'green';
-		soundButton.style.top = '0px';
-		soundButton.style.left = '375px';
-		soundButton.style.textAlign = 'center';
-		soundButton.innerHTML = 'Music';
-		soundButton.style.color = 'white';
-
-		document.body.appendChild(soundButton);
-		soundButton.onclick = function(){
-			if(sound.isPlaying){
-				sound.pause();
-				soundButton.style.background = 'red';
-			}
-			else{
-				soundButton.style.background = 'green';
-				sound.play();
-			}
-		};
+		// //create a button to pause the audio
+		// soundButton = document.createElement('button');
+		// soundButton.style.position = 'absolute';
+		// soundButton.id = 'soundButton';
+		// soundButton.style.width = '100px';
+		// soundButton.style.height = '50px';
+		// soundButton.style.background = 'green';
+		// soundButton.style.top = '0px';
+		// soundButton.style.left = '375px';
+		// soundButton.style.textAlign = 'center';
+		// soundButton.innerHTML = 'Music';
+		// soundButton.style.color = 'white';
+		//
+		// document.body.appendChild(soundButton);
+		// soundButton.onclick = function(){
+		// 	if(sound.isPlaying){
+		// 		sound.pause();
+		// 		soundButton.style.background = 'red';
+		// 	}
+		// 	else{
+		// 		soundButton.style.background = 'green';
+		// 		sound.play();
+		// 	}
+		// };
 
 		//add a countdown timer
 		countdown = document.createElement('div');
@@ -347,10 +384,11 @@
 			}, 10000);
 		}
 
-
+		var setgameUI = document.getElementById("gameUIbar");
+	  setgameUI.style.display = "table-cell";
 
 		initBuildUI();
-		initGameUI(coins, lives, curWave);
+		//initGameUI(coins, lives, curWave);
 
 		//allows user to move the map
 		controls.enabled = true;
@@ -493,7 +531,7 @@
 		var testPath = [];
 		var levelX = 0;
 		var levelZ = 0;
-		currMap = 1;
+		//currMap = 1;
 
 		if( currMap == 1 ){
 			testPath = map1.dinoPath.map(arr => arr.slice());
@@ -534,13 +572,15 @@
 
 
 		setTimeout(function(){
-			curWave = 1;
+			//curWave = 1;
 			mapWaves(testPath, curWave);
 
 		}, 10000);
 
 
 		console.log("dinos array", dinos );
+		viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cannonT.cost);
+
 
 
 		function tileHover( event ) {
@@ -553,117 +593,131 @@
 
 		//To add towers, use double click
 
-		document.addEventListener( 'dblclick', onDocumentMouseDown, false );
 
-		// function onDocumentMouseDown( event ) {
-		// 	event.preventDefault();
-		// 	mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
-		//
-		// 	raycaster.setFromCamera( mouse, camera );
-		// 	var intersects = raycaster.intersectObjects( gridT );
-		//
-		// 	if(intersects[0].object.name == "buildable") {
-		// 		scene.remove(intersects[0].object);
-		// 		//addpirateT( intersects[0].object.position, scene, gridT, towers );
-		// 	}
-		// }
-
-		function onDocumentMouseDown( event ) {
-
-			event.preventDefault();
-
-			mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
-
-			raycaster.setFromCamera( mouse, camera );
-
-			var intersects = raycaster.intersectObjects( gridT );
-
-			console.log(intersects);
-
-			if(intersects[0].object.name == "buildable") {
-
-
-				var possibleCoins = 0;
-
-				//shows build options for player's current coin at this location (need to change first param to coin
-				//last param to cost of last tower
-
-				viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cannonT.cost);
-
-				//remove the previous click event (which was to build for last location)
-				document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
-				document.getElementById("build-cannon-button").removeEventListener("click", clickCannon);
-				document.getElementById("build-net-button").removeEventListener("click", clickNet);
-				//document.getElementById("")
-				document.getElementById("build-cancel-button").removeEventListener("click", clickCancel);
-
-
-				//create building sound
-				sound2 = new THREE.Audio(listener);
-				var audioLoader2 = new THREE.AudioLoader();
-				audioLoader2.load('/static/Hammer.wav', function(buffer){
-					sound2.setBuffer(buffer);
-					sound2.setLoop(false);
-					sound2.setVolume(8.0);
-					sound2.setPlaybackRate(1);
-				});
-
-				//new build functions at this location
-				clickMusket = function () {
-						console.log("Clicked Musket Tower")
-  						clearBuildMenu();
-						coins = coins - pirateT.cost;
-						updateGameUIbar("coins", coins);
-						intersects[0].object.name = "tower";
-						var towerName = "musketT";
-						//addpirateT( intersects[0].object.position, scene, gridT, towers );
-						towerLoader( '/static/towers/musket1.glb', intersects[0].object.position, gridT, towers, towerName );
-						//start audio
-						sound2.play();
-						};
-
-				clickCannon = function() {
-						console.log("Clicked Cannon Tower")
-  						clearBuildMenu();
-						coins = coins - cannonT.cost;
-						updateGameUIbar("coins", coins);
-						//getCoins();
-						intersects[0].object.name = "tower";
-						var towerName = "cannonT";
-						//addcannonT( intersects[0].object.position, scene, gridT, towers );
-
-						towerLoader( '/static/towers/canontowermodified2.glb', intersects[0].object.position, gridT, towers, towerName );
-						console.log("towers", towers);
-						//start audio
-						sound2.play();
-						};
-
-				clickNet = function() {
-						console.log("Clicked Net Tower")
-  						clearBuildMenu();
-						coins = coins - pirateT.cost;
-						updateGameUIbar("coins", coins);
-						intersects[0].object.name = "tower";
-						addcannonT( intersects[0].object.position, scene, gridT, towers );
-						sound2.play();
-						};
-
-
-				//new events for on click at this location
-				document.getElementById("build-musket-button").addEventListener("click", clickMusket);
-				document.getElementById("build-cannon-button").addEventListener("click", clickCannon);
-				document.getElementById("build-net-button").addEventListener("click", clickNet);
-				document.getElementById("build-cancel-button").addEventListener("click", clickCancel);
-
-			}
-			else {
-
-				console.log("Can not build", intersects[0].object.name);
-
-			}
-		}
 
 	}
+
+
+	// function onDocumentMouseDown( event ) {
+	// 	event.preventDefault();
+	// 	mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+	//
+	// 	raycaster.setFromCamera( mouse, camera );
+	// 	var intersects = raycaster.intersectObjects( gridT );
+	//
+	// 	if(intersects[0].object.name == "buildable") {
+	// 		scene.remove(intersects[0].object);
+	// 		//addpirateT( intersects[0].object.position, scene, gridT, towers );
+	// 	}
+	// }
+	document.addEventListener( 'dblclick', onDocumentMouseDown, false );
+
+
+	function onDocumentMouseDown( event ) {
+
+
+
+
+		event.preventDefault();
+
+		mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
+
+		raycaster.setFromCamera( mouse, camera );
+
+		var intersects = raycaster.intersectObjects( gridT );
+
+		console.log(intersects);
+
+		if(intersects[0].object.name == "buildable") {
+
+
+			var possibleCoins = 0;
+
+			//shows build options for player's current coin at this location (need to change first param to coin
+			//last param to cost of last tower
+
+			viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cannonT.cost);
+
+			//remove the previous click event (which was to build for last location)
+			document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
+			document.getElementById("build-cannon-button").removeEventListener("click", clickCannon);
+			document.getElementById("build-net-button").removeEventListener("click", clickNet);
+			//document.getElementById("")
+			document.getElementById("build-cancel-button").removeEventListener("click", clickCancel);
+
+
+			//create building sound
+			sound2 = new THREE.Audio(listener);
+			var audioLoader2 = new THREE.AudioLoader();
+			audioLoader2.load('/static/Hammer.wav', function(buffer){
+				sound2.setBuffer(buffer);
+				sound2.setLoop(false);
+				sound2.setVolume(8.0);
+				sound2.setPlaybackRate(1);
+			});
+
+			//new build functions at this location
+			clickMusket = function () {
+					console.log("Clicked Musket Tower")
+						clearBuildMenu();
+					coins = coins - pirateT.cost;
+					updateGameUIbar("coins", coins);
+					intersects[0].object.name = "tower";
+					var towerName = "musketT";
+					//addpirateT( intersects[0].object.position, scene, gridT, towers );
+					towerLoader( '/static/towers/musket1.glb', intersects[0].object.position, gridT, towers, towerName );
+					//start audio
+					sound2.play();
+					};
+
+			clickCannon = function() {
+					console.log("Clicked Cannon Tower")
+						clearBuildMenu();
+					coins = coins - cannonT.cost;
+					updateGameUIbar("coins", coins);
+					//getCoins();
+					intersects[0].object.name = "tower";
+					var towerName = "cannonT";
+					//addcannonT( intersects[0].object.position, scene, gridT, towers );
+
+					towerLoader( '/static/towers/canontowermodified2.glb', intersects[0].object.position, gridT, towers, towerName );
+					console.log("towers", towers);
+					//start audio
+					sound2.play();
+					};
+
+			clickNet = function() {
+					console.log("Clicked Net Tower")
+						clearBuildMenu();
+					coins = coins - pirateT.cost;
+					updateGameUIbar("coins", coins);
+					intersects[0].object.name = "tower";
+					var towerName = "cannonT";
+					//addcannonT( intersects[0].object.position, scene, gridT, towers );
+
+					towerLoader( '/static/towers/canontowermodified2.glb', intersects[0].object.position, gridT, towers, towerName );
+					console.log("towers", towers);
+					//addcannonT( intersects[0].object.position, scene, gridT, towers );
+					sound2.play();
+					};
+
+
+			//new events for on click at this location
+			document.getElementById("build-musket-button").addEventListener("click", clickMusket);
+			document.getElementById("build-cannon-button").addEventListener("click", clickCannon);
+			document.getElementById("build-net-button").addEventListener("click", clickNet);
+			document.getElementById("build-cancel-button").addEventListener("click", clickCancel);
+
+		}
+		else {
+
+			console.log("Can not build", intersects[0].object.name);
+
+		}
+
+		//
+	}
+
 
 	// var points = [];
 	// for(var i=0; i<testPath.length; i++)

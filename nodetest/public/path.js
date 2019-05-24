@@ -188,7 +188,7 @@ function dinoPath(dino, speed, target, targetHealth, delay) {
           console.log("DINO UUID", dino.children[0].uuid, dinos[dinosleft][0].uuid);
           if(dino.children[0].uuid == dinos[dinosleft][0].uuid){
             console.log("HERERERERER", dino.uuid, dinos[dinosleft][0].uuid);
-            curLives -= 1;
+            curLives -= 0.5;
             setLives(curLives);
             updateGameUIbar( "lives", getLives() );
             scene.remove(dino);
@@ -202,7 +202,7 @@ function dinoPath(dino, speed, target, targetHealth, delay) {
         // }
 
 
-        if( getLives() <= 0 ){
+        if( getLives() == 0 ){
           stopAnimation = true;
           //TWEEN.removeAll();
           //healthmove.removeAll();

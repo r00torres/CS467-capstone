@@ -16,6 +16,10 @@ function menu() {
 
   /*Adding a play button*/
 
+  var loader = new THREE.TextureLoader();
+  var loadTexture = loader.load( '/static/load.jpg' );
+  var playTexture = loader.load( '/static/play.jpg' );
+
     //Creating a plane
   var buttonGeoPlay = new THREE.PlaneBufferGeometry( 5, 3 );
   console.log( "buttonGeoPlay", buttonGeoPlay );
@@ -23,7 +27,10 @@ function menu() {
   buttonGeoPlay.rotateY( -1 );
   buttonGeoPlay.rotateZ( Math.PI );
     //Creating material
-  var buttonMatPlay = new THREE.MeshBasicMaterial( { color: 0xffffff } );
+  var buttonMatPlay = new THREE.MeshBasicMaterial( {
+    map: loadTexture,
+    alphaTest: 0.5
+  } );
 
     //Creating a mesh
   var playButton = new THREE.Mesh( buttonGeoPlay, buttonMatPlay );
@@ -41,13 +48,16 @@ function menu() {
   /*Adding a Credits button*/
 
     //Creating a plane
-  var buttonGeoCredits = new THREE.PlaneBufferGeometry( 3, 1 );
+  var buttonGeoCredits = new THREE.PlaneBufferGeometry( 5, 3 );
   console.log( "buttonGeoCredits", buttonGeoCredits );
   buttonGeoCredits.rotateX( 2.677945044588987 );
   buttonGeoCredits.rotateY( -1 );
   buttonGeoCredits.rotateZ( Math.PI );
     //Creating material
-  var buttonMatCredits = new THREE.MeshBasicMaterial( { color: 0xff00ff } );
+  var buttonMatCredits = new THREE.MeshBasicMaterial( {
+    map: playTexture,
+    alphaTest: 0.5
+  } );
 
     //Creating a mesh
   var creditsButton = new THREE.Mesh( buttonGeoCredits, buttonMatCredits );
@@ -69,6 +79,7 @@ function menu() {
   document.addEventListener( 'click', menuSelect, false );
 
   var menuScope = this;
+  console.log("menuScoped", menuScope);
 
   function menuSelect( event ) {
 
@@ -111,11 +122,37 @@ function menu() {
 
           }, 500 );
           //Play the game
-          setTimeout( function() { play(); }, 600 );
+          setTimeout( function() { clearEverything(); loadGame(); }, 600 );
 
         } else if ( intersects[0].object.name == "credits" ) {
 
-          //Show credit screen
+          console.log("CLICKED");
+
+          document.removeEventListener( 'click', menuSelect, false );
+
+          scene.remove(intersects[0].object);
+
+          setTimeout( function() {
+
+            gridT.pop();
+            gridT.pop();
+
+            scene.remove( playButton );
+            scene.remove( creditsButton );
+
+            buttonGeoPlay.dispose();
+            buttonGeoCredits.dispose();
+
+            buttonMatPlay.dispose();
+            buttonMatCredits.dispose();
+
+            sound.context.resume();
+
+
+          }, 500 );
+          //Play the game
+          var loaded = false;
+          setTimeout( function() { clearEverything(); play(loaded); }, 600 );
 
 
 

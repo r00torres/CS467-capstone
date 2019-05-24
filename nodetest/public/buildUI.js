@@ -41,6 +41,8 @@ function initBuildUI(){
 	document.getElementById("buildUIcontainer").append(cancelButton);
 
 	document.getElementById("build-cancel-button").addEventListener("click", clickCancel);
+
+	//viewBuildMenu();
 };
 
 //initBuildUI();
