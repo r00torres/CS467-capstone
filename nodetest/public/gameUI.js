@@ -68,7 +68,13 @@ function initGameUI(coins, lives, waves){
 };
 
     function updateGameUIbar(field, newValue){
-        if(field == "coins"){
+        
+	    //once 'game over', lives were still decrementing as additional dinos arrived at end of path
+	    if( newValue < 0){
+	    	return;
+	    }
+	    
+	if(field == "coins"){
             var location = document.getElementById("coinVal");
             console.log("Current Coin value is: ", location.innerHTML);
             location.innerHTML = newValue;
