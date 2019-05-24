@@ -250,7 +250,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	var startEvent = { type: 'start' };
 	var endEvent = { type: 'end' };
 
-	var STATE = { NONE: - 1, ROTATE: 0, DOLLY: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_DOLLY_PAN: 4 };
+	var STATE = { NONE: - 1, ROTATE: 0, DOLLY: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_DOLLY_PAN: 4, DOUBLE_TOUCH: 5 };
 
 	var state = STATE.NONE;
 
@@ -835,35 +835,19 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		event.preventDefault();
 
-		switch ( event.touches.length ) {
+		//https://stackoverflow.com/questions/24058241/touch-device-single-and-double-tap-events-handler-jquery-javascript
 
-			case 1:	// one-fingered touch: rotate
-
-				if ( scope.enableRotate === false ) return;
-
-				handleTouchStartRotate( event );
-
-				state = STATE.TOUCH_ROTATE;
-
-				break;
-
-			case 2:	// two-fingered touch: dolly-pan
-
-				if ( scope.enableZoom === false && scope.enablePan === false ) return;
-
-				handleTouchStartDollyPan( event );
-
-				state = STATE.TOUCH_DOLLY_PAN;
-
-				break;
-
-			case 3: //https://stackoverflow.com/questions/24058241/touch-device-single-and-double-tap-events-handler-jquery-javascript
-
-				if(!touched){
+		if(!touched){
 
 					touched = setTimeout(function() {
 
-						touched = null;
+						if ( scope.enableRotate === false ) return;
+
+						touched = handleTouchStartRotate( event );
+
+						state = STATE.TOUCH_ROTATE;
+
+						break;
 
 					}, 300);
 
@@ -874,8 +858,22 @@ THREE.OrbitControls = function ( object, domElement ) {
 					touched=null;
 
 					onDocumentMouseDown( event );
-					
-				}
+
+		}
+
+		switch ( event.touches.length ) {
+
+
+			case 1:	// two-fingered touch: dolly-pan
+
+				if ( scope.enableZoom === false && scope.enablePan === false ) return;
+
+				handleTouchStartDollyPan( event );
+
+				state = STATE.TOUCH_DOLLY_PAN;
+
+				break;
+
 
 
 			default:
