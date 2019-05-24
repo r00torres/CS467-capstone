@@ -250,7 +250,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	var startEvent = { type: 'start' };
 	var endEvent = { type: 'end' };
 
-	var STATE = { NONE: - 1, ROTATE: 0, DOLLY: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_DOLLY_PAN: 4 };
+	var STATE = { NONE: - 1, ROTATE: 0, DOLLY: 1, PAN: 2, TOUCH_ROTATE: 3, TOUCH_DOLLY_PAN: 4, DOUBLE_TOUCH: 5 };
 
 	var state = STATE.NONE;
 
@@ -275,6 +275,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 	var dollyStart = new THREE.Vector2();
 	var dollyEnd = new THREE.Vector2();
 	var dollyDelta = new THREE.Vector2();
+
+	var touched = false;
 
 	function getAutoRotationAngle() {
 
@@ -346,6 +348,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 		var offset = new THREE.Vector3();
 
 		return function pan( deltaX, deltaY ) {
+
+
 
 			var element = scope.domElement === document ? scope.domElement.body : scope.domElement;
 
@@ -519,7 +523,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	function handleMouseWheel( event ) {
 
-		// console.log( 'handleMouseWheel' );
+		console.log( 'handleMouseWheel' );
 
 		if ( event.deltaY < 0 ) {
 
@@ -606,6 +610,28 @@ THREE.OrbitControls = function ( object, domElement ) {
 			var y = 0.5 * ( event.touches[ 0 ].pageY + event.touches[ 1 ].pageY );
 
 			panStart.set( x, y );
+
+		}
+
+	}
+
+	function handleDoubleTouch( event ){
+
+		if(!touched){
+
+					touched = setTimeout(function() {
+
+						touched = null;
+
+					}, 300);
+
+				} else {
+
+					clearTimeout(touched);
+
+					touched=null;
+
+					onDocumentMouseDown( event );
 
 		}
 
@@ -831,6 +857,48 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		event.preventDefault();
 
+		//https://stackoverflow.com/questions/24058241/touch-device-single-and-double-tap-events-handler-jquery-javascript
+
+		if(!touched){
+
+				console.log("touched if", touched );
+
+					touched = setTimeout(function() {
+
+						touched = null;
+
+					}, 300);
+
+				} else {
+
+					//https://stackoverflow.com/questions/1517924/javascript-mapping-touch-events-to-mouse-events
+
+					//var dbltouch = event.changedTouches,
+					var	dbldeets = event.touches[0];
+					var etype = "dblclick";
+
+					var newClicker = document.createEvent("MouseEvent");
+					newClicker.initMouseEvent( etype, true, true, window, 1, dbldeets.screenX,
+						dbldeets.screenY, dbldeets.clientX, dbldeets.clientY, false, false,
+						false, false, 0, null );
+
+					console.log(newClicker);
+
+					dbldeets.target.dispatchEvent(newClicker);
+
+					console.log("t after", event);
+
+					clearTimeout(touched);
+
+					touched=null;
+
+					//onDocumentMouseDown( event );
+
+		}
+
+
+		console.log( "e", event, event.touches.length );
+
 		switch ( event.touches.length ) {
 
 			case 1:	// one-fingered touch: rotate
@@ -852,6 +920,15 @@ THREE.OrbitControls = function ( object, domElement ) {
 				state = STATE.TOUCH_DOLLY_PAN;
 
 				break;
+
+			case 3:
+
+				handleDoubleTouch( event );
+
+				state = STATE.DOUBLE_TOUCH;
+
+				break;
+
 
 			default:
 
