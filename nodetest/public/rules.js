@@ -314,9 +314,9 @@ function clearEverything() {
   //document.getElementById("countdown").style.display = "none";
 
   //document.getElementById("gameUIbar").style.display = "none";
-  if( document.getElementById("soundButton") ){
-    document.body.removeChild(soundButton);
-  }
+  // if( document.getElementById("soundButton") ){
+  //   document.body.removeChild(soundButton);
+  // }
 
   //document.getElementById("soundButton").style.display = "none";
   if( document.getElementById("buildUIcontainer") ){
@@ -324,9 +324,12 @@ function clearEverything() {
     document.body.removeChild(buildUIcontainer);
   }
 
-  if( document.getElementById("gameUIbar") ){
-    document.body.removeChild(gameUIbar);
-  }
+  // if( document.getElementById("gameUIbar") ){
+  //   document.body.removeChild(gameUIbar);
+  // }
+
+  var setgameUI = document.getElementById("gameUIbar");
+  setgameUI.style.display = "none";
 
   camera.position.set( 0, 10, -10 );
   camera.lookAt( 0, 0, 0 );

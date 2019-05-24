@@ -327,30 +327,30 @@
 
 		*/
 
-		//create a button to pause the audio
-		soundButton = document.createElement('button');
-		soundButton.style.position = 'absolute';
-		soundButton.id = 'soundButton';
-		soundButton.style.width = '100px';
-		soundButton.style.height = '50px';
-		soundButton.style.background = 'green';
-		soundButton.style.top = '0px';
-		soundButton.style.left = '375px';
-		soundButton.style.textAlign = 'center';
-		soundButton.innerHTML = 'Music';
-		soundButton.style.color = 'white';
-
-		document.body.appendChild(soundButton);
-		soundButton.onclick = function(){
-			if(sound.isPlaying){
-				sound.pause();
-				soundButton.style.background = 'red';
-			}
-			else{
-				soundButton.style.background = 'green';
-				sound.play();
-			}
-		};
+		// //create a button to pause the audio
+		// soundButton = document.createElement('button');
+		// soundButton.style.position = 'absolute';
+		// soundButton.id = 'soundButton';
+		// soundButton.style.width = '100px';
+		// soundButton.style.height = '50px';
+		// soundButton.style.background = 'green';
+		// soundButton.style.top = '0px';
+		// soundButton.style.left = '375px';
+		// soundButton.style.textAlign = 'center';
+		// soundButton.innerHTML = 'Music';
+		// soundButton.style.color = 'white';
+		//
+		// document.body.appendChild(soundButton);
+		// soundButton.onclick = function(){
+		// 	if(sound.isPlaying){
+		// 		sound.pause();
+		// 		soundButton.style.background = 'red';
+		// 	}
+		// 	else{
+		// 		soundButton.style.background = 'green';
+		// 		sound.play();
+		// 	}
+		// };
 
 		//add a countdown timer
 		countdown = document.createElement('div');
@@ -384,9 +384,10 @@
 			}, 10000);
 		}
 
+		var setgameUI = document.getElementById("gameUIbar");
+	  setgameUI.style.display = "table-cell";
 
-
-		//initBuildUI();
+		initBuildUI();
 		//initGameUI(coins, lives, curWave);
 
 		//allows user to move the map
