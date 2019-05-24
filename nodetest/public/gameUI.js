@@ -34,19 +34,22 @@ function initGameUI(coins, lives, waves){
     wavesVal.appendChild(text);
 
     //create a button to pause the audio
+    var soundOpt = document.createElement("span");
+    text = document.createTextNode("Sound ");
+    soundOpt.appendChild(text);
 		soundButton = document.createElement('button');
 		soundButton.style.position = 'absolute';
 		soundButton.id = 'soundButton';
 		soundButton.style.width = '100px';
-		soundButton.style.height = '50px';
+		soundButton.style.height = '47px';
 		soundButton.style.background = 'green';
 		soundButton.style.top = '0px';
-		soundButton.style.left = '375px';
+		//soundButton.style.left = '375px';
 		soundButton.style.textAlign = 'center';
 		soundButton.innerHTML = 'Music';
 		soundButton.style.color = 'white';
 
-		document.getElementById("gameUIbar").appendChild(soundButton);
+
 		soundButton.onclick = function(){
 			if(sound.isPlaying){
 				sound.pause();
@@ -64,6 +67,8 @@ function initGameUI(coins, lives, waves){
     document.getElementById("gameUIbar").append(livesVal);
     document.getElementById("gameUIbar").append(wavesDiv);
     document.getElementById("gameUIbar").append(wavesVal);
+    document.getElementById("gameUIbar").append(soundOpt);
+    document.getElementById("gameUIbar").appendChild(soundButton);
 
 };
 
