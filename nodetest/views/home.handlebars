@@ -256,7 +256,7 @@
 	function play(loaded) {
 
 		//document.removeEventListener( 'dblclick', onDocumentMouseDown, false );
-
+		//clearBuildMenu();
 		controls.reset();
 
 		controls.minDistance = 10;
@@ -575,6 +575,8 @@
 
 
 		console.log("dinos array", dinos );
+		viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cannonT.cost);
+
 
 
 		function tileHover( event ) {
@@ -591,7 +593,6 @@
 
 	}
 
-	document.addEventListener( 'dblclick', onDocumentMouseDown, false );
 
 	// function onDocumentMouseDown( event ) {
 	// 	event.preventDefault();
@@ -605,6 +606,8 @@
 	// 		//addpirateT( intersects[0].object.position, scene, gridT, towers );
 	// 	}
 	// }
+	document.addEventListener( 'dblclick', onDocumentMouseDown, false );
+
 
 	function onDocumentMouseDown( event ) {
 

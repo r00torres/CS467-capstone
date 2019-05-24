@@ -16,6 +16,7 @@ function mapWaves(testPath, curWaveVal){
   console.log("rules values:", getCurWave, totWaves);
   if(curWave >= totWaves){
 
+    stopWaveTimeout();
     console.log("You win!");
     console.log("map", currMap);
     //clearEverything();
@@ -31,6 +32,7 @@ function mapWaves(testPath, curWaveVal){
     }
     if(currMap > 3 ){
       clearEverything();
+      currMap = 1;
       console.log("you beat the game");
       menu();
     }
