@@ -22,7 +22,8 @@ function enviroLoader( object, position, orotation, glname ) {
     action.play();
 
     if( glname == "palm" ){
-      model.scale.set( Math.random()+.2, Math.random()+.2, Math.random()+.3 );
+      var xzset = Math.random() + .3;
+      model.scale.set( xzset, Math.random()+.2, xzset );
     }
     else if( glname == "mapbg" ){
       model.scale.set( 1, 0, 1 );
