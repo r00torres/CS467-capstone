@@ -276,6 +276,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 	var dollyEnd = new THREE.Vector2();
 	var dollyDelta = new THREE.Vector2();
 
+	var touched = false;
+
 	function getAutoRotationAngle() {
 
 		return 2 * Math.PI / 60 / 60 * scope.autoRotateSpeed;
@@ -854,6 +856,27 @@ THREE.OrbitControls = function ( object, domElement ) {
 				state = STATE.TOUCH_DOLLY_PAN;
 
 				break;
+
+			case 3: //https://stackoverflow.com/questions/24058241/touch-device-single-and-double-tap-events-handler-jquery-javascript
+
+				if(!touched){
+
+					touched = setTimeout(function() {
+
+						touched = null;
+
+					}, 300);
+
+				} else {
+
+					clearTimeout(touched);
+
+					touched=null;
+
+					onDocumentMouseDown( event );
+					
+				}
+
 
 			default:
 
