@@ -615,6 +615,28 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	}
 
+	function handleDoubleTouch( event ){
+
+		if(!touched){
+
+					touched = setTimeout(function() {
+
+						touched = null;
+
+					}, 300);
+
+				} else {
+
+					clearTimeout(touched);
+
+					touched=null;
+
+					onDocumentMouseDown( event );
+
+		}
+
+	}
+
 	function handleTouchMoveRotate( event ) {
 
 		//console.log( 'handleTouchMoveRotate' );
@@ -839,32 +861,61 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		if(!touched){
 
+				console.log("touched if", touched );
+
 					touched = setTimeout(function() {
 
-						if ( scope.enableRotate === false ) return;
-
-						touched = handleTouchStartRotate( event );
-
-						state = STATE.TOUCH_ROTATE;
-
-						break;
+						touched = null;
 
 					}, 300);
 
 				} else {
 
+					console.log("t else", event);
+
+					event.type = "type: dblclick";
+
+					console.log("t after", event);
+
+					//var dbltouch = event.changedTouches,
+					var	dbldeets = event.touches[0];
+					var etype = "dblclick";
+
+					var newClicker = document.createEvent("MouseEvent");
+					newClicker.initMouseEvent( etype, true, true, window, 1, dbldeets.screenX,
+						dbldeets.screenY, dbldeets.clientX, dbldeets.clientY, false, false,
+						false, false, 0, null );
+
+					console.log(newClicker);
+
+					dbldeets.target.dispatchEvent(newClicker);
+
+					console.log("t after", event);
+
 					clearTimeout(touched);
 
 					touched=null;
 
-					onDocumentMouseDown( event );
+					//onDocumentMouseDown( event );
 
 		}
 
+
+		console.log( "e", event, event.touches.length );
+
 		switch ( event.touches.length ) {
 
+			case 1:	// one-fingered touch: rotate
 
-			case 1:	// two-fingered touch: dolly-pan
+				if ( scope.enableRotate === false ) return;
+
+				handleTouchStartRotate( event );
+
+				state = STATE.TOUCH_ROTATE;
+
+				break;
+
+			case 2:	// two-fingered touch: dolly-pan
 
 				if ( scope.enableZoom === false && scope.enablePan === false ) return;
 
@@ -874,6 +925,13 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 				break;
 
+			case 3:
+
+				handleDoubleTouch( event );
+
+				state = STATE.DOUBLE_TOUCH;
+
+				break;
 
 
 			default:
