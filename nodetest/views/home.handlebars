@@ -682,10 +682,13 @@
 		var intersects = raycaster.intersectObjects( gridT );
 
 		console.log(intersects);
+		
+		checkFromLoaded( intersects, towers );
+		
+		setTimeout( function() {
 
-		if(intersects[0].object.name == "buildable") {
+			if(intersects[0].object.name == "buildable") {
 
-			if(!fromLoaded(intersects, gridT, towers){
 				var possibleCoins = 0;
 
 				//shows build options for player's current coin at this location (need to change first param to coin
@@ -762,14 +765,15 @@
 				document.getElementById("build-cannon-button").addEventListener("click", clickCannon);
 				document.getElementById("build-net-button").addEventListener("click", clickNet);
 				document.getElementById("build-cancel-button").addEventListener("click", clickCancel);
+
 			}
+			else {
 
-		}
-		else {
+				console.log("Can not build", intersects[0].object.name);
 
-			console.log("Can not build", intersects[0].object.name);
-
-		}
+			}
+			
+		}, 500 );
 
 		//
 	}
