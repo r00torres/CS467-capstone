@@ -86,13 +86,14 @@ function checkFromLoaded(intersection, towers){
   
   //nothing loaded, good to build
   if(towers.length < 0){
-    return;
+    return false;
   }
   
   for(var i = 0; i < towers.length; i++){
     if(intersection[0].object.position == towers[i].children[1].position){
-      intersection[0].object.name = "tower";
-      return;
+      return true;
     }
   }
+  
+  return false;
 }
