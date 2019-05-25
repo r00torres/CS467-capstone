@@ -13,155 +13,85 @@ function menu() {
   console.log("menuscene", scene);
   stopAnimation = false;
 
+  function startMenu(){
+  //create title for game
+  var title = document.createElement('H1');
+  var titleText = document.createTextNode("Dinosuars vs Pirates");
+  title.appendChild(titleText);
+  title.style.position = 'absolute';
+  title.id = 'title';
+  title.style.width = '300px';
+  title.style.height = '100px';
+  title.style.background = 'light blue';
+  title.style.top = '20px';
+  title.style.left = '45%';
+  title.style.textAlign = 'center';
+  title.style.color = 'white';
+  document.body.appendChild(title);
 
-  /*Adding a play button*/
+  //start button will start the game when pressed
+  var startButton = document.createElement('button');
+  startButton.style.position = 'absolute';
+  startButton.id = 'startButton';
+  startButton.style.width = '100px';
+  startButton.style.height = '50px';
+  startButton.style.background = 'green';
+  startButton.style.top = '200px';
+  startButton.style.left = '50%';
+  startButton.style.textAlign = 'center';
+  startButton.innerHTML = 'Start';
+  startButton.style.color = 'white';
 
-  var loader = new THREE.TextureLoader();
-  var loadTexture = loader.load( '/static/load.jpg' );
-  var playTexture = loader.load( '/static/play.jpg' );
+  document.body.appendChild(startButton);
+  startButton.onclick = function(){
+    onMenu = false;
+    document.getElementById("startButton").style.display = "none";
+    document.getElementById("loadButton").style.display = "none";
+    document.getElementById("credits").style.display = "none";
+    document.getElementById("title").style.display = "none";
+    sound.context.resume();
+    play();
+  };
+  
+  //load button will load previous saved game
+  var loadButton = document.createElement('button');
+  loadButton.style.position = 'absolute';
+  loadButton.id = 'loadButton';
+  loadButton.style.width = '100px';
+  loadButton.style.height = '50px';
+  loadButton.style.background = 'green';
+  loadButton.style.top = '300px';
+  loadButton.style.left = '50%';
+  loadButton.style.textAlign = 'center';
+  loadButton.innerHTML = 'Load';
+  loadButton.style.color = 'white';
 
-    //Creating a plane
-  var buttonGeoPlay = new THREE.PlaneBufferGeometry( 5, 3 );
-  console.log( "buttonGeoPlay", buttonGeoPlay );
-  buttonGeoPlay.rotateX( 2.677945044588987 );
-  buttonGeoPlay.rotateY( -1 );
-  buttonGeoPlay.rotateZ( Math.PI );
-    //Creating material
-  var buttonMatPlay = new THREE.MeshBasicMaterial( {
-    map: loadTexture,
-    alphaTest: 0.5
-  } );
+  document.body.appendChild(loadButton);
+  loadButton.onclick = function(){
+    onMenu = false;
+    document.getElementById("startButton").style.display = "none";
+    document.getElementById("loadButton").style.display = "none";
+    document.getElementById("credits").style.display = "none";
+    document.getElementById("title").style.display = "none";
+    sound.context.resume();
+    play();
+  };
 
-    //Creating a mesh
-  var playButton = new THREE.Mesh( buttonGeoPlay, buttonMatPlay );
-
-    //Setting variables
-  playButton.position.y = 10;
-  playButton.rotation.y = -1;
-  playButton.name = "play";
-
-    //Pushing to the tile array
-  gridT.push( playButton );
-
-
-
-  /*Adding a Credits button*/
-
-    //Creating a plane
-  var buttonGeoCredits = new THREE.PlaneBufferGeometry( 5, 3 );
-  console.log( "buttonGeoCredits", buttonGeoCredits );
-  buttonGeoCredits.rotateX( 2.677945044588987 );
-  buttonGeoCredits.rotateY( -1 );
-  buttonGeoCredits.rotateZ( Math.PI );
-    //Creating material
-  var buttonMatCredits = new THREE.MeshBasicMaterial( {
-    map: playTexture,
-    alphaTest: 0.5
-  } );
-
-    //Creating a mesh
-  var creditsButton = new THREE.Mesh( buttonGeoCredits, buttonMatCredits );
-
-    //Setting variables
-  creditsButton.position.y = 2;
-  creditsButton.rotation.y = -1;
-  creditsButton.name = "credits";
-
-    //Pushing to the tile array
-  gridT.push( creditsButton );
-  //Add buttons to the scene
-  scene.add( playButton );
-  scene.add( creditsButton );
-
-
-  //Remove right click menu and add object clicking
-  document.addEventListener( 'contextmenu', function( event ) { event.preventDefault() }, false );
-  document.addEventListener( 'click', menuSelect, false );
-
-  var menuScope = this;
-  console.log("menuScoped", menuScope);
-
-  function menuSelect( event ) {
-
-    console.log( "mouse: ", event );
-
-    if( event.button == 0 ) {
-
-      event.preventDefault();
-      event.stopPropagation();
-
-      mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
-      raycaster.setFromCamera( mouse, camera );
-
-      var intersects = raycaster.intersectObjects( gridT );
-      console.log( "intersects", intersects);
-
-      if( intersects.length != 0 ) {
-
-        if(intersects[0].object.name == "play") {
-
-          document.removeEventListener( 'click', menuSelect, false );
-
-          scene.remove(intersects[0].object);
-
-          setTimeout( function() {
-
-            gridT.pop();
-            gridT.pop();
-
-            scene.remove( playButton );
-            scene.remove( creditsButton );
-
-            buttonGeoPlay.dispose();
-            buttonGeoCredits.dispose();
-
-            buttonMatPlay.dispose();
-            buttonMatCredits.dispose();
-
-            sound.context.resume();
-
-          }, 500 );
-          //Play the game
-          setTimeout( function() { clearEverything(); loadGame(); }, 600 );
-
-        } else if ( intersects[0].object.name == "credits" ) {
-
-          console.log("CLICKED");
-
-          document.removeEventListener( 'click', menuSelect, false );
-
-          scene.remove(intersects[0].object);
-
-          setTimeout( function() {
-
-            gridT.pop();
-            gridT.pop();
-
-            scene.remove( playButton );
-            scene.remove( creditsButton );
-
-            buttonGeoPlay.dispose();
-            buttonGeoCredits.dispose();
-
-            buttonMatPlay.dispose();
-            buttonMatCredits.dispose();
-
-            sound.context.resume();
-
-
-          }, 500 );
-          //Play the game
-          var loaded = false;
-          setTimeout( function() { clearEverything(); play(loaded); }, 600 );
-
-
-
-        }
-
-      }
-
-    }
-
+  var credits = document.createElement('p');
+  credits.setAttribute('style', 'white-space: pre;');
+  credits.textContent = "Authors:\r\nChristopher Frenchi\r\nJonathan Ruby\r\nRuben Torres\r\n\r\nGitHub:\r\nhttps://github.com/cfrenchi/capstone/tree/master";
+  credits.style.position = 'absolute';
+  credits.id = 'credits';
+  credits.style.width = '300px';
+  credits.style.height = '100px';
+  credits.style.background = 'light blue';
+  credits.style.top = '400px';
+  credits.style.left = '43%';
+  credits.style.textAlign = 'center';
+  credits.style.color = 'white';
+  document.body.appendChild(credits);
   }
-  console.log("menu");
+
+  startMenu();
+
 }

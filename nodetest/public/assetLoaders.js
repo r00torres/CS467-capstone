@@ -2,7 +2,7 @@ function enviroLoader( object, position, orotation, glname ) {
 
   console.log("enviroLoader");
 
-  const loader = new THREE.GLTFLoader();
+  const loader = new THREE.GLTFLoader(loadingManager);
 
   const onLoad = ( gltf, position ) => {
 
@@ -180,7 +180,7 @@ function dinoLoader( object, position, dinos, delay, testPath ) {
 
   //https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_multiple.html
   //https://github.com/mrdoob/three.js/blob/master/examples/webgl_animation_keyframes.html
-  const loader = new THREE.GLTFLoader();
+  const loader = new THREE.GLTFLoader(loadingManager);
 
   const onLoad = ( gltf, position ) => {
 

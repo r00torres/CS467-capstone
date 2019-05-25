@@ -42,6 +42,35 @@
 	//sound variables
 	var sound, sound2, dinoSound, played;
 
+	//for the loader
+	var loadingManager;
+	var everythingLoaded = false;
+	var loadingScreen = {
+		scene: new THREE.Scene(),
+		camera: new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 500),
+		box: new THREE.Mesh(
+			new THREE.BoxGeometry(1, 1, 1),
+			new THREE.MeshBasicMaterial({color: 0x005d75})
+		)
+	};
+
+	//menu scene
+	var onMenu = true;
+	var menuScreen = {
+		scene: new THREE.Scene(),
+		camera: new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 500)
+	};
+
+	loadingManager = new THREE.LoadingManager();
+
+		loadingManager.onProgress = function(item, loaded, total){
+			console.log(item, loaded, total);
+		};
+
+		loadingManager.onLoad = function(){
+			console.log("all loaded");
+			everythingLoaded = true;
+		};
 
 	var container, stats, countdown, soundButton;
 
@@ -79,6 +108,16 @@
 		info.style.textAlign = 'center';
 		container.appendChild( info );
 
+		//create loading screen
+		loadingScreen.box.position.set(5,5,5);
+		loadingScreen.camera.lookAt(loadingScreen.box.position);
+		loadingScreen.scene.add(loadingScreen.box);
+		loadingScreen.scene.background = new THREE.Color(0xadd8e6);
+
+		menuScreen.scene.background = new THREE.Color(0xadd8e6);
+		menuScreen.camera.position.set( 0, 10, -10 );
+		menuScreen.camera.lookAt( 0,0,0 );
+		//menu();
 
 		//Create a new scene
 		scene = new THREE.Scene();
@@ -743,6 +782,26 @@
 
 	var stopAnimation = false;
 	function animate(){
+
+		//block on menu screen
+		if(onMenu == true){
+			requestAnimationFrame(animate);
+
+			renderer.render(menuScreen.scene, menuScreen.camera);
+			return;
+		}
+
+		//block until loaded
+		//move a cube around the scene
+		if(everythingLoaded == false){
+			requestAnimationFrame(animate);
+			loadingScreen.box.position.x = 4;
+			loadingScreen.box.rotation.x += .05;
+			loadingScreen.box.rotation.y += .025;
+
+			renderer.render(loadingScreen.scene, loadingScreen.camera);
+			return;
+		}
 
 		if(stopAnimation){
 			console.log("stopped");
