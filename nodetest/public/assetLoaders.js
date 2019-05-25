@@ -52,7 +52,7 @@ function enviroLoader( object, position, orotation, glname ) {
 }
 
 function towerLoader( object, position, gridT, towers, towerName ) {
-  console.log("towerLoader");
+  console.log("towerLoader", towers);
 
   const loader = new THREE.GLTFLoader();
 
@@ -77,6 +77,15 @@ function towerLoader( object, position, gridT, towers, towerName ) {
     model.position.y = .1;
     model.position.z = position.z;
 
+    var towerStats;
+
+    if(towerName == "musketT"){
+      towerStats = pirateT;
+    }
+    if(towerName == "cannonT"){
+      towerStats = cannonT;
+    }
+
     //show the attack radius of the newTower
     //create a circle around the newTower
     var cmaterial = new THREE.MeshBasicMaterial({
@@ -86,7 +95,7 @@ function towerLoader( object, position, gridT, towers, towerName ) {
     });
 
     //radius of 6 is about one square on the board
-    var cgeometry = new THREE.CircleGeometry(pirateT.attackRadius, 32);
+    var cgeometry = new THREE.CircleGeometry(towerStats.attackRadius, 32);
     var circle = new THREE.Mesh(cgeometry, cmaterial);
 
     circle.position.y = .5;
@@ -101,12 +110,15 @@ function towerLoader( object, position, gridT, towers, towerName ) {
     //add pirate newTower attributes to each created newTower
     //three.js objects have a specific place for created attributes
     //called userData
-    model.userData.buildSpeed = pirateT.buildSpeed;
-    model.userData.attackPower = pirateT.attackPower;
-    model.userData.attackSpeed = pirateT.attackSpeed;
-    model.userData.attackRadius = pirateT.attackRadius;
-    model.userData.towerTime = pirateT.towerTime;
-    model.userData.cost = pirateT.cost;
+
+
+
+    model.userData.buildSpeed = towerStats.buildSpeed;
+    model.userData.attackPower = towerStats.attackPower;
+    model.userData.attackSpeed = towerStats.attackSpeed;
+    model.userData.attackRadius = towerStats.attackRadius;
+    model.userData.towerTime = towerStats.towerTime;
+    model.userData.cost = towerStats.cost;
     model.rotation.y = Math.floor(Math.random() * 3);
 
     //Adding Raycast to see intersecting objects for tower projectiles

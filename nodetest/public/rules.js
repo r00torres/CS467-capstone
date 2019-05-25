@@ -85,23 +85,36 @@ function mapWaves(testPath, curWaveVal){
 
     var timex = 11000 + delay;
 
-    timeleft = timex / 1000;
+    var timeleft = timex / 1000;
 
+    var countdownCheck = document.getElementById("countdown");
 
     var countdownTimer = setInterval(function(){
-      document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
-      timeleft -= 1;
-      if(timeleft == -1){
-        document.getElementById("countdown").innerHTML = "Start"
-        if(played == 1)
-        {
-          dinoSound.play();
+      if(countdownCheck != null ){
+        if(getCurWave < totWaves){
+
+          document.getElementById("countdown").innerHTML = "Next Wave in\n" + timeleft;
+
+        } else {
+
+          document.getElementById("countdown").innerHTML = "Stay Alive!";
+
+        }
+
+        timeleft -= 1;
+        if(timeleft == -1){
+          document.getElementById("countdown").innerHTML = "Start"
+          if(played == 1)
+          {
+            dinoSound.play();
+          }
+        }
+        else if(timeleft < 0){
+          clearInterval(countdownTimer);
+          //document.getElementById("countdown").style.display = "none";
         }
       }
-      else if(timeleft < -1){
-        clearInterval(countdownTimer);
-        //document.getElementById("countdown").style.display = "none";
-      }
+
     }, 1000);
 
 

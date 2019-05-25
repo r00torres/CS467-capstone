@@ -50,6 +50,7 @@ function menu() {
     document.getElementById("credits").style.display = "none";
     document.getElementById("title").style.display = "none";
     sound.context.resume();
+    clearMenuScreen();
     play();
   };
 
@@ -74,6 +75,7 @@ function menu() {
     document.getElementById("credits").style.display = "none";
     document.getElementById("title").style.display = "none";
     sound.context.resume();
+    clearMenuScreen();
     loadGame();
   };
 
@@ -93,5 +95,12 @@ function menu() {
   }
 
   startMenu();
+
+  function clearMenuScreen(){
+    document.body.removeChild(loadButton);
+    document.body.removeChild(startButton);
+    document.body.removeChild(title);
+    document.body.removeChild(credits);
+  }
 
 }
