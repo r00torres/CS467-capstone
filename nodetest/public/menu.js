@@ -10,10 +10,19 @@ function menu() {
   camera.lookAt( 0, 0, 0 );
   console.log("camera menu", camera);
 
-  console.log("menuscene", scene);
+
+
+  //console.log("menuscene menu()", scene, menuScreen.scene.uuid);
   stopAnimation = false;
 
   function startMenu(){
+
+    //var testinggltf = enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(), Math.floor(Math.random() * 3), "palm");
+    //console.log("testinggltf", testinggltf);
+    //menuScreen.scene.add(testinggltf);
+    //menuScreen.scene.add(menuScreen.palm);
+
+
   //create title for game
   var title = document.createElement('H1');
   var titleText = document.createTextNode("Dinosuars vs Pirates");
