@@ -3,6 +3,8 @@ function menu() {
   controls.reset();
   controls.enabled = false;
 
+  onMenu = true;
+
   console.log("tween menu", TWEEN.getAll());
   console.log("d", dinos);
 
@@ -10,9 +12,14 @@ function menu() {
   camera.lookAt( 0, 0, 0 );
   console.log("camera menu", camera);
 
+  menuScreen.scene.add(menuScreen.light);
+
+  console.log("menuscene menu()", menuScreen.scene);
+  console.log("mixers", mixers);
+
+  enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(0,0,0), Math.floor(Math.random() * 3), "palm", menuScreen.scene);
 
 
-  //console.log("menuscene menu()", scene, menuScreen.scene.uuid);
   stopAnimation = false;
 
   function startMenu(){
@@ -110,6 +117,7 @@ function menu() {
     document.body.removeChild(startButton);
     document.body.removeChild(title);
     document.body.removeChild(credits);
+    clearEverything(menuScene);
   }
 
   //adding some trees!

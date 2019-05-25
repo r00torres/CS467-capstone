@@ -39,6 +39,11 @@
 	//Global variables
 	var scene, camera, renderer, controls, raycaster, mouse, listener;
 
+	//var currentScene;
+	var menuScene =new THREE.Scene();
+	var loadingScene = new THREE.Scene();
+
+
 	//sound variables
 	var sound, sound2, dinoSound, played;
 
@@ -46,7 +51,7 @@
 	var loadingManager;
 	var everythingLoaded = false;
 	var loadingScreen = {
-		scene: new THREE.Scene(),
+		scene: loadingScene,
 		camera: new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 500),
 		box: new THREE.Mesh(
 			new THREE.BoxGeometry(1, 1, 1),
@@ -57,8 +62,9 @@
 	//menu scene
 	var onMenu = true;
 	var menuScreen = {
-		scene: new THREE.Scene(),
-		camera: new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 500)
+		scene: menuScene,
+		camera: new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 500),
+		light: new THREE.DirectionalLight(0xffffff, 2)
 		//palm: enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(), Math.floor(Math.random() * 3), "palm")
 	};
 
@@ -97,6 +103,8 @@
 	/*We need to RENDER the SCENE with a CAMERA*/
 	function init() {
 
+
+
 		//for stats
 		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_interactive_lines.html
 		container = document.createElement('div');
@@ -115,8 +123,12 @@
 		loadingScreen.scene.add(loadingScreen.box);
 		loadingScreen.scene.background = new THREE.Color(0xa8fffa);
 
+		console.log("loadingScreen", loadingScreen.scene);
+
 		menuScreen.scene.background = new THREE.Color(0xadd8e6);
+		menuScreen.scene.name = "menuScreen";
 		console.log("menuscreen", menuScreen.scene);
+
 
 
 
@@ -229,8 +241,9 @@
 		//will show up
 		var directLight = new THREE.DirectionalLight(0xffffff, 2);
 		directLight.position.set( 20, 20, 20 );
+		menuScreen.scene.add(directLight);
 		scene.add(directLight);
-		var directionLight1
+		//var directionLight1
 		var hemiLight = new THREE.HemisphereLight( 0x000000, 0x000000, 4 );
 		hemiLight.position.set( 0, 20, 0 );
 		scene.add(hemiLight);
@@ -240,6 +253,8 @@
 		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
 
 		menu();
+
+		//requestAnimationFrame(renderer);
 
 		//play();
 
@@ -540,7 +555,7 @@
 						var ubName = "palm";
 						var palmRotation = Math.floor(Math.random() * 3);
 						var palmPos = plane.position;
-						var palm = enviroLoader("/static/enviro/palm.glb", palmPos, palmRotation, ubName);
+						var palm = enviroLoader("/static/enviro/palm.glb", palmPos, palmRotation, ubName, scene);
 
 						scene.add( plane );
 					}
@@ -584,7 +599,7 @@
 						var startName = "cave";
 						var caveRotation = -0.3;
 						var cavePos = plane.position;
-						var cave = enviroLoader("/static/enviro/cave.glb", cavePos, caveRotation, startName);
+						var cave = enviroLoader("/static/enviro/cave.glb", cavePos, caveRotation, startName, scene);
 
 						scene.add( plane );
 					}
@@ -601,7 +616,7 @@
 						var endName = "dinoZone";
 						var endRotation = 0;
 						var endPos = plane.position;
-						var endPoint = enviroLoader("/static/enviro/getaway.glb", endPos, endRotation, endName);
+						var endPoint = enviroLoader("/static/enviro/getaway.glb", endPos, endRotation, endName, scene);
 
 						scene.add( plane );
 					}
@@ -830,6 +845,13 @@
 		if(onMenu == true){
 			requestAnimationFrame(animate);
 
+			//console.log("here");
+
+			const delta = clock.getDelta();
+			mixers.forEach( ( mixer ) => {
+				mixer.update( delta );
+			});
+
 			renderer.render(menuScreen.scene, menuScreen.camera);
 			return;
 		}
@@ -841,6 +863,8 @@
 			loadingScreen.box.position.x = 4;
 			loadingScreen.box.rotation.x += .05;
 			loadingScreen.box.rotation.y += .025;
+
+
 
 			renderer.render(loadingScreen.scene, loadingScreen.camera);
 			return;

@@ -1,11 +1,15 @@
-function enviroLoader( object, position, orotation, glname ) {
+function enviroLoader( object, position, orotation, glname, curScene ) {
 
   console.log("enviroLoader");
+  console.log("curScene", curScene);
+  console.log("scene", scene);
+  console.log("mixers", mixers);
 
   const loader = new THREE.GLTFLoader(loadingManager);
 
   const onLoad = ( gltf, position ) => {
 
+    console.log("gltf", gltf);
 
     var model = gltf.scene;
 
@@ -35,7 +39,7 @@ function enviroLoader( object, position, orotation, glname ) {
 
     //console.log("model", model);
 
-    scene.add( model );
+    curScene.add( model );
     return model;
 
   };
