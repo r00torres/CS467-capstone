@@ -82,7 +82,7 @@ function loadGame() {
 //checks to see if a buildable space already has a tower
 //false - okay to build
 //true - tower was loaded at this position, change space to buildable on gridT
-funtion checkFromLoaded(intersection, towers){
+function checkFromLoaded(intersection, towers){
   
   //nothing loaded, good to build
   if(towers.length < 0){
