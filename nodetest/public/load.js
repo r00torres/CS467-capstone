@@ -90,7 +90,7 @@ function fromLoaded(intersection, towers){
   }
   
   for(var i = 0; i < towers.length; i++){
-    if((intersection[0].object.position.x == towers[i].children[1].position.x) && (intersection[0].object.position.y == towers[i].children[1].position.y)){
+    if((intersection[0].object.position.x == towers[i].children[1].position.x) && (intersection[0].object.position.z == towers[i].children[1].position.z)){
       return true;
     }
   }
