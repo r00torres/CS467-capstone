@@ -4,7 +4,7 @@ let pirateT = {
   buildSpeed: 3000, //3 seconds
   attackSpeed: 0.5, //1 second
   attackPower: 5,
-  attackRadius: 12,
+  attackRadius: 112,
   towerTime: 0,
   cost: 25
 };
@@ -47,7 +47,7 @@ function addpirateT( object, scene, gridT, towers ){
           transparent: true
         });
         //radius of 6 is about one square on the board
-        var cgeometry = new THREE.CircleGeometry(cannonT.attackRadius, 32);
+        var cgeometry = new THREE.CircleGeometry(pirateT.attackRadius, 32);
         var circle = new THREE.Mesh(cgeometry, cmaterial);
         //scene.add(new THREE.LineLoop(cgeometry, cmaterial));
         //scene.add(circle);
@@ -58,16 +58,16 @@ function addpirateT( object, scene, gridT, towers ){
 
         //https://stackoverflow.com/questions/24723471/three-js-scale-model-with-scale-set-or-increase-model-size
         newTower.scale.set( 0.1, 0.1, 0.1 );
-        newTower.name = cannonT.name;
+        newTower.name = pirateT.name;
         //add pirate newTower attributes to each created newTower
         //three.js objects have a specific place for created attributes
         //called userData
-        newTower.userData.buildSpeed = cannonT.buildSpeed;
-        newTower.userData.attackPower = cannonT.attackPower;
-        newTower.userData.attackSpeed = cannonT.attackSpeed;
-        newTower.userData.attackRadius = cannonT.attackRadius;
-        newTower.userData.towerTime = cannonT.towerTime;
-        newTower.userData.cost = cannonT.cost;
+        newTower.userData.buildSpeed = pirateT.buildSpeed;
+        newTower.userData.attackPower = pirateT.attackPower;
+        newTower.userData.attackSpeed = pirateT.attackSpeed;
+        newTower.userData.attackRadius = pirateT.attackRadius;
+        newTower.userData.towerTime = pirateT.towerTime;
+        newTower.userData.cost = pirateT.cost;
 
         //Adding Raycast to see intersecting objects for tower projectiles
         //Boundingsphere?

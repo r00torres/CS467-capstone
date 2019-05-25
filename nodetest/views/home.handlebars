@@ -301,6 +301,9 @@
 
 		//document.removeEventListener( 'dblclick', onDocumentMouseDown, false );
 		//clearBuildMenu();
+
+
+
 		controls.reset();
 
 		controls.minDistance = 10;
@@ -320,7 +323,7 @@
 				lives = parseInt(map1.lives);
 				coins = parseInt(map1.coins);
 				totWaves = parseInt(map1.waves);
-				
+
 				updateGameUIbar('lives', lives);
 			}
 			if( currMap == 2 ){
@@ -338,7 +341,7 @@
 			updateGameUIbar("totWaves", totWaves)
 
 		}
-		
+
 
 		//viewBuildMenu();
 		//setLives(3);
@@ -411,25 +414,30 @@
 		countdown.style.textAlign = 'center';
 		document.body.appendChild(countdown);
 
+
+
 		played = 1;
 		var timeleft = 10;
-		if( document.getElementById("countdown") == true){
-			var countdownTimer = setInterval(function(){
-				document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
-				timeleft -= 1;
-				if(timeleft == -1){
-					document.getElementById("countdown").innerHTML = "Start"
-					if(played == 1)
-					{
-						dinoSound.play();
-					}
+		console.log("countdown", document.getElementById("countdown"));
+		//if( document.getElementById("countdown") == true){
+		var countdownTimer = setInterval(function(){
+			document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
+			timeleft -= 1;
+			if(timeleft == -1){
+				document.getElementById("countdown").innerHTML = "Start"
+				if(played == 1)
+				{
+					dinoSound.play();
 				}
-				else if(timeleft < -1){
-					clearInterval(countdownTimer);
-					document.getElementById("countdown").style.display = "none";
-				}
-			}, 10000);
-		}
+			}
+			else if(timeleft < -1){
+				clearInterval(countdownTimer);
+				//document.getElementById("countdown").style.display = "none";
+			}
+		}, 1000);
+		//}
+
+		//countdownTimer();
 
 		var setgameUI = document.getElementById("gameUIbar");
 	  setgameUI.style.display = "table-cell";

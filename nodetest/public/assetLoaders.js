@@ -86,7 +86,7 @@ function towerLoader( object, position, gridT, towers, towerName ) {
     });
 
     //radius of 6 is about one square on the board
-    var cgeometry = new THREE.CircleGeometry(cannonT.attackRadius, 32);
+    var cgeometry = new THREE.CircleGeometry(pirateT.attackRadius, 32);
     var circle = new THREE.Mesh(cgeometry, cmaterial);
 
     circle.position.y = .5;
@@ -101,12 +101,12 @@ function towerLoader( object, position, gridT, towers, towerName ) {
     //add pirate newTower attributes to each created newTower
     //three.js objects have a specific place for created attributes
     //called userData
-    model.userData.buildSpeed = cannonT.buildSpeed;
-    model.userData.attackPower = cannonT.attackPower;
-    model.userData.attackSpeed = cannonT.attackSpeed;
-    model.userData.attackRadius = cannonT.attackRadius;
-    model.userData.towerTime = cannonT.towerTime;
-    model.userData.cost = cannonT.cost;
+    model.userData.buildSpeed = pirateT.buildSpeed;
+    model.userData.attackPower = pirateT.attackPower;
+    model.userData.attackSpeed = pirateT.attackSpeed;
+    model.userData.attackRadius = pirateT.attackRadius;
+    model.userData.towerTime = pirateT.towerTime;
+    model.userData.cost = pirateT.cost;
     model.rotation.y = Math.floor(Math.random() * 3);
 
     //Adding Raycast to see intersecting objects for tower projectiles

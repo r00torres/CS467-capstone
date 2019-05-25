@@ -60,6 +60,7 @@ function mapWaves(testPath, curWaveVal){
     console.log("MAPWAVES******************");
     console.log("wt txw clock", waveTime, timeXwave, clock.elapsedTime);
     updateGameUIbar("waves", getCurWave);
+    document.getElementById("countdown").style.display = "block";
 
     if( curWave < totWaves && lives > 0){
 
@@ -84,6 +85,24 @@ function mapWaves(testPath, curWaveVal){
 
     var timex = 11000 + delay;
 
+    timeleft = timex / 1000;
+
+
+    var countdownTimer = setInterval(function(){
+      document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
+      timeleft -= 1;
+      if(timeleft == -1){
+        document.getElementById("countdown").innerHTML = "Start"
+        if(played == 1)
+        {
+          dinoSound.play();
+        }
+      }
+      else if(timeleft < -1){
+        clearInterval(countdownTimer);
+        //document.getElementById("countdown").style.display = "none";
+      }
+    }, 1000);
 
 
 
