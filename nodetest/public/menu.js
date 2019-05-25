@@ -52,7 +52,7 @@ function menu() {
     sound.context.resume();
     play();
   };
-  
+
   //load button will load previous saved game
   var loadButton = document.createElement('button');
   loadButton.style.position = 'absolute';
@@ -74,7 +74,7 @@ function menu() {
     document.getElementById("credits").style.display = "none";
     document.getElementById("title").style.display = "none";
     sound.context.resume();
-    play();
+    loadGame();
   };
 
   var credits = document.createElement('p');
