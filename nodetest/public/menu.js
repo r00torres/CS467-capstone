@@ -103,4 +103,10 @@ function menu() {
     document.body.removeChild(credits);
   }
 
+  //adding some trees!
+  // var ubName = "palm";
+  // var palmRotation = Math.floor(Math.random() * 3);
+  // var palmPos = new THREE.Vector3(0,0,0);
+  // var palm = enviroLoader("/static/enviro/palm.glb", palmPos, palmRotation, ubName);
+
 }

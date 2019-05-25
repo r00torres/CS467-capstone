@@ -36,6 +36,7 @@ function enviroLoader( object, position, orotation, glname ) {
 
 
     scene.add( model );
+    return model;
 
   };
 

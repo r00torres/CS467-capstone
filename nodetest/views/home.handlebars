@@ -58,7 +58,8 @@
 	var onMenu = true;
 	var menuScreen = {
 		scene: new THREE.Scene(),
-		camera: new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 500)
+		camera: new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 500),
+		palm: enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(), Math.floor(Math.random() * 3), "palm")
 	};
 
 	loadingManager = new THREE.LoadingManager();
@@ -115,8 +116,17 @@
 		loadingScreen.scene.background = new THREE.Color(0xa8fffa);
 
 		menuScreen.scene.background = new THREE.Color(0xadd8e6);
+		//menuScreen.scene.add(menuScreen.palm);
+
+		//enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(), Math.floor(Math.random() * 3), "palm");
+
+
 		menuScreen.camera.position.set( 0, 10, -10 );
 		menuScreen.camera.lookAt( 0,0,0 );
+
+		//enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(), Math.floor(Math.random() * 3), "palm");
+
+		//menuScreen.scene.add(menuScreen.palm);
 		//menu();
 
 		//Create a new scene
