@@ -112,7 +112,7 @@
 		loadingScreen.box.position.set(5,5,5);
 		loadingScreen.camera.lookAt(loadingScreen.box.position);
 		loadingScreen.scene.add(loadingScreen.box);
-		loadingScreen.scene.background = new THREE.Color(0xadd8e6);
+		loadingScreen.scene.background = new THREE.Color(0xa8fffa);
 
 		menuScreen.scene.background = new THREE.Color(0xadd8e6);
 		menuScreen.camera.position.set( 0, 10, -10 );
@@ -458,18 +458,46 @@
 		var path = [];
 		function addTiles(m, mapName){
 
-			if( mapName == "coast" ){
+			//if( mapName == "coast" ){
 				//25m radius
-				var mapbg = "mapbg";
-				var mapbgRotation = Math.floor(Math.random() * 3);
-				var mapPos = new THREE.Vector3( 0, -.1, 0 );
+				console.log("coast if");
+				// var mapbg = "mapbg";
+				// var mapbgRotation = Math.floor(Math.random() * 3);
+				// var mapPos = new THREE.Vector3( 0, -.1, 0 );
 				//var mapgltf = enviroLoader("/static/enviro/beach.glb", mapPos, mapbgRotation, mapbg);
 
-				var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xf2d527 } ) );
-				plane.scale.set( 15, 15, 15 );
-				plane.position.y = -.1;
-				scene.add( plane );
-			}
+				// var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x42f4c5 } ) );
+				// plane.scale.set( 150, 150, 150 );
+				// plane.position.y = -.2;
+				// scene.add( plane );
+
+				var bglandmat = new THREE.MeshBasicMaterial({
+					color: 0xffd04f
+				});
+
+				var bggeo = new THREE.CircleBufferGeometry( 50, 32 );
+				var bgMesh = new THREE.Mesh( bggeo, bglandmat );
+				bgMesh.position.y = -0.1;
+				//bgMesh.position.z = 0;
+
+				bgMesh.rotateX(-(Math.PI / 2));
+
+				scene.add(bgMesh);
+
+				var seamat = new THREE.MeshBasicMaterial({
+		      color: 0x42f4c5
+		    });
+
+		    //radius of 6 is about one square on the board
+		    var seageo = new THREE.CircleBufferGeometry(500, 32);
+		    var seabg = new THREE.Mesh(seageo, seamat);
+
+		    seabg.position.y = -0.2;
+
+		    seabg.rotateX(-(Math.PI / 2));
+
+				scene.add(seabg);
+			//}
 			console.log("adding tiles", m);
 			//gets the length of a single array (map0 a,b,a,b)
 			var arrZ = m[0].length;
