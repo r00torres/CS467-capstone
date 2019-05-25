@@ -41,11 +41,8 @@ function loadTowerLocations( towers ) {
     else if(loadTowers[i].nameOf == "cannon tower"){
       var towerName = "cannon tower";
       towerLoader( '/static/towers/canontowermodified2.glb', loadTowers[i].pos, gridT, towers, towerName);
-
     }
-
   }
-
 }
 
 function loadGameValues() {
@@ -80,4 +77,22 @@ function loadGame() {
   //stopAnimation = false;
   var loaded = true;
   play(loaded);
+}
+
+//checks to see if a buildable space already has a tower
+//false - okay to build
+//true - tower was loaded at this position, change space to buildable on gridT
+funtion checkFromLoaded(intersection, towers){
+  
+  //nothing loaded, good to build
+  if(towers.length < 0){
+    return;
+  }
+  
+  for(var i = 0; i < towers.length; i++){
+    if(instersection[0].object.position == towers[i].children[1].position){
+      intersection[0].object.name = "tower";
+      return;
+    }
+  }
 }
