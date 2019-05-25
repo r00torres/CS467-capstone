@@ -87,6 +87,13 @@ function dinoPath(dino, speed, target, targetHealth, delay) {
           dino.children[0].rotation.y = 300;
         }
         //console.log("dino pos ", dino.position);
+        // if(lives <= 0){
+        //   //TWEEN.stop();
+        //   var tc = TWEEN.getAll();
+        //   if(tc.length > 0){
+        //      TWEEN.removeAll();
+        //   }
+        // }
 
       })
       .start();
@@ -156,11 +163,18 @@ function dinoPath(dino, speed, target, targetHealth, delay) {
           dino.children[1].scale.z = .33;
         }
 
-        // if(dino.children[0].userData.health <= 0){
-        // 	healthmove.remove(healthmove.getId());
+        // if(lives <= 0){
+        //   //healthmove.stop();
+        //   //TWEEN.end(move);
+        //   var tc = TWEEN.getAll();
+        //   if(tc.length > 0){
+        //      TWEEN.removeAll();
+        //   }
         // }
       })
       .start();
+
+
     //removes the dino from the scene once it has reached the end
     healthmove.onComplete(function(){
         console.log("end of path", dino);
@@ -174,7 +188,7 @@ function dinoPath(dino, speed, target, targetHealth, delay) {
           console.log("DINO UUID", dino.children[0].uuid, dinos[dinosleft][0].uuid);
           if(dino.children[0].uuid == dinos[dinosleft][0].uuid){
             console.log("HERERERERER", dino.uuid, dinos[dinosleft][0].uuid);
-            curLives -= .5;
+            curLives -= 0.5;
             setLives(curLives);
             updateGameUIbar( "lives", getLives() );
             scene.remove(dino);
@@ -182,8 +196,13 @@ function dinoPath(dino, speed, target, targetHealth, delay) {
           }
 
         };
+        var tc = TWEEN.getAll();
+        // if(tc.length > 0){
+        //    TWEEN.removeAll();
+        // }
 
-        if( getLives() <= 0 ){
+
+        if( getLives() == 0 ){
           stopAnimation = true;
           //TWEEN.removeAll();
           //healthmove.removeAll();

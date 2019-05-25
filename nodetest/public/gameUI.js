@@ -3,6 +3,7 @@ function initGameUI(coins, lives, waves){
     var gameUI = document.createElement("div");
     gameUI.setAttribute("id", "gameUIbar");
     gameUI.setAttribute("class", "game-ui");
+    gameUI.style.display = "none";
     document.body.insertBefore(gameUI, document.body.firstChild);
 
     var coinDiv = document.createElement("span");
@@ -32,16 +33,64 @@ function initGameUI(coins, lives, waves){
     text = document.createTextNode(waves);
     wavesVal.appendChild(text);
 
+    //create a button to pause the audio
+    var soundOpt = document.createElement("span");
+    text = document.createTextNode("Sound ");
+    soundOpt.appendChild(text);
+		soundButton = document.createElement('button');
+		soundButton.style.position = 'absolute';
+		soundButton.id = 'soundButton';
+		soundButton.style.width = '100px';
+		soundButton.style.height = '47px';
+		soundButton.style.background = 'green';
+		soundButton.style.top = '0px';
+		//soundButton.style.left = '375px';
+		soundButton.style.textAlign = 'center';
+		soundButton.innerHTML = 'Music';
+		soundButton.style.color = 'white';
+
+
+		soundButton.onclick = function(){
+			if(sound.isPlaying){
+				sound.pause();
+				soundButton.style.background = 'red';
+			}
+			else{
+				soundButton.style.background = 'green';
+				sound.play();
+			}
+		};
+
+    // soundButton.ontouch = function(){
+    //   if(sound.isPlaying){
+		// 		sound.pause();
+		// 		soundButton.style.background = 'red';
+		// 	}
+		// 	else{
+		// 		soundButton.style.background = 'green';
+		// 		sound.play();
+		// 	}
+    // };
+
     document.getElementById("gameUIbar").append(coinDiv);
     document.getElementById("gameUIbar").append(coinVal);
     document.getElementById("gameUIbar").append(livesDiv);
     document.getElementById("gameUIbar").append(livesVal);
     document.getElementById("gameUIbar").append(wavesDiv);
     document.getElementById("gameUIbar").append(wavesVal);
+    document.getElementById("gameUIbar").append(soundOpt);
+    document.getElementById("gameUIbar").appendChild(soundButton);
+
 };
 
     function updateGameUIbar(field, newValue){
-        if(field == "coins"){
+        
+	    //once 'game over', lives were still decrementing as additional dinos arrived at end of path
+	    if( newValue < 0){
+	    	return;
+	    }
+	    
+	if(field == "coins"){
             var location = document.getElementById("coinVal");
             console.log("Current Coin value is: ", location.innerHTML);
             location.innerHTML = newValue;

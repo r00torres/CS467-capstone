@@ -22,7 +22,8 @@ function enviroLoader( object, position, orotation, glname ) {
     action.play();
 
     if( glname == "palm" ){
-      model.scale.set( Math.random()+.2, Math.random()+.2, Math.random()+.3 );
+      var xzset = Math.random() + .3;
+      model.scale.set( xzset, Math.random()+.2, xzset );
     }
     else if( glname == "mapbg" ){
       model.scale.set( 1, 0, 1 );
@@ -50,8 +51,99 @@ function enviroLoader( object, position, orotation, glname ) {
 
 }
 
-function towerLoader( object, position, towers ) {
+function towerLoader( object, position, gridT, towers, towerName ) {
   console.log("towerLoader");
+
+  const loader = new THREE.GLTFLoader();
+
+  const onLoad = ( gltf, position ) => {
+
+
+    var model = gltf.scene;
+
+    model.position.copy( position );
+
+    //model.rotation.y = orotation;
+
+    var animation = gltf.animations[ 0 ];
+
+    var mixer = new THREE.AnimationMixer( model );
+    mixers.push( mixer );
+
+    var action = mixer.clipAction( animation );
+    action.play();
+
+    model.position.x = position.x;
+    model.position.y = .1;
+    model.position.z = position.z;
+
+    //show the attack radius of the newTower
+    //create a circle around the newTower
+    var cmaterial = new THREE.MeshBasicMaterial({
+      color: 0xa12b0d,
+      opacity: 0.20,
+      transparent: true
+    });
+
+    //radius of 6 is about one square on the board
+    var cgeometry = new THREE.CircleGeometry(cannonT.attackRadius, 32);
+    var circle = new THREE.Mesh(cgeometry, cmaterial);
+
+    circle.position.y = .5;
+    circle.position.z = model.position.z;
+    circle.position.x = model.position.x;
+    circle.rotateX(300); //rotate circle so it lays flat
+
+    //https://stackoverflow.com/questions/24723471/three-js-scale-model-with-scale-set-or-increase-model-size
+    model.scale.set( 0.3, 0.3, 0.3 );
+    model.name = towerName;
+
+    //add pirate newTower attributes to each created newTower
+    //three.js objects have a specific place for created attributes
+    //called userData
+    model.userData.buildSpeed = cannonT.buildSpeed;
+    model.userData.attackPower = cannonT.attackPower;
+    model.userData.attackSpeed = cannonT.attackSpeed;
+    model.userData.attackRadius = cannonT.attackRadius;
+    model.userData.towerTime = cannonT.towerTime;
+    model.userData.cost = cannonT.cost;
+    model.rotation.y = Math.floor(Math.random() * 3);
+
+    //Adding Raycast to see intersecting objects for tower projectiles
+    //Boundingsphere?
+
+    cgeometry.computeBoundingSphere();
+    cgeometry.boundingSphere.radius = model.userData.attackRadius;
+    cgeometry.boundingSphere.center = model.position;
+    circle.name = "atkradius";
+
+    console.log("newTower", model);
+
+    var towerGroup = new THREE.Group();
+
+    towerGroup.name = "towerG";
+
+    towerGroup.add( circle );
+    towerGroup.add( model );
+
+
+    scene.add( towerGroup );
+    gridT.push( towerGroup );
+    towers.push( towerGroup );
+
+    console.log("towers", towers );
+
+  };
+
+  const onProgress = () => {};
+
+  const onError = (errorMessage ) => {
+
+    console.log( errorMessage );
+
+  };
+
+  loader.load( object, gltf => onLoad( gltf, position ), onProgress, onError );
 }
 
 function dinoLoader( object, position, dinos, delay, testPath ) {

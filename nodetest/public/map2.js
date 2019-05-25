@@ -3,6 +3,10 @@ var map2 = {};
 
 map2.name2 = 'forest';
 
+map2.lives = 10;
+map2.coins = 100;
+map2.waves = 10;
+
 //size of the board
 //this board is 10x10
 map2.level2x = 10;
