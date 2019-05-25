@@ -67,6 +67,10 @@ function loadGameValues() {
   curWave = parseInt(waveAtLoad);
   currMap = parseInt(mapAtLoad);
   
+  updateGameUIbar( 'coins', getCoins() );
+  updateGameUIbar( 'lives', getLives() );
+  updateGameUIbar( 'waves', curWave );
+  
 }
 
 function loadGame() {

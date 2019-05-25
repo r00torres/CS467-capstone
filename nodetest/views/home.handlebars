@@ -281,6 +281,8 @@
 				lives = parseInt(map1.lives);
 				coins = parseInt(map1.coins);
 				totWaves = parseInt(map1.waves);
+				
+				updateGameUIbar('lives', lives);
 			}
 			if( currMap == 2 ){
 				lives = parseInt(map2.lives);
@@ -297,6 +299,7 @@
 			updateGameUIbar("totWaves", totWaves)
 
 		}
+		
 
 		//viewBuildMenu();
 		//setLives(3);
