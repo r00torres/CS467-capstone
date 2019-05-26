@@ -63,17 +63,18 @@ function loadGameValues() {
   setLives( parseInt(livesAtLoad) );
   curWave = parseInt(waveAtLoad);
   currMap = parseInt(mapAtLoad);
-  
+
   updateGameUIbar( 'coins', getCoins() );
   updateGameUIbar( 'lives', getLives() );
   updateGameUIbar( 'waves', curWave );
-  
+
 }
 
 function loadGame() {
   loadTowerLocations( towers );
   loadGameValues();
   console.log("Loaded Game!");
+  stopWaveTimeout();
   //stopAnimation = false;
   var loaded = true;
   play(loaded);
@@ -83,17 +84,17 @@ function loadGame() {
 //false - okay to build
 //true - tower was loaded at this position, change space to buildable on gridT
 function fromLoaded(intersection, towers){
-  
+
   //nothing loaded, good to build
   if(towers.length < 0){
     return false;
   }
-  
+
   for(var i = 0; i < towers.length; i++){
     if((intersection[0].object.position.x == towers[i].children[1].position.x) && (intersection[0].object.position.z == towers[i].children[1].position.z)){
       return true;
     }
   }
-  
+
   return false;
 }

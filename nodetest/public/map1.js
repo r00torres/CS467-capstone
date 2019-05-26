@@ -4,7 +4,7 @@ map1.name = 'coast';
 
 map1.lives = 10;
 map1.coins = 100;
-map1.waves = 10;
+map1.waves = 11;
 
 //size of the board
 //this board is 10x10
