@@ -10,7 +10,7 @@ function menu() {
   console.log("tween menu", TWEEN.getAll());
   console.log("d", dinos);
 
-  menuScreen.camera.position.set( 0, 1, -10 );
+  menuScreen.camera.position.set( 0, 7, -10 );
   menuScreen.camera.lookAt( 0, 0, 0 );
 
   //console.log("msc", menuScene.camera);
@@ -35,7 +35,7 @@ function menu() {
   enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(5,0,2), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
   enviroLoader("/static/towers/musket1.glb", new THREE.Vector3(0,0,5), Math.floor(Math.random() * 3), "tower", menuScreen.scene);
   enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(-5,0,2), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
-  enviroLoader("/static/towers/canontowermodified2.glb", new THREE.Vector3(-1,0,-4), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
+  enviroLoader("/static/towers/canontowermodified2.glb", new THREE.Vector3(-1,0,-4), 3, "palmMenu", menuScreen.scene);
 
 
   //towerLoader( '/static/towers/musket1.glb', new THREE.Vector3(0, 0, 4), menuGridT, menuTowers, "menuTower" );  //enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(-2,0,5), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
