@@ -1,7 +1,8 @@
 function menu() {
   //disables users ability to move around menu\
   controls.reset();
-  controls.enabled = false;
+
+
 
   onMenu = true;
   everythingLoaded = false;
@@ -9,8 +10,19 @@ function menu() {
   console.log("tween menu", TWEEN.getAll());
   console.log("d", dinos);
 
-  menuScreen.camera.position.set( -10, 1, -10 );
+  menuScreen.camera.position.set( -10, 10, -10 );
   menuScreen.camera.lookAt( 0, 0, 0 );
+
+  //console.log("msc", menuScene.camera);
+
+  menuControls = new THREE.OrbitControls( menuScreen.camera, renderer.domElement );
+  //console.log("menucontrols", menuControls);
+  //controls.target = new THREE.Vector3( 0, 5, 0 );
+  //menuControls.autoRotate = true;
+  menuControls.autoRotateSpeed = 0.75;
+  menuControls.enabled = false;
+
+  //
   console.log("camera menu", camera);
 
   menuScreen.scene.add(menuScreen.light);
@@ -18,9 +30,9 @@ function menu() {
   console.log("menuscene menu()", menuScreen.scene);
   console.log("mixers", mixers);
 
-  //enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(5,0,0), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
-  enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(0,0,-3), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
-  //enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(0,0,5), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
+  enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(5,0,2), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
+  //enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(0,0,-3), Math.floor(Math.random() * 3), "palm", menuScreen.scene);
+  //enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(-2,0,5), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
   var grassmat = new THREE.MeshBasicMaterial({
     color: 0xffd04f
   });
@@ -61,7 +73,7 @@ function menu() {
 
   //create title for game
   var title = document.createElement('H1');
-  var titleText = document.createTextNode("Dinosuars vs Pirates");
+  var titleText = document.createTextNode("Dinosaurs vs Pirates");
   title.appendChild(titleText);
   title.style.position = 'absolute';
   title.id = 'title';

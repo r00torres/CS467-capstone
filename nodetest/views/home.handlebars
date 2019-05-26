@@ -42,6 +42,7 @@
 	//var currentScene;
 	var menuScene =new THREE.Scene();
 	var loadingScene = new THREE.Scene();
+	var menuControls;
 
 
 	//sound variables
@@ -65,6 +66,7 @@
 		scene: menuScene,
 		camera: new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 500),
 		light: new THREE.DirectionalLight(0xffffff, 2)
+
 		//palm: enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(), Math.floor(Math.random() * 3), "palm")
 	};
 
@@ -212,6 +214,8 @@
 
 		/*Adding orbit controls. Allows camera to move*/
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+		console.log("controls init", controls);
 
 		stats = new Stats();
 		//Uncomment for FPS stats
@@ -526,7 +530,7 @@
 
 				scene.add(seabg);
 
-				// // Kinda Confusing - outer circle 
+				// // Kinda Confusing - outer circle
 				// var grassmat = new THREE.MeshBasicMaterial({
 		    //   color: 0x556600
 		    // });
@@ -865,7 +869,13 @@
 			const delta = clock.getDelta();
 			mixers.forEach( ( mixer ) => {
 				mixer.update( delta );
+
+
 			});
+				//controls.update();
+		if(menuControls != null){
+			menuControls.update();
+		}
 
 			renderer.render(menuScreen.scene, menuScreen.camera);
 			return;
