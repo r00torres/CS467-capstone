@@ -94,7 +94,7 @@ function mapWaves(testPath, curWaveVal){
         console.log("cc", countdownCheck);
         if(getCurWave < totWaves - 1){
 
-          document.getElementById("countdown").innerHTML = "Wave " + curWave +" in" + timeleft;
+          document.getElementById("countdown").innerHTML = "Wave " + curWave +" in " + timeleft;
 
         } else {
 
