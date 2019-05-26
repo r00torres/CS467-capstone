@@ -342,6 +342,8 @@ function clearEverything(curScene) {
   gridT = [];
   towers = [];
   dinos = [];
+  menuTowers = [];
+  menuGridT = [];
 
   //mixers = [];
   projectiles = [];

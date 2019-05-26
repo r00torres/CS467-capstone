@@ -10,14 +10,14 @@ function menu() {
   console.log("tween menu", TWEEN.getAll());
   console.log("d", dinos);
 
-  menuScreen.camera.position.set( -10, 10, -10 );
+  menuScreen.camera.position.set( 0, 1, -10 );
   menuScreen.camera.lookAt( 0, 0, 0 );
 
   //console.log("msc", menuScene.camera);
 
   menuControls = new THREE.OrbitControls( menuScreen.camera, renderer.domElement );
   //console.log("menucontrols", menuControls);
-  menuControls.target = new THREE.Vector3( 5, 10, 2 );
+  menuControls.target = new THREE.Vector3( 5, 0, 2 );
   menuControls.autoRotate = true;
   menuControls.autoRotateSpeed = 0.75;
   menuControls.enabled = false;
@@ -30,9 +30,15 @@ function menu() {
   console.log("menuscene menu()", menuScreen.scene);
   console.log("mixers", mixers);
 
+
+
   enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(5,0,2), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
-  //enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(0,0,-3), Math.floor(Math.random() * 3), "palm", menuScreen.scene);
-  //enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(-2,0,5), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
+  enviroLoader("/static/towers/musket1.glb", new THREE.Vector3(0,0,5), Math.floor(Math.random() * 3), "tower", menuScreen.scene);
+  enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(-5,0,2), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
+  enviroLoader("/static/towers/canontowermodified2.glb", new THREE.Vector3(-1,0,-4), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
+
+
+  //towerLoader( '/static/towers/musket1.glb', new THREE.Vector3(0, 0, 4), menuGridT, menuTowers, "menuTower" );  //enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(-2,0,5), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
   var grassmat = new THREE.MeshBasicMaterial({
     color: 0xffd04f
   });
