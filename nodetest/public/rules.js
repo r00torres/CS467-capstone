@@ -332,6 +332,8 @@ function clearEverything(curScene) {
 
   console.log("scene",scene);
 
+  everythingLoaded = false;
+
   console.log("CLEARING!!!!!!!!!!!!!!!!!!!!!!!");
 
 

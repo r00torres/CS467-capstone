@@ -4,6 +4,7 @@ function menu() {
   controls.enabled = false;
 
   onMenu = true;
+  everythingLoaded = false;
 
   console.log("tween menu", TWEEN.getAll());
   console.log("d", dinos);
