@@ -505,7 +505,7 @@
 
 				var bggeo = new THREE.CircleBufferGeometry( 50, 32 );
 				var bgMesh = new THREE.Mesh( bggeo, bglandmat );
-				bgMesh.position.y = -0.1;
+				bgMesh.position.y = -0.2;
 				//bgMesh.position.z = 0;
 
 				bgMesh.rotateX(-(Math.PI / 2));
@@ -520,11 +520,25 @@
 		    var seageo = new THREE.CircleBufferGeometry(500, 32);
 		    var seabg = new THREE.Mesh(seageo, seamat);
 
-		    seabg.position.y = -0.2;
+		    seabg.position.y = -0.3;
 
 		    seabg.rotateX(-(Math.PI / 2));
 
 				scene.add(seabg);
+
+				var grassmat = new THREE.MeshBasicMaterial({
+		      color: 0x556600
+		    });
+
+		    //radius of 6 is about one square on the board
+		    var grassgeo = new THREE.CircleBufferGeometry(30, 32);
+		    var grassbg = new THREE.Mesh(grassgeo, grassmat);
+
+		    grassbg.position.y = -0.1;
+
+		    grassbg.rotateX(-(Math.PI / 2));
+
+				scene.add(grassbg);
 			//}
 			console.log("adding tiles", m);
 			//gets the length of a single array (map0 a,b,a,b)
