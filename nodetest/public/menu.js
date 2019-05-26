@@ -9,8 +9,8 @@ function menu() {
   console.log("tween menu", TWEEN.getAll());
   console.log("d", dinos);
 
-  camera.position.set( 0, 10, -10 );
-  camera.lookAt( 0, 0, 0 );
+  menuScreen.camera.position.set( -10, 1, -10 );
+  menuScreen.camera.lookAt( 0, 0, 0 );
   console.log("camera menu", camera);
 
   menuScreen.scene.add(menuScreen.light);
@@ -18,8 +18,36 @@ function menu() {
   console.log("menuscene menu()", menuScreen.scene);
   console.log("mixers", mixers);
 
-  enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(0,0,0), Math.floor(Math.random() * 3), "palm", menuScreen.scene);
+  //enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(5,0,0), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
+  enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(0,0,-3), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
+  //enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(0,0,5), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
+  var grassmat = new THREE.MeshBasicMaterial({
+    color: 0xffd04f
+  });
 
+  //radius of 6 is about one square on the board
+  var grassgeo = new THREE.CircleBufferGeometry(10, 32);
+  var grassbg = new THREE.Mesh(grassgeo, grassmat);
+
+  grassbg.position.y = -0.1;
+
+  grassbg.rotateX(-(Math.PI / 2));
+
+  menuScreen.scene.add(grassbg);
+
+  var seamat = new THREE.MeshBasicMaterial({
+    color: 0x42f4c5
+  });
+
+  //radius of 6 is about one square on the board
+  var seageo = new THREE.CircleBufferGeometry(500, 32);
+  var seabg = new THREE.Mesh(seageo, seamat);
+
+  seabg.position.y = -0.3;
+
+  seabg.rotateX(-(Math.PI / 2));
+
+  menuScreen.scene.add(seabg);
 
   stopAnimation = false;
 

@@ -32,6 +32,9 @@ function enviroLoader( object, position, orotation, glname, curScene ) {
     else if( glname == "mapbg" ){
       model.scale.set( 1, 0, 1 );
     }
+    else if( glname == "palmMenu"){
+      model.scale.set( .6, .6, .6);
+    }
     else{
       model.scale.set( 0.3, 0.3, 0.3 );
     }
