@@ -17,8 +17,8 @@ function menu() {
 
   menuControls = new THREE.OrbitControls( menuScreen.camera, renderer.domElement );
   //console.log("menucontrols", menuControls);
-  //controls.target = new THREE.Vector3( 0, 5, 0 );
-  //menuControls.autoRotate = true;
+  menuControls.target = new THREE.Vector3( 5, 10, 2 );
+  menuControls.autoRotate = true;
   menuControls.autoRotateSpeed = 0.75;
   menuControls.enabled = false;
 
@@ -141,13 +141,15 @@ function menu() {
   credits.textContent = "Authors:\r\nChristopher Frenchi\r\nJonathan Ruby\r\nRuben Torres\r\n\r\nGitHub:\r\nhttps://github.com/cfrenchi/capstone/tree/master";
   credits.style.position = 'absolute';
   credits.id = 'credits';
-  credits.style.width = '300px';
-  credits.style.height = '100px';
+  credits.style.width = '320px';
+  credits.style.height = '130px';
   credits.style.background = 'light blue';
   credits.style.top = '400px';
   credits.style.left = '43%';
   credits.style.textAlign = 'center';
-  credits.style.color = 'white';
+  credits.style.color = 'teal';
+  credits.style.border = 'dashed';
+  credits.style.background = 'white';
   document.body.appendChild(credits);
   }
 
