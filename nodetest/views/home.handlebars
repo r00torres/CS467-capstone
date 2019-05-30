@@ -39,6 +39,12 @@
 	//Global variables
 	var scene, camera, renderer, controls, raycaster, mouse, listener;
 
+	//var currentScene;
+	var menuScene =new THREE.Scene();
+	var loadingScene = new THREE.Scene();
+	var menuControls;
+
+
 	//sound variables
 	var sound, sound2, dinoSound, played;
 
@@ -46,7 +52,7 @@
 	var loadingManager;
 	var everythingLoaded = false;
 	var loadingScreen = {
-		scene: new THREE.Scene(),
+		scene: loadingScene,
 		camera: new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 500),
 		box: new THREE.Mesh(
 			new THREE.BoxGeometry(1, 1, 1),
@@ -57,8 +63,11 @@
 	//menu scene
 	var onMenu = true;
 	var menuScreen = {
-		scene: new THREE.Scene(),
-		camera: new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 500)
+		scene: menuScene,
+		camera: new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 500),
+		light: new THREE.DirectionalLight(0xffffff, 2)
+
+		//palm: enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(), Math.floor(Math.random() * 3), "palm")
 	};
 
 	loadingManager = new THREE.LoadingManager();
@@ -85,6 +94,8 @@
 	var towers = [];
 	var projectiles = [];
 	var currMap = 1;
+	var menuTowers = [];
+  var menuGridT = [];
 	//var totWaves, timeXwave;
 	//var coins = 100;
 	//var curWave = 1;
@@ -95,6 +106,8 @@
 
 	/*We need to RENDER the SCENE with a CAMERA*/
 	function init() {
+
+
 
 		//for stats
 		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_interactive_lines.html
@@ -112,15 +125,31 @@
 		loadingScreen.box.position.set(5,5,5);
 		loadingScreen.camera.lookAt(loadingScreen.box.position);
 		loadingScreen.scene.add(loadingScreen.box);
-		loadingScreen.scene.background = new THREE.Color(0xadd8e6);
+		loadingScreen.scene.background = new THREE.Color(0xa8fffa);
+
+		console.log("loadingScreen", loadingScreen.scene);
 
 		menuScreen.scene.background = new THREE.Color(0xadd8e6);
+		menuScreen.scene.name = "menuScreen";
+		console.log("menuscreen", menuScreen.scene);
+
+
+
+
+
+		// menuScreen.scene.add(testinggltf);
+
 		menuScreen.camera.position.set( 0, 10, -10 );
 		menuScreen.camera.lookAt( 0,0,0 );
+
+		//enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(), Math.floor(Math.random() * 3), "palm");
+
+		//menuScreen.scene.add(menuScreen.palm);
 		//menu();
 
 		//Create a new scene
 		scene = new THREE.Scene();
+		console.log("init scene", scene);
 		scene.background = new THREE.Color( 0xadd8e6 );
 		scene.fog = new THREE.Fog( 0xadd8e6, 250, 500 );
 		console.log("scene", scene);
@@ -188,6 +217,8 @@
 		/*Adding orbit controls. Allows camera to move*/
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
 
+		console.log("controls init", controls);
+
 		stats = new Stats();
 		//Uncomment for FPS stats
 		//container.appendChild( stats.dom );
@@ -216,8 +247,9 @@
 		//will show up
 		var directLight = new THREE.DirectionalLight(0xffffff, 2);
 		directLight.position.set( 20, 20, 20 );
+		menuScreen.scene.add(directLight);
 		scene.add(directLight);
-		var directionLight1
+		//var directionLight1
 		var hemiLight = new THREE.HemisphereLight( 0x000000, 0x000000, 4 );
 		hemiLight.position.set( 0, 20, 0 );
 		scene.add(hemiLight);
@@ -227,6 +259,8 @@
 		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
 
 		menu();
+
+		//requestAnimationFrame(renderer);
 
 		//play();
 
@@ -416,25 +450,25 @@
 
 
 
-		played = 1;
-		var timeleft = 10;
-		console.log("countdown", document.getElementById("countdown"));
-		//if( document.getElementById("countdown") == true){
-		var countdownTimer = setInterval(function(){
-			document.getElementById("countdown").innerHTML = timeleft + " seconds remaining";
-			timeleft -= 1;
-			if(timeleft == -1){
-				document.getElementById("countdown").innerHTML = "Start"
-				if(played == 1)
-				{
-					dinoSound.play();
-				}
-			}
-			else if(timeleft < -1){
-				clearInterval(countdownTimer);
-				//document.getElementById("countdown").style.display = "none";
-			}
-		}, 1000);
+		// played = 1;
+		// var timeleft = 10;
+		// console.log("countdown", document.getElementById("countdown"));
+		// //if( document.getElementById("countdown") == true){
+		// var countdownTimer = setInterval(function(){
+		document.getElementById("countdown").innerHTML = "Get Ready!";
+		// 	timeleft -= 1;
+		// 	if(timeleft == -1){
+		// 		document.getElementById("countdown").innerHTML = "Start"
+		// 		if(played == 1)
+		// 		{
+		// 			dinoSound.play();
+		// 		}
+		// 	}
+		// 	else if(timeleft < -1){
+		// 		clearInterval(countdownTimer);
+		// 		//document.getElementById("countdown").style.display = "none";
+		// 	}
+		// }, 1000);
 		//}
 
 		//countdownTimer();
@@ -458,18 +492,61 @@
 		var path = [];
 		function addTiles(m, mapName){
 
-			if( mapName == "coast" ){
+			//if( mapName == "coast" ){
 				//25m radius
-				var mapbg = "mapbg";
-				var mapbgRotation = Math.floor(Math.random() * 3);
-				var mapPos = new THREE.Vector3( 0, -.1, 0 );
+				console.log("coast if");
+				// var mapbg = "mapbg";
+				// var mapbgRotation = Math.floor(Math.random() * 3);
+				// var mapPos = new THREE.Vector3( 0, -.1, 0 );
 				//var mapgltf = enviroLoader("/static/enviro/beach.glb", mapPos, mapbgRotation, mapbg);
 
-				var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0xf2d527 } ) );
-				plane.scale.set( 15, 15, 15 );
-				plane.position.y = -.1;
-				scene.add( plane );
-			}
+				// var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x42f4c5 } ) );
+				// plane.scale.set( 150, 150, 150 );
+				// plane.position.y = -.2;
+				// scene.add( plane );
+
+				var bglandmat = new THREE.MeshBasicMaterial({
+					color: 0xffd04f
+				});
+
+				var bggeo = new THREE.CircleBufferGeometry( 50, 32 );
+				var bgMesh = new THREE.Mesh( bggeo, bglandmat );
+				bgMesh.position.y = -0.2;
+				//bgMesh.position.z = 0;
+
+				bgMesh.rotateX(-(Math.PI / 2));
+
+				scene.add(bgMesh);
+
+				var seamat = new THREE.MeshBasicMaterial({
+		      color: 0x42f4c5
+		    });
+
+		    //radius of 6 is about one square on the board
+		    var seageo = new THREE.CircleBufferGeometry(500, 32);
+		    var seabg = new THREE.Mesh(seageo, seamat);
+
+		    seabg.position.y = -0.3;
+
+		    seabg.rotateX(-(Math.PI / 2));
+
+				scene.add(seabg);
+
+				// // Kinda Confusing - outer circle
+				// var grassmat = new THREE.MeshBasicMaterial({
+		    //   color: 0x556600
+		    // });
+				//
+		    // //radius of 6 is about one square on the board
+		    // var grassgeo = new THREE.CircleBufferGeometry(30, 32);
+		    // var grassbg = new THREE.Mesh(grassgeo, grassmat);
+				//
+		    // grassbg.position.y = -0.1;
+				//
+		    // grassbg.rotateX(-(Math.PI / 2));
+				//
+				// scene.add(grassbg);
+			//}
 			console.log("adding tiles", m);
 			//gets the length of a single array (map0 a,b,a,b)
 			var arrZ = m[0].length;
@@ -499,7 +576,7 @@
 						var ubName = "palm";
 						var palmRotation = Math.floor(Math.random() * 3);
 						var palmPos = plane.position;
-						var palm = enviroLoader("/static/enviro/palm.glb", palmPos, palmRotation, ubName);
+						var palm = enviroLoader("/static/enviro/palm.glb", palmPos, palmRotation, ubName, scene);
 
 						scene.add( plane );
 					}
@@ -543,7 +620,7 @@
 						var startName = "cave";
 						var caveRotation = -0.3;
 						var cavePos = plane.position;
-						var cave = enviroLoader("/static/enviro/cave.glb", cavePos, caveRotation, startName);
+						var cave = enviroLoader("/static/enviro/cave.glb", cavePos, caveRotation, startName, scene);
 
 						scene.add( plane );
 					}
@@ -560,7 +637,7 @@
 						var endName = "dinoZone";
 						var endRotation = 0;
 						var endPos = plane.position;
-						var endPoint = enviroLoader("/static/enviro/getaway.glb", endPos, endRotation, endName);
+						var endPoint = enviroLoader("/static/enviro/getaway.glb", endPos, endRotation, endName, scene);
 
 						scene.add( plane );
 					}
@@ -670,9 +747,6 @@
 
 	function onDocumentMouseDown( event ) {
 
-
-
-
 		event.preventDefault();
 
 		mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
@@ -683,8 +757,7 @@
 
 		console.log(intersects);
 
-		if(intersects[0].object.name == "buildable") {
-
+		if((intersects[0].object.name == "buildable") && (!fromLoaded(intersects, towers))) {
 
 			var possibleCoins = 0;
 
@@ -769,8 +842,6 @@
 			console.log("Can not build", intersects[0].object.name);
 
 		}
-
-		//
 	}
 
 
@@ -795,6 +866,19 @@
 		if(onMenu == true){
 			requestAnimationFrame(animate);
 
+			//console.log("here");
+
+			const delta = clock.getDelta();
+			mixers.forEach( ( mixer ) => {
+				mixer.update( delta );
+
+
+			});
+				//controls.update();
+		if(menuControls != null){
+			menuControls.update();
+		}
+
 			renderer.render(menuScreen.scene, menuScreen.camera);
 			return;
 		}
@@ -806,6 +890,8 @@
 			loadingScreen.box.position.x = 4;
 			loadingScreen.box.rotation.x += .05;
 			loadingScreen.box.rotation.y += .025;
+
+
 
 			renderer.render(loadingScreen.scene, loadingScreen.camera);
 			return;

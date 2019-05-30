@@ -1,22 +1,85 @@
 function menu() {
   //disables users ability to move around menu\
   controls.reset();
-  controls.enabled = false;
+
+
+
+  onMenu = true;
+  everythingLoaded = false;
 
   console.log("tween menu", TWEEN.getAll());
   console.log("d", dinos);
 
-  camera.position.set( 0, 10, -10 );
-  camera.lookAt( 0, 0, 0 );
+  menuScreen.camera.position.set( 0, 7, -10 );
+  menuScreen.camera.lookAt( 0, 0, 0 );
+
+  //console.log("msc", menuScene.camera);
+
+  menuControls = new THREE.OrbitControls( menuScreen.camera, renderer.domElement );
+  //console.log("menucontrols", menuControls);
+  menuControls.target = new THREE.Vector3( 5, 0, 2 );
+  menuControls.autoRotate = true;
+  menuControls.autoRotateSpeed = 0.75;
+  menuControls.enabled = false;
+
+  //
   console.log("camera menu", camera);
 
-  console.log("menuscene", scene);
+  menuScreen.scene.add(menuScreen.light);
+
+  console.log("menuscene menu()", menuScreen.scene);
+  console.log("mixers", mixers);
+
+
+
+  enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(5,0,2), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
+  enviroLoader("/static/towers/musket1.glb", new THREE.Vector3(0,0,5), Math.floor(Math.random() * 3), "tower", menuScreen.scene);
+  enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(-5,0,2), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
+  enviroLoader("/static/towers/canontowermodified2.glb", new THREE.Vector3(-1,0,-4), 3, "palmMenu", menuScreen.scene);
+
+
+  //towerLoader( '/static/towers/musket1.glb', new THREE.Vector3(0, 0, 4), menuGridT, menuTowers, "menuTower" );  //enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(-2,0,5), Math.floor(Math.random() * 3), "palmMenu", menuScreen.scene);
+  var grassmat = new THREE.MeshBasicMaterial({
+    color: 0xffd04f
+  });
+
+  //radius of 6 is about one square on the board
+  var grassgeo = new THREE.CircleBufferGeometry(10, 32);
+  var grassbg = new THREE.Mesh(grassgeo, grassmat);
+
+  grassbg.position.y = -0.1;
+
+  grassbg.rotateX(-(Math.PI / 2));
+
+  menuScreen.scene.add(grassbg);
+
+  var seamat = new THREE.MeshBasicMaterial({
+    color: 0x42f4c5
+  });
+
+  //radius of 6 is about one square on the board
+  var seageo = new THREE.CircleBufferGeometry(500, 32);
+  var seabg = new THREE.Mesh(seageo, seamat);
+
+  seabg.position.y = -0.3;
+
+  seabg.rotateX(-(Math.PI / 2));
+
+  menuScreen.scene.add(seabg);
+
   stopAnimation = false;
 
   function startMenu(){
+
+    //var testinggltf = enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(), Math.floor(Math.random() * 3), "palm");
+    //console.log("testinggltf", testinggltf);
+    //menuScreen.scene.add(testinggltf);
+    //menuScreen.scene.add(menuScreen.palm);
+
+
   //create title for game
   var title = document.createElement('H1');
-  var titleText = document.createTextNode("Dinosuars vs Pirates");
+  var titleText = document.createTextNode("Dinosaurs vs Pirates");
   title.appendChild(titleText);
   title.style.position = 'absolute';
   title.id = 'title';
@@ -50,6 +113,7 @@ function menu() {
     document.getElementById("credits").style.display = "none";
     document.getElementById("title").style.display = "none";
     sound.context.resume();
+    clearMenuScreen();
     play();
   };
 
@@ -74,6 +138,7 @@ function menu() {
     document.getElementById("credits").style.display = "none";
     document.getElementById("title").style.display = "none";
     sound.context.resume();
+    clearMenuScreen();
     loadGame();
   };
 
@@ -82,16 +147,32 @@ function menu() {
   credits.textContent = "Authors:\r\nChristopher Frenchi\r\nJonathan Ruby\r\nRuben Torres\r\n\r\nGitHub:\r\nhttps://github.com/cfrenchi/capstone/tree/master";
   credits.style.position = 'absolute';
   credits.id = 'credits';
-  credits.style.width = '300px';
-  credits.style.height = '100px';
+  credits.style.width = '320px';
+  credits.style.height = '130px';
   credits.style.background = 'light blue';
   credits.style.top = '400px';
   credits.style.left = '43%';
   credits.style.textAlign = 'center';
-  credits.style.color = 'white';
+  credits.style.color = 'teal';
+  credits.style.border = 'dashed';
+  credits.style.background = 'white';
   document.body.appendChild(credits);
   }
 
   startMenu();
+
+  function clearMenuScreen(){
+    document.body.removeChild(loadButton);
+    document.body.removeChild(startButton);
+    document.body.removeChild(title);
+    document.body.removeChild(credits);
+    clearEverything(menuScene);
+  }
+
+  //adding some trees!
+  // var ubName = "palm";
+  // var palmRotation = Math.floor(Math.random() * 3);
+  // var palmPos = new THREE.Vector3(0,0,0);
+  // var palm = enviroLoader("/static/enviro/palm.glb", palmPos, palmRotation, ubName);
 
 }
