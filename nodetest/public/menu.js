@@ -142,6 +142,7 @@ function menu() {
     loadGame();
   };
 
+  //credits
   var credits = document.createElement('p');
   credits.setAttribute('style', 'white-space: pre;');
   credits.textContent = "Authors:\r\nChristopher Frenchi\r\nJonathan Ruby\r\nRuben Torres\r\n\r\nGitHub:\r\nhttps://github.com/cfrenchi/capstone/tree/master";
@@ -150,13 +151,57 @@ function menu() {
   credits.style.width = '320px';
   credits.style.height = '130px';
   credits.style.background = 'light blue';
-  credits.style.top = '400px';
+  credits.style.top = '500px';
   credits.style.left = '43%';
   credits.style.textAlign = 'center';
   credits.style.color = 'teal';
   credits.style.border = 'dashed';
   credits.style.background = 'white';
   document.body.appendChild(credits);
+
+  //instructions text
+  var instructions = document.createElement('p');
+  instructions.setAttribute('style', 'white-space: pre;');
+  instructions.textContent = "Objective: \r\nBuild pirate towers to stop the dinos from stealing all your treasure. \r\nEach dino that makes it to the end makes you loose a life. Each dino defeated gives you gold. \r\nInstructions: \r\nLand that is not the dino path or occupied by palm trees is buildable. Double click buildable land to add a tower. \r\nSelect a tower from the tower menu and it will be added. \r\nMusket towers do the least damage with the fastest rate of fire. Cannon towers have meduim damage and attack speed. \r\nCamera Controls: \r\nTo move the camera hold the left mouse button and move the mouse to change the rotation of the camera. \r\nTo pan the camera, hold the right mouse button or hold control with the left mouse button and move the mouse. \r\nUse scroll to zoom in and out. \r\nSaves:\r\n The game is saved after each wave. If you exit and want to continue where you left off, choose load from the start menu. \r\nTo play a new game, choose start.";
+  instructions.style.position = 'absolute';
+  instructions.id = 'instructions';
+  instructions.style.width = '800px';
+  instructions.style.height = '275px';
+  instructions.style.background = 'light blue';
+  instructions.style.top = '75px';
+  instructions.style.left = '28%';
+  instructions.style.textAlign = 'center';
+  instructions.style.color = 'teal';
+  instructions.style.border = 'dashed';
+  instructions.style.background = 'white';
+  document.body.appendChild(instructions);
+  document.getElementById('instructions').style.display = 'none';
+
+  //div for instructions
+  var instructDiv = document.createElement('div');
+  instructDiv.style.position = 'absolute';
+  instructDiv.id = 'instructDiv';
+  instructDiv.style.width = '100px';
+  instructDiv.style.height = '50px';
+  instructDiv.style.background = 'green';
+  instructDiv.style.top = '400px';
+  instructDiv.style.left = '50%';
+  instructDiv.style.textAlign = 'center';
+  instructDiv.style.lineHeight = '40px';
+  instructDiv.innerHTML = 'Instructions';
+  instructDiv.style.color = 'white';
+  document.body.appendChild(instructDiv);
+
+  //show instructions on mouse hover
+  var instrct = document.getElementById('instructDiv');
+  instrct.onmouseover = function(){
+    document.getElementById('instructions').style.display = 'block';
+  }
+
+  instrct.onmouseout = function(){
+    document.getElementById('instructions').style.display = 'none';
+  }
+  
   }
 
   startMenu();
@@ -166,6 +211,8 @@ function menu() {
     document.body.removeChild(startButton);
     document.body.removeChild(title);
     document.body.removeChild(credits);
+    document.body.removeChild(instructDiv);
+    document.body.removeChild(instructions);
     clearEverything(menuScene);
   }
 

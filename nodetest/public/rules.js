@@ -105,10 +105,7 @@ function mapWaves(testPath, curWaveVal){
         timeleft -= 1;
         if(timeleft == -1){
           document.getElementById("countdown").innerHTML = "Start"
-          if(played == 1)
-          {
             dinoSound.play();
-          }
         }
         else if(timeleft < 0){
           clearInterval(countdownTimer);
