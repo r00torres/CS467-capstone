@@ -30,150 +30,345 @@ function dinoPath(dino, speed, target, targetHealth, delay) {
   //dino.children because we are passing in a group
   for( var dc = 0; dc < dino.children.length; dc++){
 
-    dino.children[dc].rotation.y = 300;
+    if(currMap == 3){
+      dino.children[dc].rotation.y = 300;
+      var move = new TWEEN.Tween(dino.children[0].position)
+        .to(target, speed).delay(delay)
+        .onUpdate(function(){
+          dino.children[0].userData.tweenId = move.getId();
+          //console.log("dino tweenid", move.getId());
+          //to the left, good
+          if(dino.children[0].position.z == -6 && dino.children[0].position.x > -18 && dino.children[0].position.x < -6){
+            dino.children[0].rotation.y = 0;
+          }
 
-    var move = new TWEEN.Tween(dino.children[0].position)
-      .to(target, speed).delay(delay)
-      .onUpdate(function(){
-        dino.children[0].userData.tweenId = move.getId();
-        //console.log("dino tweenid", move.getId());
-        //to the left, good
-        if(dino.children[0].position.z == -6 && dino.children[0].position.x > -18 && dino.children[0].position.x < -6){
-          dino.children[0].rotation.y = 0;
-        }
+          //down, good
+          else if(dino.children[0].position.x == -6 && dino.children[0].position.z < -6 && dino.children[0].position.z > -10){
+            dino.children[0].rotation.y = 89.5;
+          }
 
-        //down, good
-        else if(dino.children[0].position.x == -6 && dino.children[0].position.z < -6 && dino.children[0].position.z > -10){
-          dino.children[0].rotation.y = 89.5;
-        }
+          //to the left, good
+          else if(dino.children[0].position.z == -10 && dino.children[0].position.x > -5 && dino.children[0].position.x < 2){
+            dino.children[0].rotation.y = 0;
+          }
 
-        //to the left, good
-        else if(dino.children[0].position.z == -10 && dino.children[0].position.x > -5 && dino.children[0].position.x < 2){
-          dino.children[0].rotation.y = 0;
-        }
+          //up, good
+          else if(dino.children[0].position.x == 2 && dino.children[0].position.z > -10 && dino.children[0].position.z < -6){
+            dino.children[0].rotation.y = 300;
+          }
 
-        //up, good
-        else if(dino.children[0].position.x == 2 && dino.children[0].position.z > -10 && dino.children[0].position.z < -6){
-          dino.children[0].rotation.y = 300;
-        }
+          //left, good
+          else if(dino.children[0].position.z == -6 && dino.children[0].position.x > 2 && dino.children[0].position.x < 6){
+            dino.children[0].rotation.y = 0;
+          }
 
-        //left, good
-        else if(dino.children[0].position.z == -6 && dino.children[0].position.x > 2 && dino.children[0].position.x < 6){
-          dino.children[0].rotation.y = 0;
-        }
+          //up, good
+          else if(dino.children[0].position.x == 6 && dino.children[0].position.z > -5 && dino.children[0].position.z < 10){
+            dino.children[0].rotation.y = 300;
+          }
 
-        //up, good
-        else if(dino.children[0].position.x == 6 && dino.children[0].position.z > -5 && dino.children[0].position.z < 10){
-          dino.children[0].rotation.y = 300;
-        }
+          //left, good
+          else if(dino.children[0].position.z == 10 && dino.children[0].position.x > 2 && dino.children[0].position.x < 10){
+            dino.children[0].rotation.y = 0;
+          }
 
-        //left, good
-        else if(dino.children[0].position.z == 10 && dino.children[0].position.x > 2 && dino.children[0].position.x < 10){
-          dino.children[0].rotation.y = 0;
-        }
+          //down, good
+          else if(dino.children[0].position.x == 10 && dino.children[0].position.z < 10 && dino.children[0].position.z > 2){
+            dino.children[0].rotation.y = 89.5;
+          }
 
-        //down, good
-        else if(dino.children[0].position.x == 10 && dino.children[0].position.z < 10 && dino.children[0].position.z > 2){
-          dino.children[0].rotation.y = 89.5;
-        }
+          //left, good
+          else if(dino.children[0].position.z == 2 && dino.children[0].position.x > 10 && dino.children[0].position.x < 18){
+            dino.children[0].rotation.y = 0;
+          }
 
-        //left, good
-        else if(dino.children[0].position.z == 2 && dino.children[0].position.x > 10 && dino.children[0].position.x < 18){
-          dino.children[0].rotation.y = 0;
-        }
+          //up, disappears
+          else if(dino.children[0].position.x == 18 && dino.children[0].position.z > 2 && dino.children[0].position.z < 18){
+            dino.children[0].rotation.y = 300;
+          }
 
-        //up, disappears
-        else if(dino.children[0].position.x == 18 && dino.children[0].position.z > 2 && dino.children[0].position.z < 18){
-          dino.children[0].rotation.y = 300;
-        }
-        //console.log("dino pos ", dino.position);
-        // if(lives <= 0){
-        //   //TWEEN.stop();
-        //   var tc = TWEEN.getAll();
-        //   if(tc.length > 0){
-        //      TWEEN.removeAll();
-        //   }
-        // }
+        })
+        .start();
+        //removes the dino from the scene once it has reached the end
 
-      })
-      .start();
-      //removes the dino from the scene once it has reached the end
+          //health bar
 
-        //health bar
+      var healthmove = new TWEEN.Tween(dino.children[1].position)
+        .to(targetHealth, speed).delay(delay)
+        .onUpdate(function(){
+          if(dino.children[1].position.z == -6 && dino.children[1].position.x > -18 && dino.children[1].position.x < -6){
+            dino.children[1].rotation.y = 0;
+          }
 
-    var healthmove = new TWEEN.Tween(dino.children[1].position)
-      .to(targetHealth, speed).delay(delay)
-      .onUpdate(function(){
-        if(dino.children[1].position.z == -6 && dino.children[1].position.x > -18 && dino.children[1].position.x < -6){
-          dino.children[1].rotation.y = 0;
-        }
+          //down, good
+          else if(dino.children[1].position.x == -6 && dino.children[1].position.z < -6 && dino.children[1].position.z > -10){
+            dino.children[1].rotation.y = 89.5;
+          }
 
-        //down, good
-        else if(dino.children[1].position.x == -6 && dino.children[1].position.z < -6 && dino.children[1].position.z > -10){
-          dino.children[1].rotation.y = 89.5;
-        }
+          //to the left, good
+          else if(dino.children[1].position.z == -10 && dino.children[1].position.x > -5 && dino.children[1].position.x < 2){
+            dino.children[1].rotation.y = 0;
+          }
 
-        //to the left, good
-        else if(dino.children[1].position.z == -10 && dino.children[1].position.x > -5 && dino.children[1].position.x < 2){
-          dino.children[1].rotation.y = 0;
-        }
+          //up, good
+          else if(dino.children[1].position.x == 2 && dino.children[1].position.z > -10 && dino.children[1].position.z < -6){
+            dino.children[1].rotation.y = 300;
+          }
 
-        //up, good
-        else if(dino.children[1].position.x == 2 && dino.children[1].position.z > -10 && dino.children[1].position.z < -6){
-          dino.children[1].rotation.y = 300;
-        }
+          //left, good
+          else if(dino.children[1].position.z == -6 && dino.children[1].position.x > 2 && dino.children[1].position.x < 6){
+            dino.children[1].rotation.y = 0;
+          }
 
-        //left, good
-        else if(dino.children[1].position.z == -6 && dino.children[1].position.x > 2 && dino.children[1].position.x < 6){
-          dino.children[1].rotation.y = 0;
-        }
+          //up, good
+          else if(dino.children[1].position.x == 6 && dino.children[1].position.z > -5 && dino.children[1].position.z < 10){
+            dino.children[1].rotation.y = 300;
+          }
 
-        //up, good
-        else if(dino.children[1].position.x == 6 && dino.children[1].position.z > -5 && dino.children[1].position.z < 10){
-          dino.children[1].rotation.y = 300;
-        }
+          //left, good
+          else if(dino.children[1].position.z == 10 && dino.children[1].position.x > 2 && dino.children[1].position.x < 10){
+            dino.children[1].rotation.y = 0;
+          }
 
-        //left, good
-        else if(dino.children[1].position.z == 10 && dino.children[1].position.x > 2 && dino.children[1].position.x < 10){
-          dino.children[1].rotation.y = 0;
-        }
+          //down, good
+          else if(dino.children[1].position.x == 10 && dino.children[1].position.z < 10 && dino.children[1].position.z > 2){
+            dino.children[1].rotation.y = 89.5;
+          }
 
-        //down, good
-        else if(dino.children[1].position.x == 10 && dino.children[1].position.z < 10 && dino.children[1].position.z > 2){
-          dino.children[1].rotation.y = 89.5;
-        }
+          //left, good
+          else if(dino.children[1].position.z == 2 && dino.children[1].position.x > 10 && dino.children[1].position.x < 18){
+            dino.children[1].rotation.y = 0;
+          }
 
-        //left, good
-        else if(dino.children[1].position.z == 2 && dino.children[1].position.x > 10 && dino.children[1].position.x < 18){
-          dino.children[1].rotation.y = 0;
-        }
+          //up, disappears
+          else if(dino.children[1].position.x == 18 && dino.children[1].position.z > 2 && dino.children[1].position.z < 18){
+            dino.children[1].rotation.y = 300;
+          }
 
-        //up, disappears
-        else if(dino.children[1].position.x == 18 && dino.children[1].position.z > 2 && dino.children[1].position.z < 18){
-          dino.children[1].rotation.y = 300;
-        }
+          //reduce healthbar
+          if(dino.children[0].userData.health < oviraptor.health * .66 && dino.children[0].userData.health > oviraptor.health * .33)
+          {
+            dino.children[1].scale.z = .66;
+          }
+          else if(dino.children[0].userData.health < oviraptor.health * .33)
+          {
+            dino.children[1].scale.z = .33;
+          }
+        })
+        .start();
+      }
 
-        //reduce healthbar
-        if(dino.children[0].userData.health < oviraptor.health * .66 && dino.children[0].userData.health > oviraptor.health * .33)
-        {
-          dino.children[1].scale.z = .66;
-        }
-        else if(dino.children[0].userData.health < oviraptor.health * .33)
-        {
-          dino.children[1].scale.z = .33;
-        }
+      else if(currMap == 2){
+        dino.children[dc].rotation.y = 0;
+        var move = new TWEEN.Tween(dino.children[0].position)
+        .to(target, speed).delay(delay)
+        .onUpdate(function(){
+          dino.children[0].userData.tweenId = move.getId();
+          //console.log("dino tweenid", move.getId());
+          //to the left, good
+          if(dino.children[0].position.x == -14 && dino.children[0].position.z > -18 && dino.children[0].position.z < -14){
+            dino.children[0].rotation.y = 300;
+          }
 
-        // if(lives <= 0){
-        //   //healthmove.stop();
-        //   //TWEEN.end(move);
-        //   var tc = TWEEN.getAll();
-        //   if(tc.length > 0){
-        //      TWEEN.removeAll();
-        //   }
-        // }
-      })
-      .start();
+          else if(dino.children[0].position.z == -14 && dino.children[0].position.x > -14 && dino.children[0].position.x < -6){
+            dino.children[0].rotation.y = 0;
+          }
 
+          else if(dino.children[0].position.x == -6 && dino.children[0].position.z < -14 && dino.children[0].position.z > -18){
+            dino.children[0].rotation.y = 89.5;
+          }
+
+          else if(dino.children[0].position.z == -18 && dino.children[0].position.x > -6 && dino.children[0].position.x < 18){
+            dino.children[0].rotation.y = 0;
+          }
+
+          else if(dino.children[0].position.x == 18 && dino.children[0].position.z > -18 && dino.children[0].position.z < -6){
+            dino.children[0].rotation.y = 300;
+          }
+
+          else if(dino.children[0].position.z == -6 && dino.children[0].position.x < 18 && dino.children[0].position.x > -2){
+            dino.children[0].rotation.y = 185.5;
+          }
+
+          else if(dino.children[0].position.x == -2 && dino.children[0].position.z > -6 && dino.children[0].position.z < 2){
+            dino.children[0].rotation.y = 300;
+          }
+
+          else if(dino.children[0].position.z == 2 && dino.children[0].position.x > -6 && dino.children[0].position.x < -2){
+            dino.children[0].rotation.y = 185.5;
+          }
+
+          else if(dino.children[0].position.x == -6 && dino.children[0].position.z > 2 && dino.children[0].position.z < 10){
+            dino.children[0].rotation.y = 300;
+          }
+
+          else if(dino.children[0].position.z == 10 && dino.children[0].position.x > -6 && dino.children[0].position.x < 10){
+            dino.children[0].rotation.y = 0;
+          }
+          else if(dino.children[0].position.x == 10 && dino.children[0].position.z > 10 && dino.children[0].position.z < 18){
+            dino.children[0].rotation.y = 300;
+          }
+          else if(dino.children[0].position.z == 18 && dino.children[0].position.x > 10 && dino.children[0].position.x < 18){
+            dino.children[0].rotation.y = 0;
+          }
+        })
+        .start();
+
+        var healthmove = new TWEEN.Tween(dino.children[1].position)
+        .to(targetHealth, speed).delay(delay)
+        .onUpdate(function(){
+          if(dino.children[1].position.x == -14 && dino.children[1].position.z > -18 && dino.children[1].position.z < -14){
+            dino.children[1].rotation.y = 300;
+          }
+
+          else if(dino.children[1].position.z == -14 && dino.children[1].position.x > -14 && dino.children[1].position.x < -6){
+            dino.children[1].rotation.y = 0;
+          }
+
+          else if(dino.children[1].position.x == -6 && dino.children[1].position.z < -14 && dino.children[1].position.z > -18){
+            dino.children[1].rotation.y = 89.5;
+          }
+
+          else if(dino.children[1].position.z == -18 && dino.children[1].position.x > -6 && dino.children[1].position.x < 18){
+            dino.children[1].rotation.y = 0;
+          }
+
+          else if(dino.children[1].position.x == 18 && dino.children[1].position.z > -18 && dino.children[1].position.z < -6){
+            dino.children[1].rotation.y = 300;
+          }
+
+          else if(dino.children[1].position.z == -6 && dino.children[1].position.x < 18 && dino.children[1].position.x > -2){
+            dino.children[1].rotation.y = 185.5;
+          }
+
+          else if(dino.children[1].position.x == -2 && dino.children[1].position.z > -6 && dino.children[1].position.z < 2){
+            dino.children[1].rotation.y = 300;
+          }
+
+          else if(dino.children[1].position.z == 2 && dino.children[1].position.x > -6 && dino.children[1].position.x < -2){
+            dino.children[1].rotation.y = 185.5;
+          }
+
+          else if(dino.children[1].position.x == -6 && dino.children[1].position.z > 2 && dino.children[1].position.z < 10){
+            dino.children[1].rotation.y = 300;
+          }
+
+          else if(dino.children[1].position.z == 10 && dino.children[1].position.x > -6 && dino.children[1].position.x < 10){
+            dino.children[1].rotation.y = 0;
+          }
+          else if(dino.children[1].position.x == 10 && dino.children[1].position.z > 10 && dino.children[1].position.z < 18){
+            dino.children[1].rotation.y = 300;
+          }
+          else if(dino.children[1].position.z == 18 && dino.children[1].position.x > 10 && dino.children[1].position.x < 18){
+            dino.children[1].rotation.y = 0;
+          }
+          //reduce healthbar
+          if(dino.children[0].userData.health < oviraptor.health * .66 && dino.children[0].userData.health > oviraptor.health * .33)
+          {
+            dino.children[1].scale.z = .66;
+          }
+          else if(dino.children[0].userData.health < oviraptor.health * .33)
+          {
+            dino.children[1].scale.z = .33;
+          }
+        })
+        .start();
+      }
+
+      else if(currMap == 1){
+        dino.children[dc].rotation.y = 300;
+        var move = new TWEEN.Tween(dino.children[0].position)
+        .to(target, speed+5000).delay(delay)
+        .onUpdate(function(){
+          dino.children[0].userData.tweenId = move.getId();
+          if(dino.children[0].position.z == -14 && dino.children[0].position.x > -18 && dino.children[0].position.x < 18){
+            dino.children[0].rotation.y = 0;
+          }
+
+          else if(dino.children[0].position.x == 18 && dino.children[0].position.z > -14 && dino.children[0].position.z < -6){
+            dino.children[0].rotation.y = 300;
+          }
+
+          else if(dino.children[0].position.z == -6 && dino.children[0].position.x < 18 && dino.children[0].position.x > -18){
+            dino.children[0].rotation.y = 185.5;
+          }
+
+          else if(dino.children[0].position.x == -18 && dino.children[0].position.z > -6 && dino.children[0].position.z < 2){
+            dino.children[0].rotation.y = 300;
+          }
+
+          else if(dino.children[0].position.z == 2 && dino.children[0].position.x > -18 && dino.children[0].position.x < 18){
+            dino.children[0].rotation.y = 0;
+          }
+
+          else if(dino.children[0].position.x == 18 && dino.children[0].position.z > 2 && dino.children[0].position.z < 10){
+            dino.children[0].rotation.y = 300;
+          }
+
+          else if(dino.children[0].position.z == 10 && dino.children[0].position.x < 18 && dino.children[0].position.x > -18){
+            dino.children[0].rotation.y = 185.5;
+          }
+
+          else if(dino.children[0].position.x == -18 && dino.children[0].position.z > 10 && dino.children[0].position.z < 18){
+            dino.children[0].rotation.y = 300;
+          }
+
+          else if(dino.children[0].position.z == 18 && dino.children[0].position.x > -18 && dino.children[0].position.x < 18){
+            dino.children[0].rotation.y = 0;
+          }
+        })
+        .start();
+
+        var healthmove = new TWEEN.Tween(dino.children[1].position)
+        .to(targetHealth, speed+5000).delay(delay)
+        .onUpdate(function(){
+          if(dino.children[1].position.z == -14 && dino.children[1].position.x > -18 && dino.children[1].position.x < 18){
+            dino.children[1].rotation.y = 0;
+          }
+
+          else if(dino.children[1].position.x == 18 && dino.children[1].position.z > -14 && dino.children[1].position.z < -6){
+            dino.children[1].rotation.y = 300;
+          }
+
+          else if(dino.children[1].position.z == -6 && dino.children[1].position.x < 18 && dino.children[1].position.x > -18){
+            dino.children[1].rotation.y = 185.5;
+          }
+
+          else if(dino.children[1].position.x == -18 && dino.children[1].position.z > -6 && dino.children[1].position.z < 2){
+            dino.children[1].rotation.y = 300;
+          }
+
+          else if(dino.children[1].position.z == 2 && dino.children[1].position.x > -18 && dino.children[1].position.x < 18){
+            dino.children[1].rotation.y = 0;
+          }
+
+          else if(dino.children[1].position.x == 18 && dino.children[1].position.z > 2 && dino.children[1].position.z < 10){
+            dino.children[1].rotation.y = 300;
+          }
+
+          else if(dino.children[1].position.z == 10 && dino.children[1].position.x < 18 && dino.children[1].position.x > -18){
+            dino.children[1].rotation.y = 185.5;
+          }
+
+          else if(dino.children[1].position.x == -18 && dino.children[1].position.z > 10 && dino.children[1].position.z < 18){
+            dino.children[1].rotation.y = 300;
+          }
+
+          else if(dino.children[1].position.z == 18 && dino.children[1].position.x > -18 && dino.children[1].position.x < 18){
+            dino.children[1].rotation.y = 0;
+          }
+          //reduce healthbar
+          if(dino.children[0].userData.health < oviraptor.health * .66 && dino.children[0].userData.health > oviraptor.health * .33)
+          {
+            dino.children[1].scale.z = .66;
+          }
+          else if(dino.children[0].userData.health < oviraptor.health * .33)
+          {
+            dino.children[1].scale.z = .33;
+          }
+        })
+        .start();
+      }
 
     //removes the dino from the scene once it has reached the end
     healthmove.onComplete(function(){
