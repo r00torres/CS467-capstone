@@ -2,6 +2,7 @@ function createCredits(){
 	var creditRoll = document.createElement('section');
 	creditRoll.setAttribute("id", "creditRoll");
 	creditRoll.setAttribute("class", "star-wars");
+	creditRoll.style.position = 'fixed';
 	document.body.insertBefore(creditRoll, document.body.firstChild);
 
 	var crawlDiv = document.createElement('div');
