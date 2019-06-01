@@ -2,7 +2,7 @@
 .star-wars {
   display: flex;
   justify-content: center;
-  position: relative;
+  position: fixed;
   height: 800px;
   color: green;
   font-family: 'Pathway Gothic One', sans-serif;
