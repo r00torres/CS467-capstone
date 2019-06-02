@@ -67,7 +67,7 @@ body {
   overflow: hidden;
 }
 
-.levelTransition {
+/*.levelTransition {
   display: flex;
   justify-content: center;
   position: fixed;
@@ -80,4 +80,4 @@ body {
   line-height: 150%;
   perspective: 400px;
   text-align: justify;
-}
+} */
