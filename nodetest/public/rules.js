@@ -34,7 +34,10 @@ function mapWaves(testPath, curWaveVal){
       clearEverything(scene);
       currMap = 1;
       console.log("you beat the game");
-      menu();
+      createCredits();
+      setTimeout(function(){
+        menu();
+      }, 35000);
     }
 
   }
