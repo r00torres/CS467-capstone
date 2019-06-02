@@ -31,7 +31,7 @@ function mapWaves(testPath, curWaveVal){
       levelTransition(newMap);
       setTimeout(function(){
         play(win);
-      }, 6000);
+      }, 5000);
     }
     if(currMap > 3 ){
       clearEverything(scene);
