@@ -71,9 +71,9 @@ function checkCookie() {
 
 function saveGame(){
 
-  if(currMap == 3 && curWave == 10){
-    return;
-  }
+  //if(currMap == 3 && curWave == 11){
+    //return;
+  //}
   
   console.log("saving game");
   saveGameVariables(coins, curWave, lives, currMap);
