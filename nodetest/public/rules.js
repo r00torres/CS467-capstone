@@ -29,7 +29,7 @@ function mapWaves(testPath, curWaveVal){
       setMap(newMap);
       var win = false;
       levelTransition(newMap);
-      setTimeout(functions(){
+      setTimeout(function(){
         play(win);
       }, 6000);
     }
