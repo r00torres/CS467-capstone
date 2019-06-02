@@ -105,7 +105,7 @@ function createCredits(){
 	document.getElementById("crawlDiv").append(creditPar);
 	
 	function clearCredits(){
-		document.body.remove(creditRoll);
+		document.body.removeChild(creditRoll);
 	}
 	
 	setTimeout(function(){
