@@ -37,7 +37,7 @@ function mapWaves(testPath, curWaveVal){
       createCredits();
       setTimeout(function(){
         menu();
-      }, 45000);
+      }, 35000);
     }
 
   }
