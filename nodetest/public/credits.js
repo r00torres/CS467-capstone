@@ -110,5 +110,5 @@ function createCredits(){
 	
 	setTimeout(function(){
 		clearCredits();
-	}, 45000);
+	}, 35000);
 }
