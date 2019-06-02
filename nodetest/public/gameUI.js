@@ -111,3 +111,23 @@ function initGameUI(coins, lives, waves){
             console.log("New Waves value is: ", location.innerHTML);
         }
     };
+
+function levelTransition(passedMap){
+	
+	var levelText = document.createElement('p');
+	levelText.textContent = "Starting Level " + passedMap;
+	
+	var levelBox = document.createElement('div');
+	levelBox.setAttribute( "id", "levelBox");
+	levelBox.setAttribute( "class", levelTransition);
+	document.body.insertBefore(levelBox, document.body.firstChild);
+	document.getElementById("levelBox").append(levelText);
+
+	function clearTransition(){
+		document.body.removeChild(levelBox);
+	}
+	
+	setTimeout(function(){
+		clearTransition();
+	}, 5000);
+}
