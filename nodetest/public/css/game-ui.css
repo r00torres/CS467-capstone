@@ -66,3 +66,18 @@ body {
   margin: 0px;
   overflow: hidden;
 }
+
+.levelTransition {
+  display: flex;
+  justify-content: center;
+  position: fixed;
+  height: 800px;
+  color: green;
+  font-family: 'Pathway Gothic One', sans-serif;
+  font-size: 250%;
+  font-weight: 400;
+  letter-spacing: 4px;
+  line-height: 150%;
+  perspective: 400px;
+  text-align: justify;
+}
