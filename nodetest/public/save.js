@@ -42,11 +42,13 @@ function saveTowerLocations( towers ) {
 }
 
 function saveGameVariables( coins, curWave, lives, currMap ) {
+    
+  
     var coinAtSave = coins;
     var waveAtSave = curWave;
     var livesAtSave = lives;
     var mapAtSave = currMap;
-
+  
     setCookie('loadCoins', coinAtSave);
     setCookie('loadWaves', waveAtSave);
     setCookie('loadLives', livesAtSave);
@@ -69,11 +71,13 @@ function checkCookie() {
 
 function saveGame(){
 
+  if(currMap == 3 && curWave == 10){
+    return;
+  }
+  
   console.log("saving game");
   saveGameVariables(coins, curWave, lives, currMap);
-
   saveTowerLocations( towers );
-
 }
 
 /*//testing saving tower pos and name
