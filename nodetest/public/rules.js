@@ -28,7 +28,10 @@ function mapWaves(testPath, curWaveVal){
       clearEverything(scene);
       setMap(newMap);
       var win = false;
-      play(win);
+      levelTransition(newMap);
+      setTimeout(functions(){
+        play(win);
+      }, 6000);
     }
     if(currMap > 3 ){
       clearEverything(scene);
