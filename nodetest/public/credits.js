@@ -103,4 +103,12 @@ function createCredits(){
 	creditText = "Thank you to our testers: Alex Davila, Taylor Kennedy Frenchi, and YOU!";
 	creditPar.textContent = creditText;
 	document.getElementById("crawlDiv").append(creditPar);
+	
+	function clearCredits(){
+		document.body.remove(creditRoll);
+	}
+	
+	setTimeout(function(){
+		clearCredits();
+	}, 45000);
 }
