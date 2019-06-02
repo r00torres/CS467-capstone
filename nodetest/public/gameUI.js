@@ -112,7 +112,7 @@ function initGameUI(coins, lives, waves){
         }
     };
 
-function levelTransition(passedMap){
+/*function levelTransition(passedMap){
 	
 	var levelText = document.createElement('p');
 	levelText.textContent = "Starting Level " + passedMap;
@@ -130,4 +130,4 @@ function levelTransition(passedMap){
 	setTimeout(function(){
 		clearTransition();
 	}, 5000);
-}
+}*/
