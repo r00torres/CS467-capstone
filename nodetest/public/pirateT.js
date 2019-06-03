@@ -6,7 +6,7 @@ let pirateT = {
   attackPower: 5,
   attackRadius: 12,
   towerTime: 0,
-  cost: 25
+  cost: 85
 };
 
 // function addpirateT( object, scene, gridT, towers ){

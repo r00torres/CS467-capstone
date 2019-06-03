@@ -1,15 +1,20 @@
 var lives = 3;
 var curWave = 0;
 var waveTime = 0;
-var totWaves = 10;
-var timeXwave = 10;
+var totWaves = 11;
+var timeXwave = 1000;
 var coins = 100;
+var setWaveTime;
+var countdownTimer;
+var timeleft;
 
 function mapWaves(testPath, curWaveVal){
 
+  clearInterval(countdownTimer);
+
   var uplives = getLives();
   var getCurWave = getWave();
-  var setWaveTime;
+  //var setWaveTime;
   //curWave ++;
 
   console.log("start of mapwaves", getCurWave, curWaveVal);
@@ -46,6 +51,7 @@ function mapWaves(testPath, curWaveVal){
     console.log("mapwaves if");
     uplives = 0;
     stopWaveTimeout();
+    clearInterval(countdownTimer);
     //loseCondition();
 
   }
@@ -65,6 +71,9 @@ function mapWaves(testPath, curWaveVal){
     updateGameUIbar("waves", getCurWave);
     document.getElementById("countdown").style.display = "block";
 
+
+    //Map loading of dinos
+
     if( curWave < totWaves && lives > 0){
 
       console.log("mapwaves clock", clock.elapsedTime);
@@ -72,12 +81,42 @@ function mapWaves(testPath, curWaveVal){
 
       for( var i=0; i<curWave; i++ ) {
 
-        addOviGLTF(scene, dinos, delay, testPath);
+        if( curWave < 8 ){
+          addOviGLTF( scene, dinos, delay, testPath );
+          delay += 500;
+        }
+
+        if( curWave > 3 && curWave < totWaves ){
+          addRaptorGLTF( scene, dinos, delay, testPath );
+          delay += 500;
+
+        }
+
+        if( curWave > 6 && curWave < totWaves ){
+          addOviGLTF( scene, dinos, delay, testPath );
+          delay += 500;
+
+        }
+
+
+
         delay += 500;
 
       }
 
-      saveGame();
+      if( curWave == totWaves - 1 ){
+        addTrexGLTF( scene, dinos, delay, testPath );
+        delay += 5000;
+        addTrexGLTF( scene, dinos, delay, testPath );
+        delay += 5000;
+      }
+
+      if( lives > 0 ){
+        saveGame();
+      }
+
+      //delay += 500;
+
       curWave++;
 
 
@@ -86,41 +125,52 @@ function mapWaves(testPath, curWaveVal){
     }
     //if( lives > 0 ){
 
-    var timex = 11000 + delay;
+    var timex = 12000 + delay;
+    console.log("timex + delay", timex);
 
-    var timeleft = timex / 1000;
+    timeleft = timex / 1000 ;
 
     var countdownCheck = document.getElementById("countdown");
 
     var countdownTimer = setInterval(function(){
       if(countdownCheck != null ){
         console.log("cc", countdownCheck);
-        if(getCurWave < totWaves - 1){
+        if( getCurWave < totWaves - 1 && lives > 0 && timeleft > -1){
 
           document.getElementById("countdown").innerHTML = "Wave " + curWave +" in " + timeleft;
 
-        } else {
+        } else if ( getCurWave <= totWaves && lives > 0 ) {
 
           document.getElementById("countdown").innerHTML = "Stay Alive!";
 
         }
 
         timeleft -= 1;
-        if(timeleft == -1){
-          document.getElementById("countdown").innerHTML = "Start"
+        if( timeleft == -1 && lives > 0 ){
+          document.getElementById("countdown").innerHTML = "Wave " + curWave + " INCOMING!";
             dinoSound.play();
+            clearInterval(countdownTimer);
         }
-        else if(timeleft < 0){
+        else if(timeleft < -1 && lives > 0 ){
           clearInterval(countdownTimer);
+          document.getElementById("countdown").innerHTML = "Stay Alive!";
           //document.getElementById("countdown").style.display = "none";
+        }
+        else if( timeleft <= 0 && lives < 0 ){
+          clearInterval(countdownTimer);
+          document.getElementById("countdown").innerHTML = "Out of Lives!";
         }
       }
 
     }, 1000);
 
+    //timex += 100;
+
+    //clearInterval(countdownTimer);
 
 
 
+    //clearTimeout( setWaveTime );
     waveTimeout();
     //}
   }
@@ -129,11 +179,11 @@ function mapWaves(testPath, curWaveVal){
     setWaveTime = setTimeout(function(){
 
         //var newWaveVal = curWave.slice(0);
-        console.log("Timeout wave", curWave, getCurWave);
+        console.log("Timeout wave", curWave, getCurWave, timex);
         mapWaves(testPath, getCurWave);
 
 
-    }, timex);
+    }, timex + timeXwave);
   }
 
   // function stopWaveTimeout(){
@@ -142,10 +192,15 @@ function mapWaves(testPath, curWaveVal){
   // }
 
 }
-var setWaveTime;
+
 function stopWaveTimeout(){
   console.log("stopwave");
   clearTimeout( setWaveTime );
+  //clearInterval( countdownTimer );
+  // if( document.getElementById("countdown") != null; ){
+
+  // }
+
 }
 
 //Win lose conditions
@@ -158,8 +213,11 @@ function loseCondition(){
   gridT = [];
   //
   //menu();
+  clearTimeout( setWaveTime );
+  clearInterval(countdownTimer);
   stopWaveTimeout();
 
+  document.getElementById("countdown").innerHTML = " ";
 
   controls.reset();
   controls.enabled = false;
@@ -167,7 +225,7 @@ function loseCondition(){
   console.log("tween menu", TWEEN.getAll());
   console.log("d", dinos);
 
-  camera.position.set( 0, 10, -10 );
+  camera.position.set( 0, 20, -20 );
   camera.lookAt( 0, 0, 0 );
   console.log("camera menu", camera);
 
@@ -183,6 +241,7 @@ function loseCondition(){
   buttonGeoPlay.rotateX( 2.677945044588987 );
   buttonGeoPlay.rotateY( -1 );
   buttonGeoPlay.rotateZ( Math.PI );
+  //buttonGeoPlay.position.x(10);
     //Creating material
   var buttonMatPlay = new THREE.MeshBasicMaterial( {
     map: loadg,
@@ -193,7 +252,8 @@ function loseCondition(){
   var playButton = new THREE.Mesh( buttonGeoPlay, buttonMatPlay );
 
     //Setting variables
-  playButton.position.y = 8;
+  playButton.position.y = 17;
+  playButton.position.z = -10;
   playButton.rotation.y = -1;
   playButton.name = "play";
 
@@ -215,7 +275,8 @@ function loseCondition(){
   var creditsButton = new THREE.Mesh( buttonGeoCredits, buttonMatCredits );
 
     //Setting variables
-  creditsButton.position.y = 2;
+  creditsButton.position.y = 12;
+  creditsButton.position.z = -10;
   creditsButton.rotation.y = -1;
   creditsButton.name = "credits";
 
@@ -276,7 +337,7 @@ function loseCondition(){
 
           }, 500 );
           //Play the game
-          setTimeout( function() { clearEverything(scene); loadGame(); }, 600 );
+          setTimeout( function() { clearTimeout( setWaveTime ); clearEverything(scene); loadGame(); }, 600 );
 
         }
         else if (intersects[0].object.name == "credits"){
@@ -305,7 +366,7 @@ function loseCondition(){
 
           }, 500 );
           //Play the game
-          setTimeout( function() { clearEverything(scene); menu(); }, 600 );
+          setTimeout( function() { clearTimeout( setWaveTime ); clearEverything(scene); menu(); }, 600 );
         }
 
       }
@@ -334,6 +395,8 @@ function clearEverything(curScene) {
 
   everythingLoaded = false;
 
+  clearTimeout( setWaveTime );
+
   console.log("CLEARING!!!!!!!!!!!!!!!!!!!!!!!");
 
 
@@ -344,6 +407,8 @@ function clearEverything(curScene) {
   dinos = [];
   menuTowers = [];
   menuGridT = [];
+  delay = 0;
+  timeleft = 0;
 
   //mixers = [];
   projectiles = [];
