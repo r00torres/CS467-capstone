@@ -175,33 +175,6 @@ function menu() {
   instructions.style.border = 'dashed';
   instructions.style.background = 'white';
   document.body.appendChild(instructions);
-  //document.getElementById('instructions').style.display = 'none';
-
-  //div for instructions
-  /*var instructDiv = document.createElement('div');
-  instructDiv.style.position = 'absolute';
-  instructDiv.id = 'instructDiv';
-  instructDiv.style.width = '100px';
-  instructDiv.style.height = '50px';
-  instructDiv.style.background = 'green';
-  instructDiv.style.top = '400px';
-  instructDiv.style.left = '50%';
-  instructDiv.style.textAlign = 'center';
-  instructDiv.style.lineHeight = '40px';
-  instructDiv.innerHTML = 'Instructions';
-  instructDiv.style.color = 'white';
-  document.body.appendChild(instructDiv);
-
-  //show instructions on mouse hover
-  var instrct = document.getElementById('instructDiv');
-  instrct.onmouseover = function(){
-    document.getElementById('instructions').style.display = 'block';
-  }
-
-  instrct.onmouseout = function(){
-    document.getElementById('instructions').style.display = 'none';
-  }*/
-  
   }
 
   startMenu();
@@ -211,15 +184,7 @@ function menu() {
     document.body.removeChild(startButton);
     document.body.removeChild(title);
     document.body.removeChild(credits);
-    //document.body.removeChild(instructDiv);
     document.body.removeChild(instructions);
     clearEverything(menuScene);
   }
-
-  //adding some trees!
-  // var ubName = "palm";
-  // var palmRotation = Math.floor(Math.random() * 3);
-  // var palmPos = new THREE.Vector3(0,0,0);
-  // var palm = enviroLoader("/static/enviro/palm.glb", palmPos, palmRotation, ubName);
-
 }
