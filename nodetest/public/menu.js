@@ -99,7 +99,7 @@ function menu() {
   startButton.style.width = '100px';
   startButton.style.height = '50px';
   startButton.style.background = 'green';
-  startButton.style.top = '200px';
+  startButton.style.top = '125px';
   startButton.style.left = '50%';
   startButton.style.textAlign = 'center';
   startButton.innerHTML = 'Start';
@@ -124,7 +124,7 @@ function menu() {
   loadButton.style.width = '100px';
   loadButton.style.height = '50px';
   loadButton.style.background = 'green';
-  loadButton.style.top = '300px';
+  loadButton.style.top = '210px';
   loadButton.style.left = '50%';
   loadButton.style.textAlign = 'center';
   loadButton.innerHTML = 'Load';
@@ -151,7 +151,7 @@ function menu() {
   credits.style.width = '320px';
   credits.style.height = '130px';
   credits.style.background = 'light blue';
-  credits.style.top = '500px';
+  credits.style.top = '285px';
   credits.style.left = '43%';
   credits.style.textAlign = 'center';
   credits.style.color = 'teal';
@@ -168,17 +168,17 @@ function menu() {
   instructions.style.width = '800px';
   instructions.style.height = '275px';
   instructions.style.background = 'light blue';
-  instructions.style.top = '75px';
+  instructions.style.top = '440px';
   instructions.style.left = '28%';
   instructions.style.textAlign = 'center';
   instructions.style.color = 'teal';
   instructions.style.border = 'dashed';
   instructions.style.background = 'white';
   document.body.appendChild(instructions);
-  document.getElementById('instructions').style.display = 'none';
+  //document.getElementById('instructions').style.display = 'none';
 
   //div for instructions
-  var instructDiv = document.createElement('div');
+  /*var instructDiv = document.createElement('div');
   instructDiv.style.position = 'absolute';
   instructDiv.id = 'instructDiv';
   instructDiv.style.width = '100px';
@@ -200,7 +200,7 @@ function menu() {
 
   instrct.onmouseout = function(){
     document.getElementById('instructions').style.display = 'none';
-  }
+  }*/
   
   }
 
@@ -211,7 +211,7 @@ function menu() {
     document.body.removeChild(startButton);
     document.body.removeChild(title);
     document.body.removeChild(credits);
-    document.body.removeChild(instructDiv);
+    //document.body.removeChild(instructDiv);
     document.body.removeChild(instructions);
     clearEverything(menuScene);
   }
