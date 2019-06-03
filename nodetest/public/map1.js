@@ -3,7 +3,7 @@ var map1 = {};
 map1.name = 'coast';
 
 map1.lives = 10;
-map1.coins = 100;
+map1.coins = 200;
 map1.waves = 11;
 
 //size of the board

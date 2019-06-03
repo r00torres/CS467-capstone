@@ -6,7 +6,7 @@ let cannonT = {
   attackPower: 10,
   attackRadius: 8,
   towerTime: 0,
-  cost: 35
+  cost: 125
 
 };
 

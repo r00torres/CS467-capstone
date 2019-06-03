@@ -3,7 +3,7 @@ var map3 = {};
 map3.name = 'volcano';
 
 map3.lives = 10;
-map3.coins = 100;
+map3.coins = 150;
 map3.waves = 11;
 
 //size of the board

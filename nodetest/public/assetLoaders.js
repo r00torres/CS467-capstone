@@ -166,7 +166,7 @@ function towerLoader( object, position, gridT, towers, towerName ) {
   loader.load( object, gltf => onLoad( gltf, position ), onProgress, onError );
 }
 
-function dinoLoader( object, position, dinos, delay, testPath ) {
+function dinoLoader( object, position, dinos, delay, testPath, dinoName ) {
 
   console.log("dinoLoader", dinos);
 
@@ -219,13 +219,13 @@ function dinoLoader( object, position, dinos, delay, testPath ) {
 
     model.scale.set( 0.3, 0.3, 0.3 );
 
-    model.name = "oviraptor";
+    model.name = dinoName.name;
     model.position.x = testPath[0][0];
     model.position.z = testPath[0][1];
-    model.userData.health = oviraptor.health;
-    model.userData.speed = oviraptor.speed;
-    model.userData.reward = oviraptor.reward;
-    model.userData.tweenId = oviraptor.tweenId;
+    model.userData.health = dinoName.health;
+    model.userData.speed = dinoName.speed;
+    model.userData.reward = dinoName.reward;
+    //model.userData.tweenId = dinoName.tweenId;
     model.type = "Object3D";
 
 
@@ -258,7 +258,7 @@ function dinoLoader( object, position, dinos, delay, testPath ) {
     dinos.push([model,oviraptor]);
     console.log("group ", dinogroup);
     console.log("group pos ", dinogroup.position);
-    dinoPath( dinogroup, oviraptor.speed, target, targetHealth, delay );
+    dinoPath( dinogroup, dinoName.speed, target, targetHealth, delay );
 
   };
 

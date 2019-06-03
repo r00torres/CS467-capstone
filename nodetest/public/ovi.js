@@ -1,6 +1,7 @@
 let oviraptor = {
-  health: 30,
-  speed: 10000,
+  name: "oviraptor",
+  health: 20,
+  speed: 5000,
   reward: 5,
   tweenId: 5
 }
@@ -8,8 +9,9 @@ let oviraptor = {
 function addOviGLTF( scene, dinos, delay, testPath ){
   console.log( "dinos gltf", dinos );
   const oviPosition = new THREE.Vector3( 0, 0, 0 );
+  var dinoName = "oviraptor";
 
-	var ovi1 = dinoLoader( '/static/dinos/raptor1.glb', oviPosition, dinos, delay, testPath );
+	var ovi1 = dinoLoader( '/static/dinos/or1.glb', oviPosition, dinos, delay, testPath, oviraptor );
 
   //scene.add(newOvi);
   //dinos.push([ovi1,oviraptor]);

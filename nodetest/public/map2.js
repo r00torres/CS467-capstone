@@ -4,7 +4,7 @@ var map2 = {};
 map2.name2 = 'forest';
 
 map2.lives = 10;
-map2.coins = 100;
+map2.coins = 175;
 map2.waves = 11;
 
 //size of the board
