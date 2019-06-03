@@ -2,12 +2,15 @@ var lives = 3;
 var curWave = 0;
 var waveTime = 0;
 var totWaves = 11;
-var timeXwave = 10000;
+var timeXwave = 1000;
 var coins = 100;
 var setWaveTime;
 var countdownTimer;
+var timeleft;
 
 function mapWaves(testPath, curWaveVal){
+
+  clearInterval(countdownTimer);
 
   var uplives = getLives();
   var getCurWave = getWave();
@@ -48,6 +51,7 @@ function mapWaves(testPath, curWaveVal){
     console.log("mapwaves if");
     uplives = 0;
     stopWaveTimeout();
+    clearInterval(countdownTimer);
     //loseCondition();
 
   }
@@ -100,7 +104,7 @@ function mapWaves(testPath, curWaveVal){
 
       }
 
-      if( curWave == 1 ){
+      if( curWave == totWaves - 1 ){
         addTrexGLTF( scene, dinos, delay, testPath );
         delay += 5000;
         addTrexGLTF( scene, dinos, delay, testPath );
@@ -111,6 +115,8 @@ function mapWaves(testPath, curWaveVal){
         saveGame();
       }
 
+      //delay += 500;
+
       curWave++;
 
 
@@ -119,21 +125,21 @@ function mapWaves(testPath, curWaveVal){
     }
     //if( lives > 0 ){
 
-    var timex = 11000 + delay;
+    var timex = 12000 + delay;
     console.log("timex + delay", timex);
 
-    var timeleft = timex / 1000;
+    timeleft = timex / 1000 ;
 
     var countdownCheck = document.getElementById("countdown");
 
-    countdownTimer = setInterval(function(){
+    var countdownTimer = setInterval(function(){
       if(countdownCheck != null ){
         console.log("cc", countdownCheck);
-        if( getCurWave < totWaves - 2 && lives > 0 ){
+        if( getCurWave < totWaves - 1 && lives > 0 && timeleft > -1){
 
           document.getElementById("countdown").innerHTML = "Wave " + curWave +" in " + timeleft;
 
-        } else if ( getCurWave == totWaves && lives > 0 ) {
+        } else if ( getCurWave <= totWaves && lives > 0 ) {
 
           document.getElementById("countdown").innerHTML = "Stay Alive!";
 
@@ -141,20 +147,26 @@ function mapWaves(testPath, curWaveVal){
 
         timeleft -= 1;
         if( timeleft == -1 && lives > 0 ){
-          document.getElementById("countdown").innerHTML = "Start"
+          document.getElementById("countdown").innerHTML = "Wave " + curWave + " INCOMING!";
             dinoSound.play();
+            clearInterval(countdownTimer);
         }
-        else if(timeleft < 0 && lives > 0 ){
+        else if(timeleft < -1 && lives > 0 ){
           clearInterval(countdownTimer);
+          document.getElementById("countdown").innerHTML = "Stay Alive!";
           //document.getElementById("countdown").style.display = "none";
         }
-        else if( timeleft < 0 && lives < 0 ){
+        else if( timeleft <= 0 && lives < 0 ){
           clearInterval(countdownTimer);
           document.getElementById("countdown").innerHTML = "Out of Lives!";
         }
       }
 
     }, 1000);
+
+    //timex += 100;
+
+    //clearInterval(countdownTimer);
 
 
 
@@ -167,11 +179,11 @@ function mapWaves(testPath, curWaveVal){
     setWaveTime = setTimeout(function(){
 
         //var newWaveVal = curWave.slice(0);
-        console.log("Timeout wave", curWave, getCurWave);
+        console.log("Timeout wave", curWave, getCurWave, timex);
         mapWaves(testPath, getCurWave);
 
 
-    }, timex);
+    }, timex + timeXwave);
   }
 
   // function stopWaveTimeout(){
@@ -184,7 +196,7 @@ function mapWaves(testPath, curWaveVal){
 function stopWaveTimeout(){
   console.log("stopwave");
   clearTimeout( setWaveTime );
-  clearInterval( countdownTimer );
+  //clearInterval( countdownTimer );
   // if( document.getElementById("countdown") != null; ){
 
   // }
@@ -202,6 +214,7 @@ function loseCondition(){
   //
   //menu();
   clearTimeout( setWaveTime );
+  clearInterval(countdownTimer);
   stopWaveTimeout();
 
   document.getElementById("countdown").innerHTML = " ";
@@ -395,6 +408,7 @@ function clearEverything(curScene) {
   menuTowers = [];
   menuGridT = [];
   delay = 0;
+  timeleft = 0;
 
   //mixers = [];
   projectiles = [];
