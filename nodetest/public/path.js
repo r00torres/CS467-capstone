@@ -383,11 +383,11 @@ function dinoPath(dino, speed, target, targetHealth, delay) {
           console.log("DINO UUID", dino.children[0].uuid, dinos[dinosleft][0].uuid);
           if(dino.children[0].uuid == dinos[dinosleft][0].uuid){
             console.log("HERERERERER", dino.uuid, dinos[dinosleft][0].uuid);
-            curLives -= 0.5;
+            curLives -= 1.0;
             setLives(curLives);
             updateGameUIbar( "lives", getLives() );
             scene.remove(dino);
-
+            dinos.splice(dinosleft, 1);
           }
 
         };

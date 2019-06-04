@@ -1,6 +1,6 @@
 let oviraptor = {
   name: "oviraptor",
-  health: 20,
+  health: 25,
   speed: 5000,
   reward: 5,
   tweenId: 5

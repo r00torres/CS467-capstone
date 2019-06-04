@@ -2,11 +2,11 @@ let cannonT = {
 
   name: "cannon tower",
   buildSpeed: 8000, //8 seconds
-  attackSpeed: 1, //1 second
+  attackSpeed: 1.5, //1 second
   attackPower: 10,
   attackRadius: 8,
   towerTime: 0,
-  cost: 125
+  cost: 120
 
 };
 
