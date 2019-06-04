@@ -100,7 +100,7 @@ function mapWaves(testPath, curWaveVal){
 
 
 
-        delay += 500;
+        delay += 2000;
 
       }
 
