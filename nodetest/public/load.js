@@ -67,17 +67,29 @@ function loadGameValues() {
   updateGameUIbar( 'coins', getCoins() );
   updateGameUIbar( 'lives', getLives() );
   updateGameUIbar( 'waves', curWave );
+  updateGameUIbar( 'level', currMap );
 
 }
 
 function loadGame() {
-  loadTowerLocations( towers );
-  loadGameValues();
-  console.log("Loaded Game!");
-  stopWaveTimeout();
-  //stopAnimation = false;
-  var loaded = true;
-  play(loaded);
+  
+  var isLoaded = getCookie('loadGame');
+  var loaded = false;
+  
+  if(isLoaded != ""){
+    loaded = true;  
+    loadTowerLocations( towers );
+    loadGameValues();
+    console.log("Loaded Game!");
+    stopWaveTimeout();
+    //stopAnimation = false;
+    play(loaded);
+  }
+  else if(isLoaded == ""){
+    console.log("Cannot Load a Game!");
+    stopWaveTimeout();
+    play(loaded);
+  }
 }
 
 //checks to see if a buildable space already has a tower
