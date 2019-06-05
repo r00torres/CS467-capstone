@@ -70,9 +70,12 @@ function checkCookie() {
 function saveGame(){
 
   console.log("saving game");
+  
   saveGameVariables(coins, curWave, lives, currMap);
 
   saveTowerLocations( towers );
+  
+  setCookie('loadGame', true);
 
 }
 

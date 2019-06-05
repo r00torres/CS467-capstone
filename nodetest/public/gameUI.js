@@ -1,5 +1,5 @@
 //testing ui elements
-function initGameUI(coins, lives, waves){
+function initGameUI(coins, lives, waves, level){
     var gameUI = document.createElement("div");
     gameUI.setAttribute("id", "gameUIbar");
     gameUI.setAttribute("class", "game-ui");
@@ -71,6 +71,15 @@ function initGameUI(coins, lives, waves){
 		// 		sound.play();
 		// 	}
     // };
+	
+    var levelDiv = document.createElement("span");
+    levelDiv.setAttribute("id", "level");
+    text = document.createTextNode("LEVEL ");
+    levelDiv.appendChild(text);
+    var levelVal = document.createElement("span");
+    levelVal.setAttribute("id", "levelVal");
+    text = document.createTextNode(level);
+    levelVal.appendChild(text);
 
     document.getElementById("gameUIbar").append(coinDiv);
     document.getElementById("gameUIbar").append(coinVal);
@@ -78,6 +87,8 @@ function initGameUI(coins, lives, waves){
     document.getElementById("gameUIbar").append(livesVal);
     document.getElementById("gameUIbar").append(wavesDiv);
     document.getElementById("gameUIbar").append(wavesVal);
+	document.getElementById("gameUIbar").append(levelDiv);
+	document.getElementById("gameUIbar").append(levelVal);
     document.getElementById("gameUIbar").append(soundOpt);
     document.getElementById("gameUIbar").appendChild(soundButton);
 
@@ -109,5 +120,12 @@ function initGameUI(coins, lives, waves){
             console.log("Current Waves value is: ", location.innerHTML);
             location.innerHTML = newValue;
             console.log("New Waves value is: ", location.innerHTML);
+        }
+	    
+	else if(field == "level"){
+            var location = document.getElementById("levelVal");
+            console.log("Current Level value is: ", location.innerHTML);
+            location.innerHTML = newValue;
+            console.log("New Level value is: ", location.innerHTML);
         }
     };
