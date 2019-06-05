@@ -247,7 +247,7 @@ function loseCondition(){
   document.body.appendChild(reStartButton);
   reStartButton.onclick = function(){
     onMenu = true;
-    document.getElementById("reStartButton").style.display = "none";
+    /*document.getElementById("reStartButton").style.display = "none";
     document.getElementById("reLoadButton").style.display = "none";
     //document.getElementById("credits").style.display = "none";
     //document.getElementById("title").style.display = "none";
@@ -258,7 +258,8 @@ function loseCondition(){
       document.body.removeChild(reLoadButton);
       document.body.removeChild(reStartButton);
     }, 600);
-    setTimeout( function() { clearTimeout( setWaveTime ); clearEverything(scene); menu(); }, 500 );
+    setTimeout( function() { clearTimeout( setWaveTime ); clearEverything(scene); menu(); }, 500 );*/
+    setTimeout(function() {location.reload()}, 500);
     //clearTimeout( setWaveTime ); clearEverything(scene);
     //menu();
   };
