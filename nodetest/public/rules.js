@@ -254,9 +254,11 @@ function loseCondition(){
     //sound.context.resume();
     //clearMenuScreen();
     //play();
-    document.body.removeChild(reLoadButton);
-    document.body.removeChild(reStartButton);
-    setTimeout( function() { clearTimeout( setWaveTime ); clearEverything(scene); menu(); }, 1500 );
+    setTimeout(function() {
+      document.body.removeChild(reLoadButton);
+      document.body.removeChild(reStartButton);
+    }, 600);
+    setTimeout( function() { clearTimeout( setWaveTime ); clearEverything(scene); menu(); }, 500 );
     //clearTimeout( setWaveTime ); clearEverything(scene);
     //menu();
   };
@@ -283,11 +285,13 @@ function loseCondition(){
     //document.getElementById("title").style.display = "none";
     //sound.context.resume();
     //clearMenuScreen();
-    document.body.removeChild(reLoadButton);
-    document.body.removeChild(reStartButton);
+    setTimeout(function() {
+      document.body.removeChild(reLoadButton);
+      document.body.removeChild(reStartButton);
+    }, 600);
     //clearTimeout( setWaveTime ); clearEverything(scene);
     //loadGame();
-    setTimeout( function() { clearTimeout( setWaveTime ); clearEverything(scene); loadGame(); }, 1500 );
+    setTimeout( function() { clearTimeout( setWaveTime ); clearEverything(scene); loadGame(); }, 1000 );
   };
 
   /*var losemenu = new THREE.TextureLoader();
