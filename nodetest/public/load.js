@@ -67,6 +67,7 @@ function loadGameValues() {
   updateGameUIbar( 'coins', getCoins() );
   updateGameUIbar( 'lives', getLives() );
   updateGameUIbar( 'waves', curWave );
+  updateGameUIbar( 'level', currMap );
 
 }
 
