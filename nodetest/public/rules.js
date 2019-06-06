@@ -110,6 +110,7 @@ function mapWaves(testPath, curWaveVal){
         delay += 5000;
         addTrexGLTF( scene, dinos, delay, testPath );
         delay += 5000;
+        delay += 5000;
       }
 
       if( lives > 0 ){
@@ -232,73 +233,6 @@ function loseCondition(){
 
   //console.log("menuscene", scene);
   stopAnimation = false;
-
-  //////////////////////////////////////////////////
-  /*
-  var reStartButton = document.createElement('button');
-  reStartButton.style.position = 'absolute';
-  reStartButton.id = 'reStartButton';
-  reStartButton.style.width = '100px';
-  reStartButton.style.height = '50px';
-  reStartButton.style.background = 'green';
-  reStartButton.style.top = '400px';
-  reStartButton.style.left = '50%';
-  reStartButton.style.textAlign = 'center';
-  reStartButton.innerHTML = 'Menu';
-  reStartButton.style.color = 'white';
-
-  document.body.appendChild(reStartButton);
-  reStartButton.onclick = function(){
-    onMenu = true;
-    /*document.getElementById("reStartButton").style.display = "none";
-    document.getElementById("reLoadButton").style.display = "none";
-    //document.getElementById("credits").style.display = "none";
-    //document.getElementById("title").style.display = "none";
-    //sound.context.resume();
-    //clearMenuScreen();
-    //play();
-    setTimeout(function() {
-      document.body.removeChild(reLoadButton);
-      document.body.removeChild(reStartButton);
-    }, 600);
-    setTimeout( function() { clearTimeout( setWaveTime ); clearEverything(scene); menu(); }, 500 );
-    setTimeout(function() {location.reload()}, 500);
-    //clearTimeout( setWaveTime ); clearEverything(scene);
-    //menu();
-  };
-
-  //load button will load previous saved game
-  var reLoadButton = document.createElement('button');
-  reLoadButton.style.position = 'absolute';
-  reLoadButton.id = 'reLoadButton';
-  reLoadButton.style.width = '100px';
-  reLoadButton.style.height = '50px';
-  reLoadButton.style.background = 'green';
-  reLoadButton.style.top = '500px';
-  reLoadButton.style.left = '50%';
-  reLoadButton.style.textAlign = 'center';
-  reLoadButton.innerHTML = 'Load';
-  reLoadButton.style.color = 'white';
-
-  document.body.appendChild(reLoadButton);
-  reLoadButton.onclick = function(){
-    onMenu = true;
-    document.getElementById("reStartButton").style.display = "none";
-    document.getElementById("reLoadButton").style.display = "none";
-    //document.getElementById("credits").style.display = "none";
-    //document.getElementById("title").style.display = "none";
-    //sound.context.resume();
-    //clearMenuScreen();
-    setTimeout(function() {
-      document.body.removeChild(reLoadButton);
-      document.body.removeChild(reStartButton);
-    }, 600);
-    //clearTimeout( setWaveTime ); clearEverything(scene);
-    //loadGame();
-    setTimeout( function() { clearTimeout( setWaveTime ); clearEverything(scene); loadGame(); }, 1000 );
-  };
-  */
- //////////////////////////////////////////////////////
 
   var losemenu = new THREE.TextureLoader();
   var loadg = losemenu.load( '/static/load.jpg' );
