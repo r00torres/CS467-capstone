@@ -48,6 +48,11 @@ function createCredits(){
 	creditText = "The models were created, animated, and exported to gltf in Blender 2.80 beta. The server was Node.js. This website is hosted on an AWS Lightsail.";
 	creditPar.textContent = creditText;
 	document.getElementById("crawlDiv").append(creditPar);
+	
+	creditPar = document.createElement('p');
+	creditText = "Sounds came from bensound-instinct.mp3, VelociraptorCall-SoundBible.com-1782075819.wav, Hammer.wav, Hammering_Soung_6-Lisa_Redfern-411383436.wav, and TyrannosaurusRex-SoundBible.com-45786848.wav; of which we do not own.";
+	creditPar.textContent = creditText;
+	document.getElementById("crawlDiv").append(creditPar);
 
 	creditPar = document.createElement('p');
 	creditText = "Special shoutouts to:";
