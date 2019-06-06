@@ -95,13 +95,13 @@ function mapWaves(testPath, curWaveVal){
 
         if( curWave > 6 && curWave < totWaves ){
           addOviGLTF( scene, dinos, delay, testPath );
-          delay += 500;
+          delay += 1500;
 
         }
 
 
 
-        delay += 1000;
+        delay += 1500;
 
       }
 
