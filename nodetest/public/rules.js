@@ -148,12 +148,12 @@ function mapWaves(testPath, curWaveVal){
         }
 
         timeleft -= 1;
-        if( timeleft == -1 && lives > 0 ){
+        if( timeleft == -1 && lives > 0 && curWave > 0){
           document.getElementById("countdown").innerHTML = "Wave " + curWave + " INCOMING!";
             dinoSound.play();
             clearInterval(countdownTimer);
         }
-        else if(timeleft < -1 && lives > 0 ){
+        else if(timeleft < -1 && lives > 0){
           clearInterval(countdownTimer);
           document.getElementById("countdown").innerHTML = "Stay Alive!";
           //document.getElementById("countdown").style.display = "none";
@@ -417,6 +417,9 @@ function clearEverything(curScene) {
   projectiles = [];
 
   setLives(0);
+  curWave = 0;
+  updateGameUIbar("waves", curWave);
+
 
   if( document.getElementById("countdown") ){
     document.body.removeChild(countdown);
