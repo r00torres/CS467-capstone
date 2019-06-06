@@ -17,17 +17,17 @@ function mapWaves(testPath, curWaveVal){
   //var setWaveTime;
   //curWave ++;
 
-  console.log("start of mapwaves", getCurWave, curWaveVal);
-  console.log("rules values:", getCurWave, totWaves);
+  //console.log("start of mapwaves", getCurWave, curWaveVal);
+  //console.log("rules values:", getCurWave, totWaves);
   if(curWave >= totWaves){
 
     stopWaveTimeout();
-    console.log("You win!");
-    console.log("map", currMap);
+    //console.log("You win!");
+    //console.log("map", currMap);
     //clearEverything();
     var newMap = parseInt(currMap);
     newMap += 1;
-    console.log("NEWMAP", newMap);
+    //console.log("NEWMAP", newMap);
 
     if(currMap < 4){
       clearEverything(scene);
@@ -38,7 +38,7 @@ function mapWaves(testPath, curWaveVal){
     if(currMap > 3 ){
       clearEverything(scene);
       currMap = 1;
-      console.log("you beat the game");
+      //console.log("you beat the game");
       createCredits();
       setTimeout(function(){
         menu();
@@ -48,7 +48,7 @@ function mapWaves(testPath, curWaveVal){
   }
   else if( uplives < 1 ){
     //loseCondition();
-    console.log("mapwaves if");
+    //console.log("mapwaves if");
     uplives = 0;
     stopWaveTimeout();
     clearInterval(countdownTimer);
@@ -64,19 +64,20 @@ function mapWaves(testPath, curWaveVal){
   //
   // }
   else if( uplives > 0 ){
-    console.log("mapwaves else");
+    //console.log("mapwaves else");
 
-    console.log("MAPWAVES******************");
-    console.log("wt txw clock", waveTime, timeXwave, clock.elapsedTime);
+    //console.log("MAPWAVES******************");
+    //console.log("wt txw clock", waveTime, timeXwave, clock.elapsedTime);
     updateGameUIbar("waves", getCurWave);
     document.getElementById("countdown").style.display = "block";
 
 
     //Map loading of dinos
+    
 
     if( curWave < totWaves && lives > 0){
 
-      console.log("mapwaves clock", clock.elapsedTime);
+      //console.log("mapwaves clock", clock.elapsedTime);
       var delay = 0;
 
       for( var i=0; i<curWave; i++ ) {
@@ -109,6 +110,7 @@ function mapWaves(testPath, curWaveVal){
         delay += 5000;
         addTrexGLTF( scene, dinos, delay, testPath );
         delay += 5000;
+        delay += 5000;
       }
 
       if( lives > 0 ){
@@ -126,7 +128,7 @@ function mapWaves(testPath, curWaveVal){
     //if( lives > 0 ){
 
     var timex = 12000 + delay;
-    console.log("timex + delay", timex);
+    //console.log("timex + delay", timex);
 
     timeleft = timex / 1000 ;
 
@@ -134,7 +136,7 @@ function mapWaves(testPath, curWaveVal){
 
     var countdownTimer = setInterval(function(){
       if(countdownCheck != null ){
-        console.log("cc", countdownCheck);
+        //console.log("cc", countdownCheck);
         if( getCurWave < totWaves - 1 && lives > 0 && timeleft > -1){
 
           document.getElementById("countdown").innerHTML = "Wave " + curWave +" in " + timeleft;
@@ -146,12 +148,12 @@ function mapWaves(testPath, curWaveVal){
         }
 
         timeleft -= 1;
-        if( timeleft == -1 && lives > 0 ){
+        if( timeleft == -1 && lives > 0 && curWave > 0){
           document.getElementById("countdown").innerHTML = "Wave " + curWave + " INCOMING!";
             dinoSound.play();
             clearInterval(countdownTimer);
         }
-        else if(timeleft < -1 && lives > 0 ){
+        else if(timeleft < -1 && lives > 0){
           clearInterval(countdownTimer);
           document.getElementById("countdown").innerHTML = "Stay Alive!";
           //document.getElementById("countdown").style.display = "none";
@@ -222,14 +224,14 @@ function loseCondition(){
   controls.reset();
   controls.enabled = false;
 
-  console.log("tween menu", TWEEN.getAll());
-  console.log("d", dinos);
+  //console.log("tween menu", TWEEN.getAll());
+  //console.log("d", dinos);
 
   camera.position.set( 0, 20, -20 );
   camera.lookAt( 0, 0, 0 );
-  console.log("camera menu", camera);
+  //console.log("camera menu", camera);
 
-  console.log("menuscene", scene);
+  //console.log("menuscene", scene);
   stopAnimation = false;
 
   var losemenu = new THREE.TextureLoader();
@@ -312,7 +314,7 @@ function loseCondition(){
       if( intersects.length != 0 ) {
 
         if(intersects[0].object.name == "play") {
-          console.log("CLICKED");
+          console.log("looooooooooooaaaaaaaaaaaad");
 
           document.removeEventListener( 'click', menuSelect, false );
 
@@ -341,7 +343,7 @@ function loseCondition(){
 
         }
         else if (intersects[0].object.name == "credits"){
-          console.log("CLICKED");
+          console.log("menuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
 
           document.removeEventListener( 'click', menuSelect, false );
 
@@ -362,6 +364,7 @@ function loseCondition(){
             buttonMatCredits.dispose();
 
             sound.context.resume();
+            console.log("Hiiiiiii menuuuuuuuuuuuuuuuuuuuuuuuuu");
 
 
           }, 500 );
@@ -391,7 +394,7 @@ function clearEverything(curScene) {
      //scene.children.pop();
   }
 
-  console.log("scene",scene);
+  //console.log("scene",scene);
 
   everythingLoaded = false;
 
@@ -414,6 +417,9 @@ function clearEverything(curScene) {
   projectiles = [];
 
   setLives(0);
+  curWave = 0;
+  updateGameUIbar("waves", curWave);
+
 
   if( document.getElementById("countdown") ){
     document.body.removeChild(countdown);
@@ -444,20 +450,20 @@ function clearEverything(curScene) {
   camera.rotation.x = -2.677945044588987;
   camera.rotation.y = 0;
   camera.rotation.z = 3.141592653589793;
-  console.log("camera", camera);
+  //console.log("camera", camera);
   controls.reset();
-  console.log("tweengetall", TWEEN.getAll() );
+  //console.log("tweengetall", TWEEN.getAll() );
   var tweencheck = TWEEN.getAll();
-  console.log("tweencheck", tweencheck.length);
+  //console.log("tweencheck", tweencheck.length);
   if( tweencheck.length > 0 ){
     //console.log("inside tween if", TWEEN.Tween[0]);
     //console.log(TWEEN.Tween.removeAll());
     //TWEEN.Tween.removeAll; //stop();
     for(var c = 0; c < tweencheck.length; c++){
-      console.log("for");
+      //console.log("for");
        TWEEN.removeAll();
     }
-    console.log("tweencheck if", tweencheck );
+    //console.log("tweencheck if", tweencheck );
     //console.log("tween_", TWEEN._tweens);
 
   }

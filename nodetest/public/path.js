@@ -1,7 +1,7 @@
 //converts the array numbers into coordinates that can be used on the board
 function makePath(path, xSize, zSize)
 {
-  console.log("makePath map", map1);
+  //console.log("makePath map", map1);
   //var a = path1;
   var b = path;//.slice();
   minusX = xSize/2;
@@ -24,9 +24,9 @@ function makePath(path, xSize, zSize)
 
 function dinoPath(dino, speed, target, targetHealth, delay) {
 
-  console.log("dino in dinoPath", dino);
-  console.log(dino.children);
-  console.log(dino.children.length);
+  //console.log("dino in dinoPath", dino);
+  //console.log(dino.children);
+  //console.log(dino.children.length);
   //dino.children because we are passing in a group
   for( var dc = 0; dc < dino.children.length; dc++){
 
@@ -372,38 +372,41 @@ function dinoPath(dino, speed, target, targetHealth, delay) {
 
     //removes the dino from the scene once it has reached the end
     healthmove.onComplete(function(){
-        console.log("end of path", dino);
-        console.log("dinos...", dinos);
+        //console.log("end of path", dino);
+        //console.log("dinos...", dinos);
         var endDinolength = dinos.length;
         curLives = getLives();
         //two children being removed.
         var dinoEnder = dino.parent;
         for(var dinosleft = 0; dinosleft < dinos.length; dinosleft++){
-          console.log("for", dinos[dinosleft]);
-          console.log("DINO UUID", dino.children[0].uuid, dinos[dinosleft][0].uuid);
+          //console.log("for", dinos[dinosleft]);
+          //console.log("DINO UUID", dino.children[0].uuid, dinos[dinosleft][0].uuid);
           if(dino.children[0].uuid == dinos[dinosleft][0].uuid){
-            console.log("HERERERERER", dino.uuid, dinos[dinosleft][0].uuid);
+            //console.log("HERERERERER", dino.uuid, dinos[dinosleft][0].uuid);
             curLives -= 1.0;
             setLives(curLives);
             updateGameUIbar( "lives", getLives() );
+            console.log("lives", getLives());
             scene.remove(dino);
             dinos.splice(dinosleft, 1);
+            if( getLives() == 0 ){
+              stopAnimation = true;
+              //TWEEN.removeAll();
+              //healthmove.removeAll();
+    
+              loseCondition();
+              break;
+            }
           }
 
-        };
+        }
         var tc = TWEEN.getAll();
         // if(tc.length > 0){
         //    TWEEN.removeAll();
         // }
 
-
-        if( getLives() == 0 ){
-          stopAnimation = true;
-          //TWEEN.removeAll();
-          //healthmove.removeAll();
-
-          loseCondition();
-        }
+        //console.log("curlives", curLives);
+        
     });
   //
   }

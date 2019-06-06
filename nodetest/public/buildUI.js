@@ -4,7 +4,7 @@ var clickMusket = function (){ };
 var clickCannon = function () { };
 var clickNet = function () { };
 var clickCancel = function() {
-			console.log("Clicked Cancel Build")
+			//console.log("Clicked Cancel Build")
   		viewBuildMenu();
 		};
 
@@ -60,16 +60,16 @@ function coinDeficientWarning(){
 
 function viewBuildMenu(coin, musketPrice, cannonPrice, netPrice) {
 
-	console.log("here in viewBuildMenu");
+	//console.log("here in viewBuildMenu");
 
   var buildCont = document.getElementById("buildUIcontainer");
 	var updateCancel = document.getElementById("build-cancel-button");
 	updateCancel.innerHTML = 'Cancel Build Here';
 
-	console.log("buildCont", buildCont);
+	//console.log("buildCont", buildCont);
 
   if (buildCont.style.display === "none") {
-		console.log("inside if");
+		//console.log("inside if");
 	  
     buildCont.style.display = "block";
     buildCont.children[0].style.display = "block";
@@ -108,14 +108,14 @@ function viewBuildMenu(coin, musketPrice, cannonPrice, netPrice) {
 
 
   } else {	//hide build menu
-		console.log("inside else");
+		//console.log("inside else");
   	buildCont.style.display = "none";
     buildCont.children[0].style.display = "none";
     buildCont.children[1].style.display = "none";
     buildCont.children[2].style.display = "none";
 	  buildCont.children[3].style.display = "none";
   }
-  console.log("Within viewBuildMenu")
+  //console.log("Within viewBuildMenu")
 
 };
 

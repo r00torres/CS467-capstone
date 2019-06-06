@@ -1,15 +1,15 @@
 function enviroLoader( object, position, orotation, glname, curScene ) {
 
-  console.log("enviroLoader");
-  console.log("curScene", curScene);
-  console.log("scene", scene);
-  console.log("mixers", mixers);
+  //console.log("enviroLoader");
+  //console.log("curScene", curScene);
+  //console.log("scene", scene);
+  //console.log("mixers", mixers);
 
   const loader = new THREE.GLTFLoader(loadingManager);
 
   const onLoad = ( gltf, position ) => {
 
-    console.log("gltf", gltf);
+    //console.log("gltf", gltf);
 
     var model = gltf.scene;
 
@@ -151,7 +151,7 @@ function towerLoader( object, position, gridT, towers, towerName ) {
     gridT.push( towerGroup );
     towers.push( towerGroup );
 
-    console.log("towers", towers );
+    //console.log("towers", towers );
 
   };
 
@@ -168,7 +168,7 @@ function towerLoader( object, position, gridT, towers, towerName ) {
 
 function dinoLoader( object, position, dinos, delay, testPath, dinoName ) {
 
-  console.log("dinoLoader", dinos);
+  //console.log("dinoLoader", dinos);
 
   //two position variables were creating conflicts
   //dino does not get its position set individually now
@@ -247,17 +247,17 @@ function dinoLoader( object, position, dinos, delay, testPath, dinoName ) {
     dinogroup = new THREE.Group();
     dinogroup.add(model);
     dinogroup.add(healthBar);
-    console.log("start pos", testPath[0][0]);
+    //console.log("start pos", testPath[0][0]);
 
-    console.log("loadDino model:", model);
-    console.log("loadDino healthbar:", healthBar);
-    console.log("dinogroup", dinogroup );
+    //console.log("loadDino model:", model);
+    //console.log("loadDino healthbar:", healthBar);
+    //console.log("dinogroup", dinogroup );
     //model.add(dino);
     scene.add( dinogroup );
 
     dinos.push([model,oviraptor]);
-    console.log("group ", dinogroup);
-    console.log("group pos ", dinogroup.position);
+    //console.log("group ", dinogroup);
+    //console.log("group pos ", dinogroup.position);
     dinoPath( dinogroup, dinoName.speed, target, targetHealth, delay );
 
   };

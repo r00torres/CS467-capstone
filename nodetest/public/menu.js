@@ -2,13 +2,13 @@ function menu() {
   //disables users ability to move around menu\
   controls.reset();
 
-
+  console.log("hi in menuuuuuuuuuuuuue function");
 
   onMenu = true;
   everythingLoaded = false;
 
-  console.log("tween menu", TWEEN.getAll());
-  console.log("d", dinos);
+  //console.log("tween menu", TWEEN.getAll());
+  //console.log("d", dinos);
 
   menuScreen.camera.position.set( 0, 7, -10 );
   menuScreen.camera.lookAt( 0, 0, 0 );
@@ -23,12 +23,12 @@ function menu() {
   menuControls.enabled = false;
 
   //
-  console.log("camera menu", camera);
+  //console.log("camera menu", camera);
 
   menuScreen.scene.add(menuScreen.light);
 
-  console.log("menuscene menu()", menuScreen.scene);
-  console.log("mixers", mixers);
+ // console.log("menuscene menu()", menuScreen.scene);
+  //console.log("mixers", mixers);
 
 
 
