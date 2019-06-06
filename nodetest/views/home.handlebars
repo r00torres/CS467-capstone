@@ -28,6 +28,7 @@
 <script src="/static/map3.js"></script>
 <script src="/static/pirateT.js"></script>
 <script src="/static/cannonT.js"></script>
+<script src="/static/cabinT.js"></script>
 <script src="/static/ovi.js"></script>
 <script src="/static/rap.js"></script>
 <script src="/static/trex.js"></script>
@@ -825,10 +826,10 @@
 					coins = coins - pirateT.cost;
 					updateGameUIbar("coins", coins);
 					intersects[0].object.name = "tower";
-					var towerName = "cannonT";
+					var towerName = "cabinT";
 					//addcannonT( intersects[0].object.position, scene, gridT, towers );
 
-					towerLoader( '/static/towers/canontowermodified2.glb', intersects[0].object.position, gridT, towers, towerName );
+					towerLoader( '/static/towers/cabin1.glb', intersects[0].object.position, gridT, towers, towerName );
 					//console.log("towers", towers);
 					//addcannonT( intersects[0].object.position, scene, gridT, towers );
 					sound2.play();

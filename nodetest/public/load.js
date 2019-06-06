@@ -38,9 +38,9 @@ function loadTowerLocations( towers ) {
     }
 
     //CHANGE TO NET CANNON
-    else if(loadTowers[i].nameOf == "cannon tower"){
-      var towerName = "cannon tower";
-      towerLoader( '/static/towers/canontowermodified2.glb', loadTowers[i].pos, gridT, towers, towerName);
+    else if(loadTowers[i].nameOf == "cabinT"){
+      var towerName = "cabinT";
+      towerLoader( '/static/towers/cabin1.glb', loadTowers[i].pos, gridT, towers, towerName);
     }
   }
 }
