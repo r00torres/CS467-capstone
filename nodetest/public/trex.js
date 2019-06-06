@@ -1,6 +1,6 @@
 var trex = {
   name: "trex",
-  health: 300,
+  health: 65,
   speed: 15000,
   reward: 15
 }
