@@ -1,6 +1,6 @@
 var raptor = {
   name: "raptor",
-  health: 40,
+  health: 35,
   speed: 10000,
   reward: 10
 }
