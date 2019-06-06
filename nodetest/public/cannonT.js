@@ -96,8 +96,8 @@ function deadDino( d ){
   console.log("tweens", TWEEN.getAll());
   dinoSound2.play();
   console.log("removing", d.uuid);
-  viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cannonT.cost);
-  viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cannonT.cost);
+  viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cabinT.cost);
+  viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cabinT.cost);
 
 }
 
