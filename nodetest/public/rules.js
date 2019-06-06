@@ -137,6 +137,9 @@ function mapWaves(testPath, curWaveVal){
     var countdownTimer = setInterval(function(){
       if(countdownCheck != null ){
         //console.log("cc", countdownCheck);
+
+        timeleft -= 1;
+
         if( getCurWave < totWaves - 1 && lives > 0 && timeleft > -1){
 
           document.getElementById("countdown").innerHTML = "Wave " + curWave +" in " + timeleft;
@@ -147,8 +150,8 @@ function mapWaves(testPath, curWaveVal){
 
         }
 
-        timeleft -= 1;
-        if( timeleft == -1 && lives > 0 && curWave > 0){
+
+        else if( timeleft == -1 && lives > 0 && curWave > 0){
           document.getElementById("countdown").innerHTML = "Wave " + curWave + " INCOMING!";
             dinoSound.play();
             clearInterval(countdownTimer);
@@ -213,6 +216,7 @@ function loseCondition(){
   //TWEEN.removeAll();
   // controls.enabled = false;
   gridT = [];
+  currMap = 1;
   //
   //menu();
   clearTimeout( setWaveTime );
