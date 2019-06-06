@@ -383,28 +383,30 @@ function dinoPath(dino, speed, target, targetHealth, delay) {
           //console.log("DINO UUID", dino.children[0].uuid, dinos[dinosleft][0].uuid);
           if(dino.children[0].uuid == dinos[dinosleft][0].uuid){
             //console.log("HERERERERER", dino.uuid, dinos[dinosleft][0].uuid);
-            curLives -= .5;
+            curLives -= 1.0;
             setLives(curLives);
             updateGameUIbar( "lives", getLives() );
             console.log("lives", getLives());
             scene.remove(dino);
-            //dinos.splice(dinosleft, 1);
+            dinos.splice(dinosleft, 1);
+            if( getLives() == 0 ){
+              stopAnimation = true;
+              //TWEEN.removeAll();
+              //healthmove.removeAll();
+    
+              loseCondition();
+              break;
+            }
           }
 
-        };
+        }
         var tc = TWEEN.getAll();
         // if(tc.length > 0){
         //    TWEEN.removeAll();
         // }
 
-
-        if( getLives() == 0 ){
-          stopAnimation = true;
-          //TWEEN.removeAll();
-          //healthmove.removeAll();
-
-          loseCondition();
-        }
+        //console.log("curlives", curLives);
+        
     });
   //
   }

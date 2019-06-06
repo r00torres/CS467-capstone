@@ -12,7 +12,7 @@ function mapWaves(testPath, curWaveVal){
 
   clearInterval(countdownTimer);
 
-  var uplives = 1;
+  var uplives = getLives();
   var getCurWave = getWave();
   //var setWaveTime;
   //curWave ++;
@@ -73,7 +73,7 @@ function mapWaves(testPath, curWaveVal){
 
 
     //Map loading of dinos
-
+    
 
     if( curWave < totWaves && lives > 0){
 
