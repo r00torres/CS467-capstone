@@ -95,7 +95,7 @@ function mapWaves(testPath, curWaveVal){
 
         if( curWave > 6 && curWave < totWaves ){
           addOviGLTF( scene, dinos, delay, testPath );
-          delay += 1500;
+          delay += 500;
 
         }
 
@@ -186,7 +186,9 @@ function mapWaves(testPath, curWaveVal){
 
         //var newWaveVal = curWave.slice(0);
         console.log("Timeout wave", curWave, getCurWave, timex);
-        mapWaves(testPath, getCurWave);
+        clearTimeout( setWaveTime );
+        clearInterval(countdownTimer);
+        mapWaves(testPath, curWave);
 
 
     }, timex + timeXwave);
