@@ -7,7 +7,7 @@ let oviraptor = {
 }
 
 function addOviGLTF( scene, dinos, delay, testPath ){
-  console.log( "dinos gltf", dinos );
+  //console.log( "dinos gltf", dinos );
   const oviPosition = new THREE.Vector3( 0, 0, 0 );
   var dinoName = "oviraptor";
 

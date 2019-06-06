@@ -57,9 +57,9 @@ function checkCookie() {
   var username = getCookie("username");
   if (username != "") {
    //load game state variables
-   console.log("There's cookies here, yum!");
+   //console.log("There's cookies here, yum!");
   } else {
-    console.log("There's no cookies here yet, sad!");
+    //console.log("There's no cookies here yet, sad!");
     var user = "testName"
     if (user != "" && user != null) {
       setCookie("username", user, 365);
@@ -69,7 +69,7 @@ function checkCookie() {
 
 function saveGame(){
 
-  console.log("saving game");
+  //console.log("saving game");
   saveGameVariables(coins, curWave, lives, currMap);
 
   saveTowerLocations( towers );

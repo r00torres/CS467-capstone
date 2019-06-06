@@ -76,11 +76,11 @@
 	loadingManager = new THREE.LoadingManager();
 
 		loadingManager.onProgress = function(item, loaded, total){
-			console.log(item, loaded, total);
+			//console.log(item, loaded, total);
 		};
 
 		loadingManager.onLoad = function(){
-			console.log("all loaded");
+			////console.log("all loaded");
 			everythingLoaded = true;
 		};
 
@@ -130,11 +130,11 @@
 		loadingScreen.scene.add(loadingScreen.box);
 		loadingScreen.scene.background = new THREE.Color(0xa8fffa);
 
-		console.log("loadingScreen", loadingScreen.scene);
+		//console.log("loadingScreen", loadingScreen.scene);
 
 		menuScreen.scene.background = new THREE.Color(0xadd8e6);
 		menuScreen.scene.name = "menuScreen";
-		console.log("menuscreen", menuScreen.scene);
+		//console.log("menuscreen", menuScreen.scene);
 
 
 
@@ -152,10 +152,10 @@
 
 		//Create a new scene
 		scene = new THREE.Scene();
-		console.log("init scene", scene);
+		//console.log("init scene", scene);
 		scene.background = new THREE.Color( 0xadd8e6 );
 		scene.fog = new THREE.Fog( 0xadd8e6, 250, 500 );
-		console.log("scene", scene);
+		//console.log("scene", scene);
 
 		//Create a new camera
 		//( FOV, aspect ratio, near clipping plane, far clipping plane )
@@ -195,7 +195,7 @@
 		});
 
 
-		console.log("camera init", camera);
+		//console.log("camera init", camera);
 
 				//Create the renderer
 		renderer = new THREE.WebGLRenderer();
@@ -220,7 +220,7 @@
 		/*Adding orbit controls. Allows camera to move*/
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
 
-		console.log("controls init", controls);
+		//console.log("controls init", controls);
 
 		stats = new Stats();
 		//Uncomment for FPS stats
@@ -236,8 +236,8 @@
 		//This sets the angle to which we can't look "under" the map
 		controls.maxPolarAngle = Math.PI / 2;
 
-		console.log("controls",controls);
-		console.log("camera",camera);
+		//console.log("controls",controls);
+		//console.log("camera",camera);
 
 		//for a static menu
 		controls.enableKeys = false;
@@ -304,31 +304,31 @@
 
 
 	function getCoins(){
-		console.log("Current Coins var", coins);
+		//console.log("Current Coins var", coins);
 		return coins;
 	}
 	function setCoins( newValue ){
-		console.log("coins", coins);
+		//console.log("coins", coins);
 		coins = newValue;
 	}
 	function getLives(){
-		console.log("Current Lives var", lives);
+		//console.log("Current Lives var", lives);
 		return lives;
 	}
 	function setLives( newValue ){
-		console.log("lives", lives);
+		//console.log("lives", lives);
 		lives = newValue;
 	}
 	function getWave(){
-		console.log("Current Wave", curWave);
+		//console.log("Current Wave", curWave);
 		return curWave;
 	}
 	function setWave( newValue ){
-		console.log("wave:", curWave);
+		//console.log("wave:", curWave);
 		curWave = newValue;
 	}
 	function setMap( newValue ){
-		console.log("map:", currMap);
+		//console.log("map:", currMap);
 		currMap += 1;
 	}
 
@@ -346,16 +346,16 @@
 		controls.minDistance = 10;
 		controls.maxDistance = 50;
 
-		console.log("controls", controls);
-		console.log("tween c", TWEEN.getAll());
+		//console.log("controls", controls);
+		//console.log("tween c", TWEEN.getAll());
 
 		if(loaded == true){
-			console.log("cookie loaded");
+			//console.log("cookie loaded");
 		}
 		else{
-			console.log('PLAY currMap', currMap);
+			//console.log('PLAY currMap', currMap);
 			curWave = 0;
-			console.log("currMap", currMap);
+			//console.log("currMap", currMap);
 			if( currMap == 1 ){
 				lives = parseInt(map1.lives);
 				coins = parseInt(map1.coins);
@@ -385,7 +385,7 @@
 		//getLives();
 		//setWave(1);
 		if(stopAnimation){
-			console.log("sa******************************",stopAnimation);
+			//console.log("sa******************************",stopAnimation);
 			stopAnimation = false;
 			//return;
 		}
@@ -497,7 +497,7 @@
 
 			//if( mapName == "coast" ){
 				//25m radius
-				console.log("coast if");
+				//console.log("coast if");
 				// var mapbg = "mapbg";
 				// var mapbgRotation = Math.floor(Math.random() * 3);
 				// var mapPos = new THREE.Vector3( 0, -.1, 0 );
@@ -550,18 +550,18 @@
 				//
 				// scene.add(grassbg);
 			//}
-			console.log("adding tiles", m);
+			//console.log("adding tiles", m);
 			//gets the length of a single array (map0 a,b,a,b)
 			var arrZ = m[0].length;
 			//get the number of arrays (map0, map1, map2, map3)
 			var arrX = m.length;
-			console.log("arr", arrX, arrZ);
+			//console.log("arr", arrX, arrZ);
 
 			//
 			for( var i = 0, x = -(arrX/2); x < (arrX/2); x++, i++ ){
 				var gridRow = [];
 				for( var j = 0, z= -(arrZ/2); z < (arrZ)/2; z++, j++ ){
-					console.log("\n",x,z, m[i][j], i, j);
+					//console.log("\n",x,z, m[i][j], i, j);
 
 					//Creating new variable plane every instance and adding to
 					//the scene. Position offset by 4 because it seems to be the
@@ -616,7 +616,7 @@
 						plane.position.y = -1;
 						plane.name = "start";
 						gridRow.push( plane );
-						console.log("start ", plane);
+						//console.log("start ", plane);
 						//for testing raycaster
 						gridT.push( plane );
 
@@ -633,7 +633,7 @@
 						plane.position.z = 4*z+2;
 						plane.name = "end";
 						gridRow.push( plane );
-						console.log("end", plane);
+						//console.log("end", plane);
 						//for testing raycaster
 						gridT.push( plane );
 
@@ -646,12 +646,12 @@
 					}
 				}
 				gridTiles.push( gridRow );
-				console.log("gridRow", gridRow );
+				//console.log("gridRow", gridRow );
 			}
 		}
 				//addTiles(m);
 		//addTiles(maplevel1);
-		console.log("path ", path);
+		//console.log("path ", path);
 
 		//create a line to show the path
 		var material = new THREE.LineBasicMaterial({
@@ -714,7 +714,7 @@
 		}, 10000);
 
 
-		console.log("dinos array", dinos );
+		//console.log("dinos array", dinos );
 		viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cannonT.cost);
 
 
@@ -759,7 +759,7 @@
 
 		var intersects = raycaster.intersectObjects( gridT );
 
-		console.log(intersects);
+		//console.log(intersects);
 
 		if((intersects[0].object.name == "buildable") && (!fromLoaded(intersects, towers))) {
 
@@ -790,7 +790,7 @@
 
 			//new build functions at this location
 			clickMusket = function () {
-					console.log("Clicked Musket Tower")
+					//console.log("Clicked Musket Tower")
 						clearBuildMenu();
 					coins = coins - pirateT.cost;
 					updateGameUIbar("coins", coins);
@@ -803,7 +803,7 @@
 					};
 
 			clickCannon = function() {
-					console.log("Clicked Cannon Tower")
+					//console.log("Clicked Cannon Tower")
 						clearBuildMenu();
 					coins = coins - cannonT.cost;
 					updateGameUIbar("coins", coins);
@@ -813,13 +813,13 @@
 					//addcannonT( intersects[0].object.position, scene, gridT, towers );
 
 					towerLoader( '/static/towers/canontowermodified2.glb', intersects[0].object.position, gridT, towers, towerName );
-					console.log("towers", towers);
+					//console.log("towers", towers);
 					//start audio
 					sound2.play();
 					};
 
 			clickNet = function() {
-					console.log("Clicked Net Tower")
+					//console.log("Clicked Net Tower")
 						clearBuildMenu();
 					coins = coins - pirateT.cost;
 					updateGameUIbar("coins", coins);
@@ -828,7 +828,7 @@
 					//addcannonT( intersects[0].object.position, scene, gridT, towers );
 
 					towerLoader( '/static/towers/canontowermodified2.glb', intersects[0].object.position, gridT, towers, towerName );
-					console.log("towers", towers);
+					//console.log("towers", towers);
 					//addcannonT( intersects[0].object.position, scene, gridT, towers );
 					sound2.play();
 					};
@@ -843,7 +843,7 @@
 		}
 		else {
 
-			console.log("Can not build", intersects[0].object.name);
+			//console.log("Can not build", intersects[0].object.name);
 
 		}
 	}

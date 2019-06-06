@@ -92,22 +92,22 @@ function initGameUI(coins, lives, waves){
 	    
 	if(field == "coins"){
             var location = document.getElementById("coinVal");
-            console.log("Current Coin value is: ", location.innerHTML);
+            //console.log("Current Coin value is: ", location.innerHTML);
             location.innerHTML = newValue;
-            console.log("New Coin value is: ", location.innerHTML);
+            //console.log("New Coin value is: ", location.innerHTML);
         }
 
         else if(field == "lives"){
             var location = document.getElementById("livesVal");
-            console.log("Current Lives value is: ", location.innerHTML);
+            //console.log("Current Lives value is: ", location.innerHTML);
             location.innerHTML = newValue;
-            console.log("New Lives value is: ", location.innerHTML);
+            //console.log("New Lives value is: ", location.innerHTML);
         }
 
         else if(field == "waves"){
             var location = document.getElementById("wavesVal");
-            console.log("Current Waves value is: ", location.innerHTML);
+            //console.log("Current Waves value is: ", location.innerHTML);
             location.innerHTML = newValue;
-            console.log("New Waves value is: ", location.innerHTML);
+            //console.log("New Waves value is: ", location.innerHTML);
         }
     };
