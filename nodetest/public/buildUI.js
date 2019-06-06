@@ -28,7 +28,7 @@ function initBuildUI(){
   var netButton = document.createElement("button");
 	netButton.setAttribute("id", "build-net-button");
 	netButton.setAttribute("class", "build-ui-button-group");
-  netButton.innerHTML = 'Build Cabin Tower (-' + cannonT.cost + ')';
+  netButton.innerHTML = 'Build Cabin Tower (-' + cabinT.cost + ')';
 
 	var cancelButton = document.createElement("button");
 	cancelButton.setAttribute("id", "build-cancel-button");

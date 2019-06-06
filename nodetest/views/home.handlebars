@@ -717,7 +717,7 @@
 
 
 		//console.log("dinos array", dinos );
-		viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cannonT.cost);
+		viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cabinT.cost);
 
 
 
@@ -770,7 +770,7 @@
 			//shows build options for player's current coin at this location (need to change first param to coin
 			//last param to cost of last tower
 
-			viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cannonT.cost);
+			viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cabinT.cost);
 
 			//remove the previous click event (which was to build for last location)
 			document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
