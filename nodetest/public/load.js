@@ -72,12 +72,12 @@ function loadGameValues() {
 }
 
 function loadGame() {
-  
+
   var isLoaded = getCookie('loadGame');
-  var loaded = false;
-  
+  var loaded = true;
+
   if(isLoaded != ""){
-    loaded = true;  
+    loaded = true;
     loadTowerLocations( towers );
     loadGameValues();
     console.log("Loaded Game!");

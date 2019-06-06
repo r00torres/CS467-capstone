@@ -73,7 +73,7 @@ function mapWaves(testPath, curWaveVal){
 
 
     //Map loading of dinos
-    
+
 
     if( curWave < totWaves && lives > 0){
 
@@ -412,6 +412,7 @@ function clearEverything(curScene) {
   menuGridT = [];
   delay = 0;
   timeleft = 0;
+  loaded = false;
 
   //mixers = [];
   projectiles = [];
