@@ -89,9 +89,15 @@ function towerLoader( object, position, gridT, towers, towerName ) {
 
     if(towerName == "musketT"){
       towerStats = pirateT;
+      model.scale.set( 0.3, 0.3, 0.3 );
     }
     if(towerName == "cannonT"){
       towerStats = cannonT;
+      model.scale.set( 0.3, 0.3, 0.3 );
+    }
+    if(towerName == "cabinT"){
+      towerStats = cabinT;
+      model.scale.set( 0.8, 0.8, 0.8 );
     }
 
     //show the attack radius of the newTower
@@ -112,7 +118,7 @@ function towerLoader( object, position, gridT, towers, towerName ) {
     circle.rotateX(300); //rotate circle so it lays flat
 
     //https://stackoverflow.com/questions/24723471/three-js-scale-model-with-scale-set-or-increase-model-size
-    model.scale.set( 0.3, 0.3, 0.3 );
+    //model.scale.set( 0.3, 0.3, 0.3 );
     model.name = towerName;
 
     //add pirate newTower attributes to each created newTower

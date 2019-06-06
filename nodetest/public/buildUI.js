@@ -28,13 +28,13 @@ function initBuildUI(){
   var netButton = document.createElement("button");
 	netButton.setAttribute("id", "build-net-button");
 	netButton.setAttribute("class", "build-ui-button-group");
-  netButton.innerHTML = 'Build Net Tower (-' + cannonT.cost + ')';
+  netButton.innerHTML = 'Build Cabin Tower (-' + cannonT.cost + ')';
 
 	var cancelButton = document.createElement("button");
 	cancelButton.setAttribute("id", "build-cancel-button");
 	cancelButton.setAttribute("class", "build-ui-button-group");
   	cancelButton.innerHTML = 'Cancel Build Here';
-	
+
 
   document.getElementById("buildUIcontainer").append(musketButton);
   document.getElementById("buildUIcontainer").append(cannonButton);
@@ -48,14 +48,14 @@ function initBuildUI(){
 
 //initBuildUI();
 function coinDeficientWarning(){
-	
+
 	var warnCoins = document.getElementById("build-warning")
 	warnCoins.style.display = "block";
-	
+
 	setTimeout(function(){
 		warnCoins.style.display = "none";
 	}, 5000);
-	
+
 }
 
 function viewBuildMenu(coin, musketPrice, cannonPrice, netPrice) {
@@ -70,7 +70,7 @@ function viewBuildMenu(coin, musketPrice, cannonPrice, netPrice) {
 
   if (buildCont.style.display === "none") {
 		//console.log("inside if");
-	  
+
     buildCont.style.display = "block";
     buildCont.children[0].style.display = "block";
     buildCont.children[0].disabled = false;
