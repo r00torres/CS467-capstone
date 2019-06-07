@@ -85,6 +85,7 @@ function mapWaves(testPath, curWaveVal){
         if( curWave < 8 ){
           addOviGLTF( scene, dinos, delay, testPath );
           delay += 500;
+          console.log("delay1", delay);
         }
 
         if( curWave > 3 && curWave < totWaves ){
@@ -99,6 +100,7 @@ function mapWaves(testPath, curWaveVal){
 
         }
 
+        console.log("delay2", delay);
 
 
         delay += 1500;
@@ -126,11 +128,18 @@ function mapWaves(testPath, curWaveVal){
 
     }
     //if( lives > 0 ){
+    console.log("delay", delay);
 
     var timex = 12000 + delay;
     //console.log("timex + delay", timex);
 
     timeleft = timex / 1000 ;
+    if(timeleft % 1 != 0)
+    {
+      timeleft += 0.5;
+    }
+    console.log("timex", timex);
+    console.log("timeleft", timeleft);
 
     var countdownCheck = document.getElementById("countdown");
 
