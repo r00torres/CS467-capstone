@@ -2,7 +2,7 @@ function menu() {
   //disables users ability to move around menu\
   controls.reset();
 
-  console.log("hi in menuuuuuuuuuuuuue function");
+  //console.log("hi in menuuuuuuuuuuuuue function");
 
   onMenu = true;
   everythingLoaded = false;
