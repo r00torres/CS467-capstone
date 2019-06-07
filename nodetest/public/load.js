@@ -20,7 +20,7 @@ function getCookie(cname) {
 function loadTowerLocations( towers ) {
   var jsonloadedTowers = getCookie('loadBuildMap');
   if(jsonloadedTowers == ""){
-    console.log("No towers to load");
+    //console.log("No towers to load");
     return;
   }
   loadTowers = JSON.parse(jsonloadedTowers);
@@ -53,7 +53,7 @@ function loadGameValues() {
   var mapAtLoad = getCookie('loadMap');
 
   if(coinAtLoad == ""){
-    console.log("No game variables to load");
+    //console.log("No game variables to load");
     return;
   }
 
@@ -80,13 +80,13 @@ function loadGame() {
     loaded = true;
     loadTowerLocations( towers );
     loadGameValues();
-    console.log("Loaded Game!");
+    //console.log("Loaded Game!");
     stopWaveTimeout();
     //stopAnimation = false;
     play(loaded);
   }
   else if(isLoaded == ""){
-    console.log("Cannot Load a Game!");
+    //console.log("Cannot Load a Game!");
     stopWaveTimeout();
     play(loaded);
   }
