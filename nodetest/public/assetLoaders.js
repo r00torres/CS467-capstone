@@ -35,6 +35,9 @@ function enviroLoader( object, position, orotation, glname, curScene ) {
     else if( glname == "palmMenu"){
       model.scale.set( .8, .8, .8);
     }
+    else if( glname == "dinoZone"){
+      model.scale.set( 2.6, 2.6, 2.6);
+    }
     else{
       model.scale.set( 0.3, 0.3, 0.3 );
     }
