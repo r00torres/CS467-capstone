@@ -136,7 +136,7 @@ function mapWaves(testPath, curWaveVal){
     timeleft = timex / 1000 ;
     if(timeleft % 1 != 0)
     {
-      timeleft += 0.5;
+      timeleft -= 0.5;
     }
     console.log("timex", timex);
     console.log("timeleft", timeleft);
