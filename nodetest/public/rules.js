@@ -14,17 +14,11 @@ function mapWaves(testPath, curWaveVal){
 
   var uplives = getLives();
   var getCurWave = getWave();
-  //var setWaveTime;
-  //curWave ++;
 
-  //console.log("start of mapwaves", getCurWave, curWaveVal);
-  //console.log("rules values:", getCurWave, totWaves);
   if(curWave >= totWaves){
 
     stopWaveTimeout();
-    //console.log("You win!");
-    //console.log("map", currMap);
-    //clearEverything();
+
     var newMap = parseInt(currMap);
     newMap += 1;
     //console.log("NEWMAP", newMap);
@@ -47,22 +41,14 @@ function mapWaves(testPath, curWaveVal){
 
   }
   else if( uplives < 1 ){
-    //loseCondition();
+
     //console.log("mapwaves if");
     uplives = 0;
     stopWaveTimeout();
     clearInterval(countdownTimer);
-    //loseCondition();
 
   }
-  // if( getCurWave != curWaveVal ){
-  //   console.log("mapwaves else if");
-  //   curWaveVal = getCurWave;
-  //   //TWEEN.removeAll();
-  //
-  //   //loseCondition();
-  //
-  // }
+
   else if( uplives > 0 ){
     //console.log("mapwaves else");
 
@@ -119,15 +105,10 @@ function mapWaves(testPath, curWaveVal){
         saveGame();
       }
 
-      //delay += 500;
-
       curWave++;
 
-
-
-
     }
-    //if( lives > 0 ){
+
     console.log("delay", delay);
 
     var timex = 12000 + delay;
@@ -146,8 +127,6 @@ function mapWaves(testPath, curWaveVal){
     var countdownTimer = setInterval(function(){
       if(countdownCheck != null ){
         //console.log("cc", countdownCheck);
-
-
 
         if( curWave < totWaves  && lives > 0 && timeleft > -1){
 
@@ -179,21 +158,14 @@ function mapWaves(testPath, curWaveVal){
 
     }, 1000);
 
-    //timex += 100;
 
-    //clearInterval(countdownTimer);
-
-
-
-    //clearTimeout( setWaveTime );
     waveTimeout();
-    //}
+
   }
 
   function waveTimeout(){
     setWaveTime = setTimeout(function(){
 
-        //var newWaveVal = curWave.slice(0);
         console.log("Timeout wave", curWave, getCurWave, timex);
         clearTimeout( setWaveTime );
         clearInterval(countdownTimer);
@@ -201,36 +173,28 @@ function mapWaves(testPath, curWaveVal){
 
 
     }, timex + timeXwave);
-  }
 
-  // function stopWaveTimeout(){
-  //   console.log("stopwave");
-  //   clearTimeout( setWaveTime );
-  // }
+  }
 
 }
 
+//https://stackoverflow.com/questions/30359830/how-do-i-clear-three-js-scene
 function stopWaveTimeout(){
+
   console.log("stopwave");
   clearTimeout( setWaveTime );
-  //clearInterval( countdownTimer );
-  // if( document.getElementById("countdown") != null; ){
-
-  // }
 
 }
 
 //Win lose conditions
 function loseCondition(){
   console.log("YOU LOSE", lives);
-  //stopAnimation = false;
-  //https://stackoverflow.com/questions/30359830/how-do-i-clear-three-js-scene
-  //TWEEN.removeAll();
-  // controls.enabled = false;
+
+
+
   gridT = [];
   currMap = 1;
-  //
-  //menu();
+
   clearTimeout( setWaveTime );
   clearInterval(countdownTimer);
   stopWaveTimeout();
@@ -245,9 +209,10 @@ function loseCondition(){
 
   camera.position.set( 0, 20, -20 );
   camera.lookAt( 0, 0, 0 );
-  //console.log("camera menu", camera);
 
+  //console.log("camera menu", camera);
   //console.log("menuscene", scene);
+
   stopAnimation = false;
 
   var losemenu = new THREE.TextureLoader();
@@ -259,23 +224,23 @@ function loseCondition(){
   buttonGeoPlay.rotateX( 2.677945044588987 );
   buttonGeoPlay.rotateY( -1 );
   buttonGeoPlay.rotateZ( Math.PI );
-  //buttonGeoPlay.position.x(10);
-    //Creating material
+
+  //Creating material
   var buttonMatPlay = new THREE.MeshBasicMaterial( {
     map: loadg,
     alphaTest: 0.5
   } );
 
-    //Creating a mesh
+  //Creating a mesh
   var playButton = new THREE.Mesh( buttonGeoPlay, buttonMatPlay );
 
-    //Setting variables
+  //Setting variables
   playButton.position.y = 17;
   playButton.position.z = -10;
   playButton.rotation.y = -1;
   playButton.name = "play";
 
-    //Pushing to the tile array
+  //Pushing to the tile array
   gridT.push( playButton );
 
   var buttonGeoCredits = new THREE.PlaneBufferGeometry( 5, 3 );
@@ -283,27 +248,30 @@ function loseCondition(){
   buttonGeoCredits.rotateX( 2.677945044588987 );
   buttonGeoCredits.rotateY( -1 );
   buttonGeoCredits.rotateZ( Math.PI );
-    //Creating material
+
+  //Creating material
   var buttonMatCredits = new THREE.MeshBasicMaterial( {
     map: loadm,
     alphaTest: 0.5
   } );
 
-    //Creating a mesh
+
+  //Creating a mesh
   var creditsButton = new THREE.Mesh( buttonGeoCredits, buttonMatCredits );
 
-    //Setting variables
+
+  //Setting variables
   creditsButton.position.y = 12;
   creditsButton.position.z = -10;
   creditsButton.rotation.y = -1;
   creditsButton.name = "credits";
 
-    //Pushing to the tile array
+  //Pushing to the tile array
   gridT.push( creditsButton );
+
   //Add buttons to the scene
   scene.add( playButton );
   scene.add( creditsButton );
-
 
   //Remove right click menu and add object clicking
   document.addEventListener( 'contextmenu', function( event ) { event.preventDefault() }, false );
@@ -345,15 +313,14 @@ function loseCondition(){
             scene.remove( creditsButton );
 
             buttonGeoPlay.dispose();
-            //buttonGeoCredits.dispose();
 
             buttonMatPlay.dispose();
-            //buttonMatCredits.dispose();
 
             sound.context.resume();
 
 
           }, 500 );
+
           //Play the game
           setTimeout( function() { clearTimeout( setWaveTime ); clearEverything(scene); loadGame(); }, 600 );
 
@@ -384,6 +351,7 @@ function loseCondition(){
 
 
           }, 500 );
+
           //Play the game
           setTimeout( function() { clearTimeout( setWaveTime ); clearEverything(scene); menu(); }, 600 );
         }
@@ -394,20 +362,17 @@ function loseCondition(){
 
   }
 
-
-  //clearEverything();
 }
 
 function clearEverything(curScene) {
   stopAnimation = true;
 
   while ( curScene.children.length > 1 ) {
-    //testing
+
     if( curScene.children.type != "AmbientLight" ){
       curScene.children.pop();
     }
 
-     //scene.children.pop();
   }
 
   //console.log("scene",scene);
@@ -418,9 +383,6 @@ function clearEverything(curScene) {
 
   console.log("CLEARING!!!!!!!!!!!!!!!!!!!!!!!");
 
-
-  //document.getElementById("game-ui-bar").style.display = "none";
-  //TWEEN.removeAll();
   gridT = [];
   towers = [];
   dinos = [];
@@ -430,7 +392,6 @@ function clearEverything(curScene) {
   timeleft = 0;
   loaded = false;
 
-  //mixers = [];
   projectiles = [];
 
   setLives(0);
@@ -442,22 +403,10 @@ function clearEverything(curScene) {
     document.body.removeChild(countdown);
   }
 
-  //document.getElementById("countdown").style.display = "none";
 
-  //document.getElementById("gameUIbar").style.display = "none";
-  // if( document.getElementById("soundButton") ){
-  //   document.body.removeChild(soundButton);
-  // }
-
-  //document.getElementById("soundButton").style.display = "none";
   if( document.getElementById("buildUIcontainer") ){
-    //clearBuildMenu();
     document.body.removeChild(buildUIcontainer);
   }
-
-  // if( document.getElementById("gameUIbar") ){
-  //   document.body.removeChild(gameUIbar);
-  // }
 
   var setgameUI = document.getElementById("gameUIbar");
   setgameUI.style.display = "none";
@@ -467,15 +416,18 @@ function clearEverything(curScene) {
   camera.rotation.x = -2.677945044588987;
   camera.rotation.y = 0;
   camera.rotation.z = 3.141592653589793;
+
   //console.log("camera", camera);
   controls.reset();
+
   //console.log("tweengetall", TWEEN.getAll() );
   var tweencheck = TWEEN.getAll();
+
   //console.log("tweencheck", tweencheck.length);
   if( tweencheck.length > 0 ){
+
     //console.log("inside tween if", TWEEN.Tween[0]);
     //console.log(TWEEN.Tween.removeAll());
-    //TWEEN.Tween.removeAll; //stop();
     for(var c = 0; c < tweencheck.length; c++){
       //console.log("for");
        TWEEN.removeAll();
@@ -484,9 +436,7 @@ function clearEverything(curScene) {
     //console.log("tween_", TWEEN._tweens);
 
   }
-  //document.body.removeChild(canvas);
-  //menu();
 
   console.log("ALL CLEAR");
-  //document.body.removeChild(game-ui-bar);
+
 }

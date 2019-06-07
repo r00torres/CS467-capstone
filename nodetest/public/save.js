@@ -76,16 +76,3 @@ function saveGame(){
   saveTowerLocations( towers );
 
 }
-
-/*//testing saving tower pos and name
-let position = {
-                x: 1,
-                y: 1,
-                z: 1,
-              }
-
-savedTowers.push({ position, name:"test" });
-savedTowers.push({ position, name:"test1" });
-savedTowers.push({ position, name:"test2" });
-var json_str = JSON.stringify(savedTowers);
-setCookie('loadBuildMap', json_str);*/

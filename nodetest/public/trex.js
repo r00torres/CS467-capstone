@@ -12,6 +12,4 @@ function addTrexGLTF( scene, dinos, delay, testPath ){
   var dinoName = "trex";
 	var trex1 = dinoLoader( '/static/dinos/trex1.glb', trexPosition, dinos, delay, testPath, trex );
 
-  //scene.add(newOvi);
-  //dinos.push([ovi1,oviraptor]);
 }

@@ -12,6 +12,4 @@ function addRaptorGLTF( scene, dinos, delay, testPath ){
 
 	var raptor1 = dinoLoader( '/static/dinos/raptor1.glb', raptorPosition, dinos, delay, testPath, raptor );
 
-  //scene.add(newOvi);
-  //dinos.push([ovi1,oviraptor]);
 }

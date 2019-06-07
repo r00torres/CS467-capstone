@@ -234,7 +234,6 @@ function dinoLoader( object, position, dinos, delay, testPath, dinoName ) {
     model.userData.health = dinoName.health;
     model.userData.speed = dinoName.speed;
     model.userData.reward = dinoName.reward;
-    //model.userData.tweenId = dinoName.tweenId;
     model.type = "Object3D";
 
 
@@ -261,7 +260,6 @@ function dinoLoader( object, position, dinos, delay, testPath, dinoName ) {
     //console.log("loadDino model:", model);
     //console.log("loadDino healthbar:", healthBar);
     //console.log("dinogroup", dinogroup );
-    //model.add(dino);
     scene.add( dinogroup );
 
     dinos.push([model,oviraptor]);

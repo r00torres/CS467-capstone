@@ -6,10 +6,6 @@
 <script src="/static/libraries/stats.min.js"></script>
 <script type='text/javascript' src='/static/libraries/Tween.js'></script>
 
-<!-- unneeded
-<script src="/static/libraries/OBJLoader.js"></script> 
-<script src="/static/libraries/MTLLoader.js"></script>
--->
 
 <!-- css -->
 <link rel="stylesheet" type="text/css" href="/static/css/game-ui.css">
@@ -73,7 +69,6 @@
 		camera: new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 500),
 		light: new THREE.DirectionalLight(0xffffff, 2)
 
-		//palm: enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(), Math.floor(Math.random() * 3), "palm")
 	};
 
 	loadingManager = new THREE.LoadingManager();
@@ -102,10 +97,7 @@
 	var currMap = 1;
 	var menuTowers = [];
   var menuGridT = [];
-	//var totWaves, timeXwave;
-	//var coins = 100;
-	//var curWave = 1;
-	//var lives = 3;
+
 
 	initGameUI(coins, lives, curWave);
 
@@ -132,26 +124,14 @@
 		loadingScreen.camera.lookAt(loadingScreen.box.position);
 		loadingScreen.scene.add(loadingScreen.box);
 		loadingScreen.scene.background = new THREE.Color(0xa8fffa);
-
 		//console.log("loadingScreen", loadingScreen.scene);
 
 		menuScreen.scene.background = new THREE.Color(0xadd8e6);
 		menuScreen.scene.name = "menuScreen";
 		//console.log("menuscreen", menuScreen.scene);
 
-
-
-
-
-		// menuScreen.scene.add(testinggltf);
-
 		menuScreen.camera.position.set( 0, 10, -10 );
 		menuScreen.camera.lookAt( 0,0,0 );
-
-		//enviroLoader("/static/enviro/palm.glb", new THREE.Vector3(), Math.floor(Math.random() * 3), "palm");
-
-		//menuScreen.scene.add(menuScreen.palm);
-		//menu();
 
 		//Create a new scene
 		scene = new THREE.Scene();
@@ -169,6 +149,7 @@
 		//create audio listener
 		listener = new THREE.AudioListener();
 		camera.add(listener);
+
 		//start audio
 		sound = new THREE.Audio(listener);
 		var audioLoader = new THREE.AudioLoader();
@@ -178,6 +159,7 @@
 			sound.setVolume(2.0);
 			sound.play();
 		});
+
 		//wave start sound
 		dinoSound = new THREE.Audio(listener);
 		var dinoAudioLoader = new THREE.AudioLoader();
@@ -187,6 +169,7 @@
 			dinoSound.setVolume(8.0);
 			dinoSound.setPlaybackRate(1);
 		});
+
 		//dino defeated sound
 		dinoSound2 = new THREE.Audio(listener);
 		var dinoAudioLoader2 = new THREE.AudioLoader();
@@ -198,9 +181,7 @@
 		});
 
 
-		//console.log("camera init", camera);
-
-				//Create the renderer
+		//Create the renderer
 		renderer = new THREE.WebGLRenderer();
 
 		//Set the render size
@@ -215,14 +196,12 @@
 		//Add the renderer to the html document
 		document.body.appendChild( renderer.domElement );
 
-			//three.js https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
+		//three.js https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
 		window.addEventListener( 'resize', onWindowResize, false );
 
-		//window.addEventListener( 'touchstart', )
 
-		/*Adding orbit controls. Allows camera to move*/
+		//Adding orbit controls. Allows camera to move
 		controls = new THREE.OrbitControls( camera, renderer.domElement );
-
 		//console.log("controls init", controls);
 
 		stats = new Stats();
@@ -230,12 +209,11 @@
 		//container.appendChild( stats.dom );
 
 		controls.target0 = new THREE.Vector3( 0, 5, 0 );
-
-		//controls.target0;
 		controls.zoom0;
 		controls.position0;
 
 		controls.enabled = true;
+
 		//This sets the angle to which we can't look "under" the map
 		controls.maxPolarAngle = Math.PI / 2;
 
@@ -255,20 +233,14 @@
 		directLight.position.set( 20, 20, 20 );
 		menuScreen.scene.add(directLight);
 		scene.add(directLight);
-		//var directionLight1
 		var hemiLight = new THREE.HemisphereLight( 0x000000, 0x000000, 4 );
 		hemiLight.position.set( 0, 20, 0 );
 		scene.add(hemiLight);
 		animate();
+
 		//Load the menu
-
 		//https://github.com/mrdoob/three.js/blob/master/examples/webgl_geometry_text_shapes.html
-
 		menu();
-
-		//requestAnimationFrame(renderer);
-
-		//play();
 
 	}
 
@@ -277,7 +249,6 @@
 
 		camera.aspect = window.innerWidth / window.innerHeight;
 		camera.updateProjectionMatrix();
-
 		renderer.setSize( window.innerWidth, window.innerHeight );
 
 	}
@@ -285,64 +256,63 @@
 	function render() {
 
 		var tc = TWEEN.getAll();
+
 		if(tc.length > 0){
 			//console.log(tc.length);
 			TWEEN.update();
 		}
-		//TWEEN.update();
+
 		controls.update();
-
 		const delta = clock.getDelta();
-
 		mixers.forEach( ( mixer ) => { mixer.update( delta ); } );
-
 		renderer.render( scene, camera );
-
 
 	}
 
 
-	//Creating the opening view of the game's menu
-
-
-
+	//Global functions for game management
 	function getCoins(){
 		//console.log("Current Coins var", coins);
 		return coins;
 	}
+
 	function setCoins( newValue ){
 		//console.log("coins", coins);
 		coins = newValue;
 	}
+
 	function getLives(){
 		//console.log("Current Lives var", lives);
 		return lives;
 	}
+
 	function setLives( newValue ){
 		//console.log("lives", lives);
 		lives = newValue;
 	}
+
 	function getWave(){
 		//console.log("Current Wave", curWave);
 		return curWave;
 	}
+
 	function setWave( newValue ){
 		//console.log("wave:", curWave);
 		curWave = newValue;
 	}
+
 	function setMap( newValue ){
 		//console.log("map:", currMap);
 		currMap += 1;
 	}
 
+
+
+
+
 	//Creating the game engine and functionality
 	//play should have map and if loaded
 	function play(loaded) {
-
-		//document.removeEventListener( 'dblclick', onDocumentMouseDown, false );
-		//clearBuildMenu();
-
-
 
 		controls.reset();
 
@@ -350,7 +320,6 @@
 		controls.maxDistance = 50;
 
 		//console.log("controls", controls);
-		//console.log("tween c", TWEEN.getAll());
 
 		if(loaded == true){
 			//console.log("cookie loaded");
@@ -384,64 +353,11 @@
 		}
 
 
-		//viewBuildMenu();
-		//setLives(3);
-		//getLives();
-		//setWave(1);
+
 		if(stopAnimation){
 			//console.log("sa******************************",stopAnimation);
 			stopAnimation = false;
-			//return;
 		}
-		// if(document.getElementById("buildUIcontainer") == false ){
-		//
-		//
-		// }
-		//load.js
-		//loadGame();
-		/*
-
-		Game variables to be set by map file:
-
-		Total Waves = totWaves
-		Current Wave = curWave
-		Time between Waves = timeXwave
-		Player lives = lives
-
-		Player coins = coins
-
-
-
-		var towerClock = new THREE.Clock();
-
-		clock.startTime;
-
-		*/
-
-		// //create a button to pause the audio
-		// soundButton = document.createElement('button');
-		// soundButton.style.position = 'absolute';
-		// soundButton.id = 'soundButton';
-		// soundButton.style.width = '100px';
-		// soundButton.style.height = '50px';
-		// soundButton.style.background = 'green';
-		// soundButton.style.top = '0px';
-		// soundButton.style.left = '375px';
-		// soundButton.style.textAlign = 'center';
-		// soundButton.innerHTML = 'Music';
-		// soundButton.style.color = 'white';
-		//
-		// document.body.appendChild(soundButton);
-		// soundButton.onclick = function(){
-		// 	if(sound.isPlaying){
-		// 		sound.pause();
-		// 		soundButton.style.background = 'red';
-		// 	}
-		// 	else{
-		// 		soundButton.style.background = 'green';
-		// 		sound.play();
-		// 	}
-		// };
 
 		//add a countdown timer
 		countdown = document.createElement('div');
@@ -457,34 +373,13 @@
 
 
 
-		// played = 1;
-		// var timeleft = 10;
-		// console.log("countdown", document.getElementById("countdown"));
-		// //if( document.getElementById("countdown") == true){
-		// var countdownTimer = setInterval(function(){
 		document.getElementById("countdown").innerHTML = "Get Ready!";
-		// 	timeleft -= 1;
-		// 	if(timeleft == -1){
-		// 		document.getElementById("countdown").innerHTML = "Start"
-		// 		if(played == 1)
-		// 		{
-		// 			dinoSound.play();
-		// 		}
-		// 	}
-		// 	else if(timeleft < -1){
-		// 		clearInterval(countdownTimer);
-		// 		//document.getElementById("countdown").style.display = "none";
-		// 	}
-		// }, 1000);
-		//}
 
-		//countdownTimer();
 
 		var setgameUI = document.getElementById("gameUIbar");
 	  setgameUI.style.display = "table-cell";
 
 		initBuildUI();
-		//initGameUI(coins, lives, curWave);
 
 		//allows user to move the map
 		controls.enabled = true;
@@ -495,22 +390,8 @@
 
 		var gridTiles = [];
 
-		//var gridTiles = [];timeleft
 		var path = [];
 		function addTiles(m, mapName){
-
-			//if( mapName == "coast" ){
-				//25m radius
-				//console.log("coast if");
-				// var mapbg = "mapbg";
-				// var mapbgRotation = Math.floor(Math.random() * 3);
-				// var mapPos = new THREE.Vector3( 0, -.1, 0 );
-				//var mapgltf = enviroLoader("/static/enviro/beach.glb", mapPos, mapbgRotation, mapbg);
-
-				// var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x42f4c5 } ) );
-				// plane.scale.set( 150, 150, 150 );
-				// plane.position.y = -.2;
-				// scene.add( plane );
 
 				var bglandmat = new THREE.MeshBasicMaterial({
 					color: 0xffd04f
@@ -519,8 +400,6 @@
 				var bggeo = new THREE.CircleBufferGeometry( 50, 32 );
 				var bgMesh = new THREE.Mesh( bggeo, bglandmat );
 				bgMesh.position.y = -0.2;
-				//bgMesh.position.z = 0;
-
 				bgMesh.rotateX(-(Math.PI / 2));
 
 				scene.add(bgMesh);
@@ -539,31 +418,21 @@
 
 				scene.add(seabg);
 
-				// // Kinda Confusing - outer circle
-				// var grassmat = new THREE.MeshBasicMaterial({
-		    //   color: 0x556600
-		    // });
-				//
-		    // //radius of 6 is about one square on the board
-		    // var grassgeo = new THREE.CircleBufferGeometry(30, 32);
-		    // var grassbg = new THREE.Mesh(grassgeo, grassmat);
-				//
-		    // grassbg.position.y = -0.1;
-				//
-		    // grassbg.rotateX(-(Math.PI / 2));
-				//
-				// scene.add(grassbg);
-			//}
+
 			//console.log("adding tiles", m);
 			//gets the length of a single array (map0 a,b,a,b)
 			var arrZ = m[0].length;
+
 			//get the number of arrays (map0, map1, map2, map3)
 			var arrX = m.length;
+
 			//console.log("arr", arrX, arrZ);
 
-			//
+			//Creating tiles from arrays
 			for( var i = 0, x = -(arrX/2); x < (arrX/2); x++, i++ ){
+
 				var gridRow = [];
+
 				for( var j = 0, z= -(arrZ/2); z < (arrZ)/2; z++, j++ ){
 					//console.log("\n",x,z, m[i][j], i, j);
 
@@ -574,9 +443,11 @@
 						var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x556600 } ) );
 						plane.position.x = 4*x+2;
 						plane.position.z = 4*z+2;
+
 						//name need for raycaster build logic
 						plane.name = "unbuildable";
 						gridRow.push( plane );
+
 						//for testing raycaster
 						gridT.push( plane );
 
@@ -591,9 +462,11 @@
 						var plane = new THREE.Mesh( planeGeo, new THREE.MeshBasicMaterial( { color: 0x416600 } ) );
 						plane.position.x = 4*x+2;
 						plane.position.z = 4*z+2;
+
 						//name need for raycaster build logic
 						plane.name = "buildable";
 						gridRow.push( plane );
+
 						//for testing raycaster
 						gridT.push( plane );
 						scene.add( plane );
@@ -605,11 +478,9 @@
 						plane.name = "path";
 						gridRow.push( plane );
 						path.push(plane);
+
 						//for testing raycaster
 						gridT.push( plane );
-
-						//var palmPos = plane.position;
-						//var palm = enviroLoader("/static/enviro/palm.glb", palmPos);
 
 						scene.add( plane );
 					}
@@ -621,6 +492,7 @@
 						plane.name = "start";
 						gridRow.push( plane );
 						//console.log("start ", plane);
+
 						//for testing raycaster
 						gridT.push( plane );
 
@@ -638,6 +510,7 @@
 						plane.name = "end";
 						gridRow.push( plane );
 						//console.log("end", plane);
+
 						//for testing raycaster
 						gridT.push( plane );
 
@@ -647,30 +520,29 @@
 						var endPoint = enviroLoader("/static/enviro/getaway.glb", endPos, endRotation, endName, scene);
 
 						scene.add( plane );
+
 					}
+
 				}
+
 				gridTiles.push( gridRow );
 				//console.log("gridRow", gridRow );
+
 			}
+
 		}
-				//addTiles(m);
-		//addTiles(maplevel1);
-		//console.log("path ", path);
+
 
 		//create a line to show the path
 		var material = new THREE.LineBasicMaterial({
 			color: 0x0000ff
 		});
 
-
 		var geometry = new THREE.Geometry();
-
-
 
 		var testPath = [];
 		var levelX = 0;
 		var levelZ = 0;
-		//currMap = 3;
 
 		if( currMap == 1 ){
 			testPath = map1.dinoPath.map(arr => arr.slice());
@@ -690,8 +562,6 @@
 			levelZ = map3.level3z;
 			addTiles(maplevel3, map3.name);
 		}
-
-
 
 		makePath(testPath, levelX, levelZ);
 
@@ -717,41 +587,13 @@
 
 		}, 10000);
 
-
 		//console.log("dinos array", dinos );
 		viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cabinT.cost);
-
-
-
-		function tileHover( event ) {
-
-		}
-
-		/***********************************
-		addTower function now in pirateT.js
-		************************************/
-
-		//To add towers, use double click
-
-
 
 	}
 
 
-	// function onDocumentMouseDown( event ) {
-	// 	event.preventDefault();
-	// 	mouse.set( ( event.clientX / window.innerWidth ) * 2 - 1, - ( event.clientY / window.innerHeight ) * 2 + 1 );
-	//
-	// 	raycaster.setFromCamera( mouse, camera );
-	// 	var intersects = raycaster.intersectObjects( gridT );
-	//
-	// 	if(intersects[0].object.name == "buildable") {
-	// 		scene.remove(intersects[0].object);
-	// 		//addpirateT( intersects[0].object.position, scene, gridT, towers );
-	// 	}
-	// }
 	document.addEventListener( 'dblclick', onDocumentMouseDown, false );
-
 
 	function onDocumentMouseDown( event ) {
 
@@ -778,7 +620,6 @@
 			document.getElementById("build-musket-button").removeEventListener("click", clickMusket);
 			document.getElementById("build-cannon-button").removeEventListener("click", clickCannon);
 			document.getElementById("build-net-button").removeEventListener("click", clickNet);
-			//document.getElementById("")
 			document.getElementById("build-cancel-button").removeEventListener("click", clickCancel);
 
 
@@ -795,12 +636,12 @@
 			//new build functions at this location
 			clickMusket = function () {
 					//console.log("Clicked Musket Tower")
-						clearBuildMenu();
+					clearBuildMenu();
 					coins = coins - pirateT.cost;
 					updateGameUIbar("coins", coins);
 					intersects[0].object.name = "tower";
 					var towerName = "musketT";
-					//addpirateT( intersects[0].object.position, scene, gridT, towers );
+
 					towerLoader( '/static/towers/musket1.glb', intersects[0].object.position, gridT, towers, towerName );
 					//start audio
 					sound2.play();
@@ -811,10 +652,8 @@
 						clearBuildMenu();
 					coins = coins - cannonT.cost;
 					updateGameUIbar("coins", coins);
-					//getCoins();
 					intersects[0].object.name = "tower";
 					var towerName = "cannonT";
-					//addcannonT( intersects[0].object.position, scene, gridT, towers );
 
 					towerLoader( '/static/towers/canontowermodified2.glb', intersects[0].object.position, gridT, towers, towerName );
 					//console.log("towers", towers);
@@ -829,11 +668,9 @@
 					updateGameUIbar("coins", coins);
 					intersects[0].object.name = "tower";
 					var towerName = "cabinT";
-					//addcannonT( intersects[0].object.position, scene, gridT, towers );
 
 					towerLoader( '/static/towers/cabin1.glb', intersects[0].object.position, gridT, towers, towerName );
 					//console.log("towers", towers);
-					//addcannonT( intersects[0].object.position, scene, gridT, towers );
 					sound2.play();
 					};
 
@@ -853,17 +690,6 @@
 	}
 
 
-	// var points = [];
-	// for(var i=0; i<testPath.length; i++)
-	// {
-	// 	points.push(new THREE.Vector3(testPath[i][0], 0, testPath[i][1]));
-	// }
-	//
-	// spline = new THREE.CatmullRomCurve3(points);
-
-
-
-
 
 	init();
 
@@ -875,14 +701,11 @@
 			requestAnimationFrame(animate);
 
 			//console.log("here");
-
 			const delta = clock.getDelta();
 			mixers.forEach( ( mixer ) => {
 				mixer.update( delta );
-
-
 			});
-				//controls.update();
+
 		if(menuControls != null){
 			menuControls.update();
 		}
@@ -909,8 +732,6 @@
 			console.log("stopped");
 		}
 		else{
-
-
 
 			//https://stackoverflow.com/questions/14465495/how-do-i-stop-requestanimationframe
 			if( towers.length >= 1 ){
@@ -952,32 +773,28 @@
 						projectiles.splice(p, 1);
 
 					}
+
 				}
 
 			}
 			if(camera.position.x > 50){
 				camera.position.x = 50;
-				//camera.lookAt(0,0,0);
+
 			}
 			if(camera.position.x < -50 ){
 				camera.position.x = -50;
-				//camera.lookAt(0,0,0);
 
 			}
 			if(camera.position.z > 50){
 				camera.position.z = 50;
-				//camera.lookAt(0,0,0);
 
 			}
 			if(camera.position.z < -50){
 				camera.position.z = -50;
-				//camera.lookAt(0,0,0);
 
 			}
 
-			// var tweencheck = TWEEN.getAll();
 			requestAnimationFrame(animate);
-			// if(tweencheck.length > 0  ){
 			var tc = TWEEN.getAll();
 			if(tc.length > 0){
 				//console.log(tc.length);
@@ -985,17 +802,18 @@
 				 //console.log(tc.length);
 			}
 
-			// }
-
 			const delta = clock.getDelta();
 			mixers.forEach( ( mixer ) => {
 				mixer.update( delta );
 			});
 			renderer.render( scene, camera );
 			controls.update();
+
 			//Uncomment for FPS stats
 			//stats.update();
+
 		}
+
 	}
 
 	/*

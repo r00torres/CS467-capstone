@@ -37,7 +37,7 @@ function loadTowerLocations( towers ) {
       towerLoader( '/static/towers/canontowermodified2.glb', loadTowers[i].pos, gridT, towers, towerName);
     }
 
-    //CHANGE TO NET CANNON
+    //CHANGE TO CABIN CANNON
     else if(loadTowers[i].nameOf == "cabinT"){
       var towerName = "cabinT";
       towerLoader( '/static/towers/cabin1.glb', loadTowers[i].pos, gridT, towers, towerName);

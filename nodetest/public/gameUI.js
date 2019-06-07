@@ -61,17 +61,8 @@ function initGameUI(coins, lives, waves, level){
 			}
 		};
 
-    // soundButton.ontouch = function(){
-    //   if(sound.isPlaying){
-		// 		sound.pause();
-		// 		soundButton.style.background = 'red';
-		// 	}
-		// 	else{
-		// 		soundButton.style.background = 'green';
-		// 		sound.play();
-		// 	}
-    // };
-	
+
+
     var levelDiv = document.createElement("span");
     levelDiv.setAttribute("id", "level");
     text = document.createTextNode("LEVEL ");
@@ -87,20 +78,20 @@ function initGameUI(coins, lives, waves, level){
     document.getElementById("gameUIbar").append(livesVal);
     document.getElementById("gameUIbar").append(wavesDiv);
     document.getElementById("gameUIbar").append(wavesVal);
-	document.getElementById("gameUIbar").append(levelDiv);
-	document.getElementById("gameUIbar").append(levelVal);
+	  document.getElementById("gameUIbar").append(levelDiv);
+	  document.getElementById("gameUIbar").append(levelVal);
     document.getElementById("gameUIbar").append(soundOpt);
     document.getElementById("gameUIbar").appendChild(soundButton);
 
 };
 
     function updateGameUIbar(field, newValue){
-        
+
 	    //once 'game over', lives were still decrementing as additional dinos arrived at end of path
 	    if( newValue < 0){
 	    	return;
 	    }
-	    
+
 	if(field == "coins"){
             var location = document.getElementById("coinVal");
             //console.log("Current Coin value is: ", location.innerHTML);
@@ -121,7 +112,7 @@ function initGameUI(coins, lives, waves, level){
             location.innerHTML = newValue;
             //console.log("New Waves value is: ", location.innerHTML);
         }
-	    
+
 	else if(field == "level"){
             var location = document.getElementById("levelVal");
             //console.log("Current Level value is: ", location.innerHTML);
