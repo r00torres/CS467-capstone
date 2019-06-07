@@ -1,12 +1,12 @@
 var trex = {
   name: "trex",
-  health: 300,
-  speed: 15000,
+  health: 320,
+  speed: 11000,
   reward: 15
 }
 
 function addTrexGLTF( scene, dinos, delay, testPath ){
-  console.log( "dinos gltf", dinos );
+  //console.log( "dinos gltf", dinos );
   const trexPosition = new THREE.Vector3( 0, 0, 0 );
 
   var dinoName = "trex";

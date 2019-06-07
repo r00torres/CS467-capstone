@@ -2,7 +2,7 @@ let cannonT = {
 
   name: "cannon tower",
   buildSpeed: 8000, //8 seconds
-  attackSpeed: 1.5, //1 second
+  attackSpeed: 2.0, //1 second
   attackPower: 10,
   attackRadius: 8,
   towerTime: 0,
@@ -10,99 +10,19 @@ let cannonT = {
 
 };
 
-// function addcannonT( object, scene, gridT, towers ){
-//   var group = new THREE.Group();
-//   //create a new Object3D so that the added object can be pushed to the
-//   //tower array, solved asynchronous js issues
-//   var newTower = new THREE.Object3D();
-//   var mtlLoader = new THREE.MTLLoader();
-//
-//   mtlLoader.setPath('/static/towers/');
-//   mtlLoader.load('canontowermodified.mtl', function(materials){
-//
-//     materials.preload();
-//     var loader = new THREE.OBJLoader();
-//     loader.setMaterials(materials);
-//     loader.load( '/static/towers/canontowermodified.obj',
-//       //For getting materials on the object...
-//       //https://stackoverflow.com/questions/35927111/three-js-change-material-for-obj-file-using-a-button
-//       function ( tower ) {
-//
-//         newTower.add(tower);
-//
-//         //set tower position to where user clicked
-//         newTower.position.x = object.x;
-//         newTower.position.y = .1;
-//         newTower.position.z = object.z;
-//
-//         //show the attack radius of the newTower
-//         //create a circle around the newTower
-//         var cmaterial = new THREE.MeshBasicMaterial({
-//           color: 0xa12b0d,
-//           opacity: 0.20,
-//           transparent: true
-//         });
-//
-//         //radius of 6 is about one square on the board
-//         var cgeometry = new THREE.CircleGeometry(cannonT.attackRadius, 32);
-//         var circle = new THREE.Mesh(cgeometry, cmaterial);
-//
-//         circle.position.y = .5;
-//         circle.position.z = newTower.position.z;
-//         circle.position.x = newTower.position.x;
-//         circle.rotateX(300); //rotate circle so it lays flat
-//
-//         //https://stackoverflow.com/questions/24723471/three-js-scale-model-with-scale-set-or-increase-model-size
-//         newTower.scale.set( 0.3, 0.3, 0.3 );
-//         newTower.name = cannonT.name;
-//
-//         //add pirate newTower attributes to each created newTower
-//         //three.js objects have a specific place for created attributes
-//         //called userData
-//         newTower.userData.buildSpeed = cannonT.buildSpeed;
-//         newTower.userData.attackPower = cannonT.attackPower;
-//         newTower.userData.attackSpeed = cannonT.attackSpeed;
-//         newTower.userData.attackRadius = cannonT.attackRadius;
-//         newTower.userData.towerTime = cannonT.towerTime;
-//         newTower.userData.cost = cannonT.cost;
-//
-//         //Adding Raycast to see intersecting objects for tower projectiles
-//         //Boundingsphere?
-//
-//         cgeometry.computeBoundingSphere();
-//         cgeometry.boundingSphere.radius = newTower.userData.attackRadius;
-//         cgeometry.boundingSphere.center = newTower.position;
-//         circle.name = "atkradius";
-//
-//         console.log("newTower", newTower);
-//
-//         group.add( circle );
-//         group.add( newTower );
-//
-//       });
-//     });
-//     scene.add( group );
-//     console.log( "group", group );
-//     gridT.push( group );
-//     towers.push( group );
-//
-// }
-
 function deadDino( d ){
 
-  console.log("DEAD DINO ID",d.uuid);
-  console.log("dino:", d);
+  //console.log("DEAD DINO ID",d.uuid);
+  //console.log("dino:", d);
   scene.remove( d.parent );
-  console.log("tweens", TWEEN.getAll());
+  //console.log("tweens", TWEEN.getAll());
   dinoSound2.play();
-  console.log("removing", d.uuid);
+  //console.log("removing", d.uuid);
   viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cabinT.cost);
   viewBuildMenu(getCoins(), pirateT.cost, cannonT.cost, cabinT.cost);
 
 }
 
-//May want to implement a "starting tower" to mitigate the transfer from
-//what appears to be an array to an object
 function attack( coins, towers, dinos ) {
   //the first one gives me problems with children...
   if ( towers.length == 1 ) {
@@ -114,14 +34,12 @@ function attack( coins, towers, dinos ) {
     else if (towers == Object){
 
       var tc = towers[0].children;
-      console.log(tc[0].position);
+      //console.log(tc[0].position);
 
     }
 
   }
 
-  //set this to 2 if we have a starting tower... I'm thinking the dinos starting
-  //tile should be the start tower. No attack but padding the object array
   if ( dinos.length > 0) {
 
     //cycle through towers
@@ -139,10 +57,10 @@ function attack( coins, towers, dinos ) {
 
             if(dinos[d][0].userData.health <= 0){
 
-              console.log(dinos[d][0].userData.health);
-              console.log(dinos[d][0].uuid);
-              console.log("dinos, d",dinos, d);
-              console.log("dl", dinos[d]);
+              //console.log(dinos[d][0].userData.health);
+              //console.log(dinos[d][0].uuid);
+              //console.log("dinos, d",dinos, d);
+              //console.log("dl", dinos[d]);
               dinos.splice(d, 1);
 
             }
@@ -204,10 +122,10 @@ function attack( coins, towers, dinos ) {
 
         tc.userData.towerTime = clock.elapsedTime;
         dino.userData.health = dino.userData.health - tc.userData.attackPower;
-        console.log("POW!", clock.elapsedTime);
-        console.log("DINO HEALTH: ", dino.userData.health);
+        //console.log("POW!", clock.elapsedTime);
+        //console.log("DINO HEALTH: ", dino.userData.health);
         if(dino.userData.health <= 0){
-          console.log("Dead dino reward",dino.userData.reward);
+          //console.log("Dead dino reward",dino.userData.reward);
 
           coins = getCoins() + dino.userData.reward;
           setCoins(coins);
