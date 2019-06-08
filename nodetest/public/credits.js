@@ -30,7 +30,7 @@ function createCredits(){
 	document.getElementById("crawlDiv").append(creditPar);
   
   	creditPar = document.createElement('p');
-	creditText = "Johnathan Ruby";
+	creditText = "Jonathan Ruby";
   	creditPar.textContent = creditText;
 	document.getElementById("crawlDiv").append(creditPar);
   

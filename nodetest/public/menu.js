@@ -124,7 +124,7 @@ function menu() {
   loadButton.style.width = '100px';
   loadButton.style.height = '50px';
   loadButton.style.background = 'green';
-  loadButton.style.top = '210px';
+  loadButton.style.top = '200px';
   loadButton.style.left = '50%';
   loadButton.style.textAlign = 'center';
   loadButton.innerHTML = 'Load';
@@ -151,7 +151,7 @@ function menu() {
   credits.style.width = '320px';
   credits.style.height = '130px';
   credits.style.background = 'light blue';
-  credits.style.top = '285px';
+  credits.style.top = '250px';
   credits.style.left = '43%';
   credits.style.textAlign = 'center';
   credits.style.color = 'teal';
@@ -162,13 +162,13 @@ function menu() {
   //instructions text
   var instructions = document.createElement('p');
   instructions.setAttribute('style', 'white-space: pre;');
-  instructions.textContent = "Objective: \r\nBuild pirate towers to stop the dinos from stealing all your treasure. \r\nEach dino that makes it to the end makes you loose a life. Each dino defeated gives you gold. \r\nInstructions: \r\nLand that is not the dino path or occupied by palm trees is buildable. Double click buildable land to add a tower. \r\nSelect a tower from the tower menu and it will be added. \r\nMusket towers do the least damage with the fastest rate of fire. Cannon towers have meduim damage and attack speed. \r\nCamera Controls: \r\nTo move the camera hold the left mouse button and move the mouse to change the rotation of the camera. \r\nTo pan the camera, hold the right mouse button or hold control with the left mouse button and move the mouse. \r\nUse scroll to zoom in and out. \r\nSaves:\r\n The game is saved after each wave. If you exit and want to continue where you left off, choose load from the start menu. \r\nTo play a new game, choose start.";
+  instructions.textContent = "Objective: \r\nBuild pirate towers to stop the dinos from stealing all your treasure. \r\nEach dino that makes it to the end makes you lose a life. Each dino defeated gives you gold. \r\nInstructions: \r\nLand that is not the dino path or occupied by palm trees is buildable. Double click buildable land to add a tower. \r\nSelect a tower from the tower menu and it will be added. \r\nMusket towers do the least damage with the fastest rate of fire. Cannon towers have meduim damage and attack speed.\r\nCabin towers do extensive damage, but have slow attack speed. \r\nCamera Controls: \r\nTo move the camera hold the left mouse button and move the mouse to change the rotation of the camera. \r\nTo pan the camera, hold the right mouse button or hold control with the left mouse button and move the mouse. \r\nUse scroll to zoom in and out. \r\nSaves:\r\n The game is saved after each wave. If you exit and want to continue where you left off, choose load from the start menu. \r\nTo play a new game, choose start.";
   instructions.style.position = 'absolute';
   instructions.id = 'instructions';
   instructions.style.width = '800px';
-  instructions.style.height = '275px';
+  instructions.style.height = '290px';
   instructions.style.background = 'light blue';
-  instructions.style.top = '440px';
+  instructions.style.top = '400px';
   instructions.style.left = '28%';
   instructions.style.textAlign = 'center';
   instructions.style.color = 'teal';
