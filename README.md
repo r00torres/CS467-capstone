@@ -1,7 +1,6 @@
 # capstone
-Pirates and Dinosaurs
+Pirates v. Dinosaurs
 
-In order to run prototype.html, make sure you follow the steps on how to run
-files locally. Otherwise, you will get CORS when running in chrome.
+Instructions for running locally can be found in Simple Walk Through. 
 
-https://github.com/mrdoob/three.js/wiki/How-to-run-things-locally
+This project was created as our OSU CS467 Senior Capstone Project. 
