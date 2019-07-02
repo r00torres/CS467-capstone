@@ -1,4 +1,4 @@
-# capstone
+# CS467 Capstone
 Pirates v. Dinosaurs
 
 Instructions for running locally can be found in Simple Walk Through. 
