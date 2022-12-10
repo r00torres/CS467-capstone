@@ -21,7 +21,7 @@
   "license": "GPL-3.0",
   "dependencies": {
     "body-parser": "^1.13.3",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "express-handlebars": "^3.0.2",
     "three": "^0.103.0"
   },
